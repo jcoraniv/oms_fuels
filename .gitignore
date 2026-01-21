@@ -32,3 +32,33 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials/development.key
+/config/credentials/test.key
+/config/credentials/production.key
+
+# Ignore idea files
+.DS_Store
+/.idea/*
+/node_modules
+
+# Ignore database files
+/db/*.sqlite3
+/db/*.sqlite3-journal
+
+# Ignore Kamal deployment files
+/.kamal/*
+!/.kamal/config.yml
+!/.kamal/hooks
+
+# Ignore other common files
+*.swp
+*.swo
+*~
+/coverage/
+/public/system
+/public/packs
+/public/packs-test
+/node_modules
+/.yarn-cache
+/public/vite-dev
+/public/vite-test
