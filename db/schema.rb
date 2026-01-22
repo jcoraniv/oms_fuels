@@ -10,19 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_01_000010) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_01_000011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "departments", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "level", null: false
-    t.integer "parent_id"
-    t.integer "gestion_id", null: false
+  create_table "assignments", force: :cascade do |t|
+    t.bigint "personal_id", null: false
+    t.bigint "org_position_id", null: false
+    t.date "start_date"
+    t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["gestion_id"], name: "index_departments_on_gestion_id"
-    t.index ["parent_id"], name: "index_departments_on_parent_id"
+    t.index ["org_position_id"], name: "index_assignments_on_org_position_id"
+    t.index ["personal_id"], name: "index_assignments_on_personal_id"
+  end
+
+  create_table "departments", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "gestions", force: :cascade do |t|
@@ -34,17 +40,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000010) do
     t.index ["code"], name: "index_gestions_on_code", unique: true
   end
 
-  create_table "personal_positions", force: :cascade do |t|
-    t.integer "personal_id", null: false
-    t.integer "position_id", null: false
-    t.integer "gestion_id", null: false
-    t.date "start_date"
-    t.date "end_date"
+  create_table "org_positions", force: :cascade do |t|
+    t.bigint "org_structure_id", null: false
+    t.bigint "position_id", null: false
+    t.bigint "reports_to_position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["gestion_id"], name: "index_personal_positions_on_gestion_id"
-    t.index ["personal_id"], name: "index_personal_positions_on_personal_id"
-    t.index ["position_id"], name: "index_personal_positions_on_position_id"
+    t.index ["org_structure_id"], name: "index_org_positions_on_org_structure_id"
+    t.index ["position_id"], name: "index_org_positions_on_position_id"
+    t.index ["reports_to_position_id"], name: "index_org_positions_on_reports_to_position_id"
+  end
+
+  create_table "org_structures", force: :cascade do |t|
+    t.bigint "gestion_id", null: false
+    t.bigint "department_id", null: false
+    t.bigint "parent_dept_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_org_structures_on_department_id"
+    t.index ["gestion_id"], name: "index_org_structures_on_gestion_id"
+    t.index ["parent_dept_id"], name: "index_org_structures_on_parent_dept_id"
   end
 
   create_table "personals", force: :cascade do |t|
@@ -63,12 +78,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000010) do
 
   create_table "positions", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "department_id", null: false
-    t.integer "gestion_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["department_id"], name: "index_positions_on_department_id"
-    t.index ["gestion_id"], name: "index_positions_on_gestion_id"
   end
 
   create_table "professions", force: :cascade do |t|
@@ -109,14 +120,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000010) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
-  add_foreign_key "departments", "departments", column: "parent_id"
-  add_foreign_key "departments", "gestions"
-  add_foreign_key "personal_positions", "gestions"
-  add_foreign_key "personal_positions", "personals"
-  add_foreign_key "personal_positions", "positions"
+  add_foreign_key "assignments", "org_positions"
+  add_foreign_key "assignments", "personals"
+  add_foreign_key "org_positions", "org_positions", column: "reports_to_position_id"
+  add_foreign_key "org_positions", "org_structures"
+  add_foreign_key "org_positions", "positions"
+  add_foreign_key "org_structures", "departments"
+  add_foreign_key "org_structures", "gestions"
+  add_foreign_key "org_structures", "org_structures", column: "parent_dept_id"
   add_foreign_key "personals", "professions"
-  add_foreign_key "positions", "departments"
-  add_foreign_key "positions", "gestions"
   add_foreign_key "user_gestions", "gestions"
   add_foreign_key "user_gestions", "users"
   add_foreign_key "users", "personals"

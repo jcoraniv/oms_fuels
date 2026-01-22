@@ -1,9 +1,8 @@
 class Gestion < ApplicationRecord
-  has_many :departments, dependent: :destroy
-  has_many :positions, dependent: :destroy
   has_many :user_gestions, dependent: :destroy
   has_many :users, through: :user_gestions, source: :user
-  has_many :personal_positions, dependent: :destroy
+  has_many :org_structures, dependent: :destroy # New association
+  has_many :org_positions, through: :org_structures # New association
 
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true
