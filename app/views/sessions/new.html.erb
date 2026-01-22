@@ -1,0 +1,34 @@
+<% content_for :title, t('auth.login.title') %>
+
+<p class="login-box-msg"><%= t('auth.login.sign_in_msg') %></p>
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= flash[:alert] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<%= form_with url: login_path, local: true do |f| %>
+  <div class="input-group mb-3">
+    <%= f.email_field :email, class: "form-control", placeholder: t('auth.login.email_placeholder'), required: true, autofocus: true %>
+    <div class="input-group-append">
+      <div class="input-group-text">
+        <span class="bi bi-envelope"></span>
+      </div>
+    </div>
+  </div>
+  <div class="input-group mb-3">
+    <%= f.password_field :password, class: "form-control", placeholder: t('auth.login.password_placeholder'), required: true %>
+    <div class="input-group-append">
+      <div class="input-group-text">
+        <span class="bi bi-lock"></span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <%= f.submit t('auth.login.sign_in_btn'), class: "btn btn-primary btn-block" %>
+    </div>
+  </div>
+<% end %>

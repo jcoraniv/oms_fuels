@@ -1,0 +1,17 @@
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.personals.details') %></h3>
+  </div>
+  <div class="card-body">
+    <p><strong><%= t('activerecord.attributes.personal.first_name') %>:</strong> <%= @personal.first_name %></p>
+    <p><strong><%= t('activerecord.attributes.personal.last_name') %>:</strong> <%= @personal.last_name %></p>
+    <p><strong><%= t('activerecord.attributes.personal.email') %>:</strong> <%= @personal.email %></p>
+    <p><strong><%= t('activerecord.attributes.personal.phone') %>:</strong> <%= @personal.phone %></p>
+    <p><strong><%= t('activerecord.attributes.personal.ci') %>:</strong> <%= @personal.ci %></p>
+    <p><strong><%= t('activerecord.attributes.personal.profession') %>:</strong> <%= @personal.profession&.name %></p>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_personal_path(@personal), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_personals_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

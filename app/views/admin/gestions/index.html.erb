@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.gestions.title') %></h3>
+    <div class="card-tools">
+      <%= link_to t('admin.gestions.new'), new_admin_gestion_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= t('admin.gestions.table.id') %></th>
+          <th><%= t('admin.gestions.table.code') %></th>
+          <th><%= t('admin.gestions.table.name') %></th>
+          <th><%= t('admin.gestions.table.active') %></th>
+          <th style="width: 150px"><%= t('common.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @gestions.each do |gestion| %>
+          <tr>
+            <td><%= gestion.id %></td>
+            <td><%= gestion.code %></td>
+            <td><%= gestion.name %></td>
+            <td>
+              <% if gestion.active? %>
+                <span class="badge bg-success"><%= t('admin.gestions.table.status_active') %></span>
+              <% else %>
+                <span class="badge bg-danger"><%= t('admin.gestions.table.status_inactive') %></span>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to t('common.edit'), edit_admin_gestion_path(gestion), class: "btn btn-sm btn-warning" %>
+              <%= link_to t('common.delete'), admin_gestion_path(gestion), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

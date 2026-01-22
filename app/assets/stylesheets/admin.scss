@@ -1,2 +1,4 @@
-@import "adminlte";
-@import "modules/*";
+/*
+ *= require adminlte
+ *= require_tree ./modules
+ */

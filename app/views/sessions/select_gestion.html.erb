@@ -1,0 +1,30 @@
+<% content_for :title, t('auth.gestion.select_title') %>
+
+<p class="login-box-msg"><%= t('auth.gestion.select_msg') %></p>
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= flash[:alert] %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
+
+<%= form_with url: set_gestion_path, local: true do |f| %>
+  <div class="input-group mb-3">
+    <%= f.collection_select :gestion_id, @gestions, :id, :name, { prompt: t('auth.gestion.select_placeholder') }, { class: 'form-control select2', required: true } %>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <%= f.submit t('auth.gestion.continue_btn'), class: "btn btn-primary btn-block" %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      theme: 'bootstrap-5',
+      dropdownParent: $('.login-box')
+    });
+  });
+</script>

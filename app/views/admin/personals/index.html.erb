@@ -1,0 +1,42 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.personals.title') %></h3>
+    <div class="card-tools">
+      <%= link_to t('admin.personals.new'), new_admin_personal_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= t('admin.personals.table.id') %></th>
+          <th><%= t('admin.personals.table.first_name') %></th>
+          <th><%= t('admin.personals.table.last_name') %></th>
+          <th><%= t('admin.personals.table.email') %></th>
+          <th><%= t('admin.personals.table.phone') %></th>
+          <th><%= t('admin.personals.table.ci') %></th>
+          <th><%= t('admin.personals.table.profession') %></th>
+          <th style="width: 150px"><%= t('common.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @personals.each do |personal| %>
+          <tr>
+            <td><%= personal.id %></td>
+            <td><%= personal.first_name %></td>
+            <td><%= personal.last_name %></td>
+            <td><%= personal.email %></td>
+            <td><%= personal.phone %></td>
+            <td><%= personal.ci %></td>
+            <td><%= personal.profession&.name %></td>
+            <td>
+              <%= link_to t('common.show'), admin_personal_path(personal), class: "btn btn-sm btn-info" %>
+              <%= link_to t('common.edit'), edit_admin_personal_path(personal), class: "btn btn-sm btn-warning" %>
+              <%= link_to t('common.delete'), admin_personal_path(personal), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

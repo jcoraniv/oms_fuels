@@ -5,3 +5,5 @@
 // Agregamos los assets de AdminLTE
 //= link_directory ../../../vendor/assets/admin-lte/css .css
 //= link_directory ../../../vendor/assets/admin-lte/js .js
+//= link_tree ../../javascript .js
+//= link_tree ../../../vendor/javascript .js
