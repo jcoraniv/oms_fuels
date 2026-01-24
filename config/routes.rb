@@ -23,5 +23,7 @@ Rails.application.routes.draw do
     resources :professions
     resources :positions
     resources :fuel_orders
+    resources :vehicle_types
+    resources :vehicles
   end
 end

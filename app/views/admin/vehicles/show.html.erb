@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Plate:</strong>
+  <%= @vehicle.plate %>
+</p>
+
+<p>
+  <strong><%= t('admin.vehicles.table.description') %>:</strong>
+  <%= @vehicle.description %>
+</p>
+
+<p>
+  <strong><%= t('admin.vehicles.table.details') %>:</strong>
+  <%= @vehicle.details %>
+</p>
+
+<p>
+  <strong><%= t('admin.vehicles.table.vehicle_type') %>:</strong>
+  <%= @vehicle.vehicle_type.name %>
+</p>
+
+<%= link_to 'Edit', edit_admin_vehicle_path(@vehicle) %> |
+<%= link_to t('common.back'), admin_vehicles_path %>

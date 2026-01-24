@@ -142,6 +142,19 @@
               <p><%= t('admin.menu.fuel_orders') %></p>
             </a>
           </li>
+          <li class="nav-header"><%= t('admin.menu.vehicle_fleet') %></li>
+          <li class="nav-item">
+            <a href="<%= admin_vehicle_types_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicle_types' %>">
+              <i class="nav-icon bi bi-car-front"></i>
+              <p>Vehicle Types</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<%= admin_vehicles_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicles' %>">
+              <i class="nav-icon bi bi-truck"></i>
+              <p>Vehicles</p>
+            </a>
+          </li>
         </ul>
         <!--end::Sidebar Menu-->
       </nav>

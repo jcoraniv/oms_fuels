@@ -1,0 +1,4 @@
+<%= form_with(model: [:admin, vehicle_type], local: true) do |form|\
+ %>\n  <% if vehicle_type.errors.any?\
+ %>\n    <div id=\"error_explanation\">\n      <h2<%= pluralize(vehicle_type.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "vehicle type") %></h2>\n\n      <ul>\n        <% vehicle_type.errors.full_messages.each do |message|\
+ %>\n          <li><%= message %></li>\n        <% end %>\n      </ul>\n    </div>\n  <% end %>\n\n  <div class=\"field\">\n    <%= form.label :name, t('activerecord.attributes.vehicle_type.name') %>\n    <%= form.text_field :name %>\n  </div>\n\n  <div class=\"field\">\n    <%= form.label :description, t('activerecord.attributes.vehicle_type.description') %>\n    <%= form.text_area :description %>\n  </div>\n\n  <div class=\"actions\">\n    <%= form.submit %>\n  </div>\n<% end %>\n

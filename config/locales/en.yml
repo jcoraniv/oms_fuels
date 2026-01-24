@@ -13,6 +13,8 @@ en:
     created: "Created successfully"
     updated: "Updated successfully"
     destroyed: "Deleted successfully"
+    error: "error"
+    prohibited_from_saving: "prohibited this %{model} from being saved"
     welcome: "Welcome, %{name}"
     welcome_back: "Welcome back, %{name}"
     
@@ -50,6 +52,23 @@ en:
       professions: "Professions"
       positions: "Positions"
       fuel_orders: "Fuel Orders"
+      vehicle_fleet: "Vehicle Fleet"
+      vehicle_types:
+        title: "Vehicle Types"
+        new: "New Vehicle Type"
+        edit: "Edit Vehicle Type"
+        table:
+          name: "Name"
+          description: "Description"
+      vehicles:
+        title: "Vehicles"
+        new: "New Vehicle"
+        edit: "Edit Vehicle"
+        table:
+          plate: "Plate"
+          description: "Description"
+          details: "Details"
+          vehicle_type: "Vehicle Type"
       profile: "Profile"
     
     users:
@@ -144,6 +163,8 @@ en:
       profession: "Profession"
       position: "Position"
       fuel_order: "Fuel Order"
+      vehicle_type: "Vehicle Type"
+      vehicle: "Vehicle"
     attributes:
       user:
         email: "Email"
@@ -170,3 +191,11 @@ en:
         number: "Number"
         total: "Total"
         status: "Status"
+      vehicle_type:
+        name: "Name"
+        description: "Description"
+      vehicle:
+        plate: "Plate"
+        description: "Description"
+        details: "Details"
+        vehicle_type: "Vehicle Type"

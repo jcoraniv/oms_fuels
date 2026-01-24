@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @vehicle_type.name %>
+</p>
+
+<p>
+  <strong><%= t('admin.vehicle_types.table.description') %>:</strong>
+  <%= @vehicle_type.description %>
+</p>
+
+<%= link_to 'Edit', edit_admin_vehicle_type_path(@vehicle_type) %> |
+<%= link_to t('common.back'), admin_vehicle_types_path %>
