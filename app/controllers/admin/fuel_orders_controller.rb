@@ -11,13 +11,12 @@ class Admin::FuelOrdersController < Admin::BaseController
 
   def new
     @fuel_order = FuelOrder.new
-    # Default to current gestion if available
     @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
+    @fuel_order.fuel_order_items.build # Build one item by default
   end
 
   def create
     @fuel_order = FuelOrder.new(fuel_order_params)
-    # Ensure gestion is set correctly, preferably from the current context
     @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
 
     if @fuel_order.save
@@ -50,14 +49,13 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def set_assignments
-    # Load assignments for the current gestion to populate dropdowns
-    # This assumes we have assignments created. If not, the dropdown will be empty.
     gestion_id = current_user&.current_gestion&.id
     @assignments = Assignment.includes(:personal, :org_position).where(org_positions: { org_structures: { gestion_id: gestion_id } })
                              .joins(org_position: :org_structure)
   end
 
   def fuel_order_params
-    params.require(:fuel_order).permit(:requester_assignment_id, :total, :status)
+    params.require(:fuel_order).permit(:requester_assignment_id, :status,
+      fuel_order_items_attributes: [:id, :quantity_ordered, :unit_price, :_destroy])
   end
 end

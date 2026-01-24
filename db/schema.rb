@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_01_000013) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_01_000014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000013) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "fuel_order_items", force: :cascade do |t|
+    t.bigint "fuel_order_id", null: false
+    t.decimal "quantity_ordered", precision: 10, scale: 2, null: false
+    t.decimal "quantity_received", precision: 10, scale: 2
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "partial_price", precision: 12, scale: 2
+    t.decimal "received_price", precision: 12, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fuel_order_id"], name: "index_fuel_order_items_on_fuel_order_id"
   end
 
   create_table "fuel_orders", force: :cascade do |t|
@@ -143,6 +155,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000013) do
 
   add_foreign_key "assignments", "org_positions"
   add_foreign_key "assignments", "personals"
+  add_foreign_key "fuel_order_items", "fuel_orders"
   add_foreign_key "fuel_orders", "assignments", column: "approver_assignment_id"
   add_foreign_key "fuel_orders", "assignments", column: "requester_assignment_id"
   add_foreign_key "fuel_orders", "gestions"

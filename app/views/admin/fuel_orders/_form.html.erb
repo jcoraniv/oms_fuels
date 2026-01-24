@@ -1,4 +1,4 @@
-<%= form_with(model: [:admin, @fuel_order], local: true) do |form| %>
+<%= form_with(model: [:admin, @fuel_order], local: true, data: { controller: "nested-form" }) do |form| %>
   <% if @fuel_order.errors.any? %>
     <div id="error_explanation" class="alert alert-danger">
       <h2><%= pluralize(@fuel_order.errors.count, "error") %> prohibited this order from being saved:</h2>
@@ -11,24 +11,109 @@
   <% end %>
 
   <div class="card-body">
-    <div class="form-group">
-      <%= form.label :requester_assignment_id, t('admin.fuel_orders.form.requester') %>
-      <%= form.collection_select :requester_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_requester') }, { class: 'form-control select2' } %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :requester_assignment_id, t('admin.fuel_orders.form.requester') %>
+          <%= form.collection_select :requester_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_requester') }, { class: 'form-control select2' } %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :status, t('admin.fuel_orders.form.status') %>
+          <%= form.select :status, FuelOrder.statuses.keys.map { |s| [t("admin.fuel_orders.status.#{s}"), s] }, {}, { class: 'form-control' } %>
+        </div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <%= form.label :total, t('admin.fuel_orders.form.total') %>
-      <%= form.number_field :total, step: 0.01, class: 'form-control' %>
-    </div>
+    <h4 class="mt-4 mb-3"><%= t('admin.fuel_orders.items.title') %></h4>
 
-    <div class="form-group">
-      <%= form.label :status, t('admin.fuel_orders.form.status') %>
-      <%= form.select :status, FuelOrder.statuses.keys.map { |s| [t("admin.fuel_orders.status.#{s}"), s] }, {}, { class: 'form-control' } %>
-    </div>
+    <table class="table table-bordered" id="fuel-order-items">
+      <thead>
+        <tr>
+          <th><%= t('admin.fuel_orders.items.quantity') %></th>
+          <th><%= t('admin.fuel_orders.items.unit_price') %></th>
+          <th style="width: 100px"><%= t('common.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= form.fields_for :fuel_order_items do |item_form| %>
+          <tr class="nested-fields">
+            <td>
+              <%= item_form.number_field :quantity_ordered, step: 0.01, class: 'form-control', required: true %>
+            </td>
+            <td>
+              <%= item_form.number_field :unit_price, step: 0.01, class: 'form-control', required: true %>
+            </td>
+            <td>
+              <%= item_form.hidden_field :_destroy %>
+              <button type="button" class="btn btn-danger btn-sm remove_fields">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn btn-success btn-sm mt-2" id="add_item">
+      <i class="bi bi-plus"></i> <%= t('admin.fuel_orders.items.add') %>
+    </button>
   </div>
 
-  <div class="card-footer">
+  <div class="card-footer mt-3">
     <%= form.submit t('common.save'), class: 'btn btn-primary' %>
     <%= link_to t('common.back'), admin_fuel_orders_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>
+
+<template id="item-template">
+  <tr class="nested-fields">
+    <td>
+      <input class="form-control" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][quantity_ordered]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_quantity_ordered">
+    </td>
+    <td>
+      <input class="form-control" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][unit_price]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_unit_price">
+    </td>
+    <td>
+      <input type="hidden" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][_destroy]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD__destroy" value="false">
+      <button type="button" class="btn btn-danger btn-sm remove_fields">
+        <i class="bi bi-trash"></i>
+      </button>
+    </td>
+  </tr>
+</template>
+
+<script>
+  document.addEventListener('turbo:load', function() {
+    // Add Item
+    const addItemBtn = document.getElementById('add_item');
+    if (addItemBtn) {
+      addItemBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const template = document.getElementById('item-template');
+        const timestamp = new Date().getTime();
+        const content = template.innerHTML.replace(/NEW_RECORD/g, timestamp);
+        document.querySelector('#fuel-order-items tbody').insertAdjacentHTML('beforeend', content);
+      });
+    }
+
+    // Remove Item
+    document.querySelector('#fuel-order-items').addEventListener('click', function(e) {
+      if (e.target.closest('.remove_fields')) {
+        e.preventDefault();
+        const row = e.target.closest('tr');
+        const destroyInput = row.querySelector('input[name*="_destroy"]');
+
+        if (destroyInput) {
+          // If it's an existing record, mark for destruction and hide
+          destroyInput.value = '1';
+          row.style.display = 'none';
+        } else {
+          // If it's a new record (dynamic), just remove the row
+          row.remove();
+        }
+      }
+    });
+  });
+</script>

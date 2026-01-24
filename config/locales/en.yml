@@ -125,6 +125,11 @@ en:
         select_requester: "Select a requester"
         total: "Total Amount"
         status: "Status"
+      items:
+        title: "Order Items"
+        quantity: "Quantity"
+        unit_price: "Unit Price"
+        add: "Add Item"
       status:
         pending: "Pending"
         approved: "Approved"
