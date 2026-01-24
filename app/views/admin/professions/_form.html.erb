@@ -1,0 +1,23 @@
+<%= form_with(model: [:admin, @profession], local: true) do |form| %>
+  <% if @profession.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@profession.errors.count, "error") %> prohibited this profession from being saved:</h2>
+      <ul>
+        <% @profession.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <div class="form-group">
+      <%= form.label :name, t('activerecord.attributes.profession.name') %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="card-footer">
+    <%= form.submit t('common.save'), class: 'btn btn-primary' %>
+    <%= link_to t('common.back'), admin_professions_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

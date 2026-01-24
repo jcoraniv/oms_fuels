@@ -1,0 +1,13 @@
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.positions.details') %></h3>
+  </div>
+  <div class="card-body">
+    <p><strong><%= t('activerecord.attributes.position.code') %>:</strong> <%= @position.code %></p>
+    <p><strong><%= t('activerecord.attributes.position.name') %>:</strong> <%= @position.name %></p>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_position_path(@position), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_positions_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

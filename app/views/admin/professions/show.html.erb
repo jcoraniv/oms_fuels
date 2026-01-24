@@ -1,0 +1,12 @@
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.professions.details') %></h3>
+  </div>
+  <div class="card-body">
+    <p><strong><%= t('activerecord.attributes.profession.name') %>:</strong> <%= @profession.name %></p>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_profession_path(@profession), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_professions_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

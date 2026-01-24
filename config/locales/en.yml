@@ -47,6 +47,8 @@ en:
       users: "Users"
       personal: "Personal"
       gestions: "Gestions"
+      professions: "Professions"
+      positions: "Positions"
       profile: "Profile"
     
     users:
@@ -87,12 +89,33 @@ en:
         active: "Active"
         status_active: "Active"
         status_inactive: "Inactive"
+        
+    professions:
+      title: "Professions"
+      new: "New Profession"
+      edit: "Edit Profession"
+      details: "Profession Details"
+      table:
+        id: "ID"
+        name: "Name"
+
+    positions:
+      title: "Positions"
+      new: "New Position"
+      edit: "Edit Position"
+      details: "Position Details"
+      table:
+        id: "ID"
+        code: "Code"
+        name: "Name"
 
   activerecord:
     models:
       user: "User"
       personal: "Personal"
       gestion: "Gestion"
+      profession: "Profession"
+      position: "Position"
     attributes:
       user:
         email: "Email"
@@ -110,3 +133,8 @@ en:
         code: "Code"
         name: "Name"
         active: "Active"
+      profession:
+        name: "Name"
+      position:
+        code: "Code"
+        name: "Name"

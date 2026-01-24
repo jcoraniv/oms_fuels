@@ -20,5 +20,7 @@ Rails.application.routes.draw do
     resources :users
     resources :personals
     resources :gestions
+    resources :professions
+    resources :positions
   end
 end

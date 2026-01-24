@@ -1,0 +1,32 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.professions.title') %></h3>
+    <div class="card-tools">
+      <%= link_to t('admin.professions.new'), new_admin_profession_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= t('admin.professions.table.id') %></th>
+          <th><%= t('admin.professions.table.name') %></th>
+          <th style="width: 150px"><%= t('common.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @professions.each do |profession| %>
+          <tr>
+            <td><%= profession.id %></td>
+            <td><%= profession.name %></td>
+            <td>
+              <%= link_to t('common.show'), admin_profession_path(profession), class: "btn btn-sm btn-info" %>
+              <%= link_to t('common.edit'), edit_admin_profession_path(profession), class: "btn btn-sm btn-warning" %>
+              <%= link_to t('common.delete'), admin_profession_path(profession), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

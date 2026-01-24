@@ -4,4 +4,5 @@ class Position < ApplicationRecord
   has_many :gestions, through: :org_structures # New association
 
   validates :name, presence: true
+  validates :code, presence: true, uniqueness: true
 end

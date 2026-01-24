@@ -1,0 +1,27 @@
+<%= form_with(model: [:admin, @position], local: true) do |form| %>
+  <% if @position.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@position.errors.count, "error") %> prohibited this position from being saved:</h2>
+      <ul>
+        <% @position.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <div class="form-group">
+      <%= form.label :code, t('activerecord.attributes.position.code') %>
+      <%= form.text_field :code, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= form.label :name, t('activerecord.attributes.position.name') %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="card-footer">
+    <%= form.submit t('common.save'), class: 'btn btn-primary' %>
+    <%= link_to t('common.back'), admin_positions_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>
