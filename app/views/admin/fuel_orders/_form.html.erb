@@ -1,0 +1,34 @@
+<%= form_with(model: [:admin, @fuel_order], local: true) do |form| %>
+  <% if @fuel_order.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@fuel_order.errors.count, "error") %> prohibited this order from being saved:</h2>
+      <ul>
+        <% @fuel_order.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <div class="form-group">
+      <%= form.label :requester_assignment_id, t('admin.fuel_orders.form.requester') %>
+      <%= form.collection_select :requester_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_requester') }, { class: 'form-control select2' } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :total, t('admin.fuel_orders.form.total') %>
+      <%= form.number_field :total, step: 0.01, class: 'form-control' %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :status, t('admin.fuel_orders.form.status') %>
+      <%= form.select :status, FuelOrder.statuses.keys.map { |s| [t("admin.fuel_orders.status.#{s}"), s] }, {}, { class: 'form-control' } %>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <%= form.submit t('common.save'), class: 'btn btn-primary' %>
+    <%= link_to t('common.back'), admin_fuel_orders_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

@@ -49,6 +49,7 @@ en:
       gestions: "Gestions"
       professions: "Professions"
       positions: "Positions"
+      fuel_orders: "Fuel Orders"
       profile: "Profile"
     
     users:
@@ -109,6 +110,27 @@ en:
         code: "Code"
         name: "Name"
 
+    fuel_orders:
+      title: "Fuel Orders"
+      new: "New Fuel Order"
+      edit: "Edit Fuel Order"
+      details: "Fuel Order Details"
+      table:
+        number: "Number"
+        requester: "Requester"
+        total: "Total"
+        status: "Status"
+      form:
+        requester: "Requester"
+        select_requester: "Select a requester"
+        total: "Total Amount"
+        status: "Status"
+      status:
+        pending: "Pending"
+        approved: "Approved"
+        completed: "Completed"
+        canceled: "Canceled"
+
   activerecord:
     models:
       user: "User"
@@ -116,6 +138,7 @@ en:
       gestion: "Gestion"
       profession: "Profession"
       position: "Position"
+      fuel_order: "Fuel Order"
     attributes:
       user:
         email: "Email"
@@ -138,3 +161,7 @@ en:
       position:
         code: "Code"
         name: "Name"
+      fuel_order:
+        number: "Number"
+        total: "Total"
+        status: "Status"

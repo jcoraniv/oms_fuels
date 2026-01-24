@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_01_000012) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_01_000013) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000012) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "fuel_orders", force: :cascade do |t|
+    t.string "number", null: false
+    t.bigint "gestion_id", null: false
+    t.bigint "requester_assignment_id", null: false
+    t.bigint "approver_assignment_id"
+    t.decimal "total", precision: 12, scale: 2, default: "0.0"
+    t.string "status", default: "pending", null: false
+    t.datetime "approved_at"
+    t.datetime "completed_at"
+    t.datetime "canceled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["approver_assignment_id"], name: "index_fuel_orders_on_approver_assignment_id"
+    t.index ["gestion_id"], name: "index_fuel_orders_on_gestion_id"
+    t.index ["number"], name: "index_fuel_orders_on_number", unique: true
+    t.index ["requester_assignment_id"], name: "index_fuel_orders_on_requester_assignment_id"
+    t.index ["status"], name: "index_fuel_orders_on_status"
   end
 
   create_table "gestions", force: :cascade do |t|
@@ -124,6 +143,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000012) do
 
   add_foreign_key "assignments", "org_positions"
   add_foreign_key "assignments", "personals"
+  add_foreign_key "fuel_orders", "assignments", column: "approver_assignment_id"
+  add_foreign_key "fuel_orders", "assignments", column: "requester_assignment_id"
+  add_foreign_key "fuel_orders", "gestions"
   add_foreign_key "org_positions", "org_positions", column: "reports_to_position_id"
   add_foreign_key "org_positions", "org_structures"
   add_foreign_key "org_positions", "positions"

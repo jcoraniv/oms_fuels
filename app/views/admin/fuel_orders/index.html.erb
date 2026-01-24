@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.fuel_orders.title') %></h3>
+    <div class="card-tools">
+      <%= link_to t('admin.fuel_orders.new'), new_admin_fuel_order_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= t('admin.fuel_orders.table.number') %></th>
+          <th><%= t('admin.fuel_orders.table.requester') %></th>
+          <th><%= t('admin.fuel_orders.table.total') %></th>
+          <th><%= t('admin.fuel_orders.table.status') %></th>
+          <th style="width: 150px"><%= t('common.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @fuel_orders.each do |order| %>
+          <tr>
+            <td><%= order.number %></td>
+            <td><%= order.requester_assignment.personal.full_name %></td>
+            <td><%= number_to_currency(order.total) %></td>
+            <td><span class="badge bg-info"><%= t("admin.fuel_orders.status.#{order.status}") %></span></td>
+            <td>
+              <%= link_to t('common.show'), admin_fuel_order_path(order), class: "btn btn-sm btn-info" %>
+              <%= link_to t('common.edit'), edit_admin_fuel_order_path(order), class: "btn btn-sm btn-warning" %>
+              <%= link_to t('common.delete'), admin_fuel_order_path(order), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

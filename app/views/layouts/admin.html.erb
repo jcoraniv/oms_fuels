@@ -136,6 +136,12 @@
               <p><%= t('admin.menu.positions') %></p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<%= admin_fuel_orders_path %>" class="nav-link <%= 'active' if controller_path == 'admin/fuel_orders' %>">
+              <i class="nav-icon bi bi-fuel-pump"></i>
+              <p><%= t('admin.menu.fuel_orders') %></p>
+            </a>
+          </li>
         </ul>
         <!--end::Sidebar Menu-->
       </nav>

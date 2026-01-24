@@ -22,5 +22,6 @@ Rails.application.routes.draw do
     resources :gestions
     resources :professions
     resources :positions
+    resources :fuel_orders
   end
 end

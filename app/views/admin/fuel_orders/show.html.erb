@@ -1,0 +1,15 @@
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.fuel_orders.details') %></h3>
+  </div>
+  <div class="card-body">
+    <p><strong><%= t('admin.fuel_orders.table.number') %>:</strong> <%= @fuel_order.number %></p>
+    <p><strong><%= t('admin.fuel_orders.table.requester') %>:</strong> <%= @fuel_order.requester_assignment.personal.full_name %></p>
+    <p><strong><%= t('admin.fuel_orders.table.total') %>:</strong> <%= number_to_currency(@fuel_order.total) %></p>
+    <p><strong><%= t('admin.fuel_orders.table.status') %>:</strong> <span class="badge bg-info"><%= t("admin.fuel_orders.status.#{@fuel_order.status}") %></span></p>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_fuel_order_path(@fuel_order), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_fuel_orders_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
