@@ -199,3 +199,7 @@ en:
         description: "Description"
         details: "Details"
         vehicle_type: "Vehicle Type"
+        status: "Status"
+        statuses:
+          active: "Active"
+          inactive: "Inactive"

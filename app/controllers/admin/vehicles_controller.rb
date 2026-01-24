@@ -44,6 +44,6 @@ class Admin::VehiclesController < Admin::BaseController
     end
 
     def vehicle_params
-      params.require(:vehicle).permit(:plate, :description, :details, :vehicle_type_id)
+      params.require(:vehicle).permit(:plate, :description, :details, :vehicle_type_id, :status)
     end
 end

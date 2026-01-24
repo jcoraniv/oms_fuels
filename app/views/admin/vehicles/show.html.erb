@@ -20,5 +20,10 @@
   <%= @vehicle.vehicle_type.name %>
 </p>
 
+<p>
+  <strong><%= t('activerecord.attributes.vehicle.status') %>:</strong>
+  <%= @vehicle.status.humanize %>
+</p>
+
 <%= link_to 'Edit', edit_admin_vehicle_path(@vehicle) %> |
 <%= link_to t('common.back'), admin_vehicles_path %>

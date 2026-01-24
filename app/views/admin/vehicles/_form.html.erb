@@ -1,7 +1,45 @@
-<%= form_with(model: [:admin, vehicle], local: true) do |form|\
- %>\n  <% if vehicle.errors.any?\
- %>\n    <div id=\"error_explanation\">\n      <h2><%= pluralize(vehicle.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "vehicle") %></h2>\n\n      <ul>\n        <% vehicle.errors.full_messages.each do |message|\
- %>\n          <li><%= message %></li>\n        <% end %>\n      </ul>\n    </div>\n  <% end %>\n\n  <div class=\"field\">\n    <%= form.label :plate, t('activerecord.attributes.vehicle.plate') %>\n    <%= form.text_field :plate %>\n  </div>\n
-  <div class=\"field\">\n    <%= form.label :description, t('activerecord.attributes.vehicle.description') %>\n    <%= form.text_area :description %>\n  </div>\n
-  <div class=\"field\">\n    <%= form.label :details, t('activerecord.attributes.vehicle.details') %>\n    <%= form.text_area :details %>\n  </div>\n
-  <div class=\"field\">\n    <%= form.label :vehicle_type_id, t('activerecord.attributes.vehicle.vehicle_type') %>\n    <%= form.collection_select :vehicle_type_id, VehicleType.order(:name), :id, :name, prompt: true %>\n  </div>\n\n  <div class=\"actions\">\n    <%= form.submit %>\n  </div>\n<% end %>\n
+<%= form_with(model: [:admin, vehicle], local: true) do |form|
+ %>
+  <% if vehicle.errors.any?
+ %>
+    <div id="error_explanation">
+      <h2><%= pluralize(vehicle.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "vehicle") %></h2>
+
+      <ul>
+        <% vehicle.errors.full_messages.each do |message|
+ %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :plate, t('activerecord.attributes.vehicle.plate') %>
+    <%= form.text_field :plate %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, t('activerecord.attributes.vehicle.description') %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :details, t('activerecord.attributes.vehicle.details') %>
+    <%= form.text_area :details %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vehicle_type_id, t('activerecord.attributes.vehicle.vehicle_type') %>
+    <%= form.collection_select :vehicle_type_id, VehicleType.order(:name), :id, :name, prompt: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status, t('activerecord.attributes.vehicle.status') %>
+    <%= form.select :status, options_for_select(Vehicle.statuses.keys.map { |s| [t("activerecord.attributes.vehicle.statuses." + s), s] }, vehicle.status), prompt: true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
