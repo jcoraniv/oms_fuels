@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong><%= t('admin.fuels.table.description') %>:</strong>
+  <%= @fuel.description %>
+</p>
+
+<p>
+  <strong><%= t('admin.fuels.table.unit_of_measure') %>:</strong>
+  <%= t("activerecord.attributes.fuel.units_of_measure." + @fuel.unit_of_measure) %>
+</p>
+
+<%= link_to t('common.edit'), edit_admin_fuel_path(@fuel) %> |
+<%= link_to t('common.back'), admin_fuels_path %>

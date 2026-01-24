@@ -53,6 +53,7 @@ en:
       positions: "Positions"
       fuel_orders: "Fuel Orders"
       vehicle_fleet: "Vehicle Fleet"
+      fuels: "Fuels"
       vehicle_types:
         title: "Vehicle Types"
         new: "New Vehicle Type"
@@ -69,6 +70,15 @@ en:
           description: "Description"
           details: "Details"
           vehicle_type: "Vehicle Type"
+        fuels:
+          title: "Fuels"
+          new: "New Fuel"
+          edit: "Edit Fuel"
+          table:
+            description: "Description"
+            unit_of_measure: "Unit of Measure"
+          form:
+            select_unit_of_measure: "Select a unit of measure"
       profile: "Profile"
     
     users:
@@ -165,6 +175,7 @@ en:
       fuel_order: "Fuel Order"
       vehicle_type: "Vehicle Type"
       vehicle: "Vehicle"
+      fuel: "Fuel"
     attributes:
       user:
         email: "Email"
@@ -203,3 +214,11 @@ en:
         statuses:
           active: "Active"
           inactive: "Inactive"
+      fuel:
+        description: "Description"
+        unit_of_measure: "Unit of Measure"
+        units_of_measure:
+          liter: "Liter"
+          gallon: "Gallon"
+          cubic_meter: "Cubic Meter"
+          kilogram: "Kilogram"

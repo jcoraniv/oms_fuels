@@ -155,6 +155,12 @@
               <p>Vehicles</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="<%= admin_fuels_path %>" class="nav-link <%= 'active' if controller_path == 'admin/fuels' %>">
+              <i class="nav-icon bi bi-fuel-pump-fill"></i>
+              <p><%= t('admin.menu.fuels') %></p>
+            </a>
+          </li>
         </ul>
         <!--end::Sidebar Menu-->
       </nav>

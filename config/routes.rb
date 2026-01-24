@@ -25,5 +25,6 @@ Rails.application.routes.draw do
     resources :fuel_orders
     resources :vehicle_types
     resources :vehicles
+    resources :fuels
   end
 end
