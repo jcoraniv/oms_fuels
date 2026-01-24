@@ -7,6 +7,30 @@
     <p><strong><%= t('admin.fuel_orders.table.requester') %>:</strong> <%= @fuel_order.requester_assignment.personal.full_name %></p>
     <p><strong><%= t('admin.fuel_orders.table.total') %>:</strong> <%= number_to_currency(@fuel_order.total) %></p>
     <p><strong><%= t('admin.fuel_orders.table.status') %>:</strong> <span class="badge bg-info"><%= t("admin.fuel_orders.status.#{@fuel_order.status}") %></span></p>
+
+    <h4 class="mt-4 mb-3"><%= t('admin.fuel_orders.items.title') %></h4>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th><%= t('admin.fuel_orders.items.fuel') %></th>
+          <th><%= t('admin.fuel_orders.items.quantity') %></th>
+          <th><%= t('admin.fuel_orders.items.unit_price') %></th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @fuel_order.fuel_order_items.each do |item| %>
+          <tr>
+            <td><%= item.fuel.description %></td>
+            <td><%= item.vehicle.present? ? item.vehicle.plate : 'N/A' %></td>
+            <td><%= item.quantity_ordered %></td>
+            <td><%= number_to_currency(item.unit_price) %></td>
+            <td><%= number_to_currency(item.partial_price) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
   <div class="card-footer">
     <%= link_to t('common.edit'), edit_admin_fuel_order_path(@fuel_order), class: 'btn btn-warning' %>

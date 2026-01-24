@@ -159,6 +159,10 @@ en:
         quantity: "Quantity"
         unit_price: "Unit Price"
         add: "Add Item"
+        fuel: "Fuel"
+        vehicle: "Vehicle"
+        select_fuel: "Select a fuel"
+        select_vehicle: "Select a vehicle"
       status:
         pending: "Pending"
         approved: "Approved"
@@ -222,3 +226,6 @@ en:
           gallon: "Gallon"
           cubic_meter: "Cubic Meter"
           kilogram: "Kilogram"
+      fuel_order_item:
+        fuel: "Fuel"
+        vehicle: "Vehicle"

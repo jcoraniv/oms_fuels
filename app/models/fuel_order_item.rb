@@ -1,5 +1,7 @@
 class FuelOrderItem < ApplicationRecord
   belongs_to :fuel_order
+  belongs_to :fuel
+  belongs_to :vehicle, optional: true
 
   validates :quantity_ordered, presence: true, numericality: { greater_than: 0 }
   validates :unit_price, presence: true, numericality: { greater_than_or_equal_to: 0 }

@@ -1,6 +1,7 @@
 class Admin::FuelOrdersController < Admin::BaseController
   before_action :set_fuel_order, only: [:show, :edit, :update, :destroy]
   before_action :set_assignments, only: [:new, :create, :edit, :update]
+  before_action :set_vehicles, only: [:new, :create, :edit, :update]
 
   def index
     @fuel_orders = FuelOrder.includes(:gestion, requester_assignment: :personal).all
@@ -19,6 +20,13 @@ class Admin::FuelOrdersController < Admin::BaseController
     @fuel_order = FuelOrder.new(fuel_order_params)
     @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
 
+    # Assign vehicle_id to all fuel_order_items before saving
+    if @fuel_order.vehicle_id.present?
+      @fuel_order.fuel_order_items.each do |item|
+        item.vehicle_id = @fuel_order.vehicle_id
+      end
+    end
+
     if @fuel_order.save
       redirect_to admin_fuel_orders_path, notice: t('common.created')
     else
@@ -30,6 +38,13 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def update
+    # Assign vehicle_id to all fuel_order_items before saving
+    if fuel_order_params[:vehicle_id].present?
+      @fuel_order.fuel_order_items.each do |item|
+        item.vehicle_id = fuel_order_params[:vehicle_id]
+      end
+    end
+
     if @fuel_order.update(fuel_order_params)
       redirect_to admin_fuel_orders_path, notice: t('common.updated')
     else
@@ -55,7 +70,11 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def fuel_order_params
-    params.require(:fuel_order).permit(:requester_assignment_id, :status,
-      fuel_order_items_attributes: [:id, :quantity_ordered, :unit_price, :_destroy])
+    params.require(:fuel_order).permit(:requester_assignment_id, :status, :vehicle_id,
+      fuel_order_items_attributes: [:id, :fuel_id, :quantity_ordered, :unit_price, :_destroy])
+  end
+
+  def set_vehicles
+    @vehicles = Vehicle.all
   end
 end

@@ -3,6 +3,8 @@ class FuelOrder < ApplicationRecord
   belongs_to :requester_assignment, class_name: 'Assignment'
   belongs_to :approver_assignment, class_name: 'Assignment', optional: true
 
+  attr_accessor :vehicle_id
+
   has_many :fuel_order_items, dependent: :destroy
   accepts_nested_attributes_for :fuel_order_items, allow_destroy: true, reject_if: :all_blank
 

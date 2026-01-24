@@ -24,6 +24,12 @@
           <%= form.select :status, FuelOrder.statuses.keys.map { |s| [t("admin.fuel_orders.status.#{s}"), s] }, {}, { class: 'form-control' } %>
         </div>
       </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :vehicle_id, t('activerecord.attributes.fuel_order.vehicle') %>
+          <%= form.collection_select :vehicle_id, @vehicles || [], :id, ->(v) { "#{v.plate} - #{v.description}" }, { prompt: t('admin.fuel_orders.form.select_vehicle') }, { class: 'form-control select2' } %>
+        </div>
+      </div>
     </div>
 
     <h4 class="mt-4 mb-3"><%= t('admin.fuel_orders.items.title') %></h4>
@@ -31,6 +37,7 @@
     <table class="table table-bordered" id="fuel-order-items">
       <thead>
         <tr>
+          <th><%= t('admin.fuel_orders.items.fuel') %></th>
           <th><%= t('admin.fuel_orders.items.quantity') %></th>
           <th><%= t('admin.fuel_orders.items.unit_price') %></th>
           <th style="width: 100px"><%= t('common.actions') %></th>
@@ -39,6 +46,9 @@
       <tbody>
         <%= form.fields_for :fuel_order_items do |item_form| %>
           <tr class="nested-fields">
+            <td>
+              <%= item_form.collection_select :fuel_id, Fuel.all, :id, :description, { prompt: t('admin.fuel_orders.items.select_fuel') }, { class: 'form-control select2' } %>
+            </td>
             <td>
               <%= item_form.number_field :quantity_ordered, step: 0.01, class: 'form-control', required: true %>
             </td>
@@ -70,6 +80,10 @@
 <template id="item-template">
   <tr class="nested-fields">
     <td>
+      <select class="form-control select2" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][fuel_id]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_fuel_id"><option value="">Select a fuel</option>
+<%= options_from_collection_for_select(Fuel.all, :id, :description) %></select>
+    </td>
+    <td>
       <input class="form-control" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][quantity_ordered]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_quantity_ordered">
     </td>
     <td>
@@ -93,7 +107,16 @@
         e.preventDefault();
         const template = document.getElementById('item-template');
         const timestamp = new Date().getTime();
-        const content = template.innerHTML.replace(/NEW_RECORD/g, timestamp);
+        let content = template.innerHTML.replace(/NEW_RECORD/g, timestamp);
+
+        // Get the selected vehicle from the main form
+        const selectedVehicleId = document.getElementById('fuel_order_vehicle_id') ? document.getElementById('fuel_order_vehicle_id').value : '';
+        if (selectedVehicleId) {
+          // Pre-select the vehicle in the new item row
+          content = content.replace(/<select.*?name="fuel_order\[fuel_order_items_attributes\]\[NEW_RECORD\]\[vehicle_id\].*?>/,
+            `$&<option value="${selectedVehicleId}" selected="selected"></option>`);
+        }
+
         document.querySelector('#fuel-order-items tbody').insertAdjacentHTML('beforeend', content);
       });
     }
