@@ -53,7 +53,7 @@
         <%= form.fields_for :fuel_order_items do |item_form| %>
           <tr class="nested-fields">
             <td>
-              <%= item_form.collection_select :fuel_id, Fuel.all, :id, :description, { prompt: t('admin.fuel_orders.items.select_fuel') }, { class: 'form-control select2' } %>
+              <%= item_form.collection_select :fuel_id, Fuel.all, :id, :description, { prompt: t('admin.fuel_orders.items.select_fuel') }, { class: 'form-control select2 fuel-select', data: { prices: Fuel.all.map { |f| [f.id, f.reference_price] }.to_h.to_json } } %>
             </td>
             <td>
               <%= item_form.number_field :quantity_ordered, step: 0.01, class: 'form-control item-quantity', required: true %>
@@ -92,7 +92,7 @@
 <template id="item-template">
   <tr class="nested-fields">
     <td>
-      <select class="form-control select2" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][fuel_id]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_fuel_id"><option value="">Select a fuel</option>
+      <select class="form-control select2 fuel-select" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][fuel_id]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_fuel_id" data-prices='<%= Fuel.all.map { |f| [f.id, f.reference_price] }.to_h.to_json %>'><option value="">Select a fuel</option>
 <%= options_from_collection_for_select(Fuel.all, :id, :description) %></select>
     </td>
     <td>
@@ -137,6 +137,18 @@
     // Calculate on input change (real-time) and change (on blur)
     $('#fuel-order-items').on('input change', '.item-quantity, .item-price', function() {
       calculateSubtotal($(this).closest('tr'));
+    });
+
+    // Auto-populate price when fuel is selected
+    $('#fuel-order-items').on('change', '.fuel-select', function() {
+      const row = $(this).closest('tr');
+      const fuelId = $(this).val();
+      const prices = $(this).data('prices');
+      
+      if (fuelId && prices && prices[fuelId]) {
+        row.find('.item-price').val(prices[fuelId]);
+        calculateSubtotal(row);
+      }
     });
 
     // Add Item
