@@ -138,6 +138,7 @@ en:
         id: "ID"
         code: "Code"
         name: "Name"
+        status: "Status"
 
     fuel_orders:
       title: "Fuel Orders"
@@ -202,6 +203,7 @@ en:
       position:
         code: "Code"
         name: "Name"
+        status: "Status"
       fuel_order:
         number: "Number"
         total: "Total"

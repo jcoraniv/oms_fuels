@@ -2,7 +2,7 @@ class Admin::PositionsController < Admin::BaseController
   before_action :set_position, only: [:show, :edit, :update, :destroy]
 
   def index
-    @positions = Position.all
+    @positions = Position.not_deleted
   end
 
   def show
@@ -33,7 +33,7 @@ class Admin::PositionsController < Admin::BaseController
   end
 
   def destroy
-    @position.destroy
+    @position.update(status: :deleted)
     redirect_to admin_positions_path, notice: t('common.destroyed')
   end
 
@@ -44,6 +44,6 @@ class Admin::PositionsController < Admin::BaseController
   end
 
   def position_params
-    params.require(:position).permit(:code, :name)
+    params.require(:position).permit(:code, :name, :status)
   end
 end

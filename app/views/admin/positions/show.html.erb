@@ -3,8 +3,16 @@
     <h3 class="card-title"><%= t('admin.positions.details') %></h3>
   </div>
   <div class="card-body">
-    <p><strong><%= t('activerecord.attributes.position.code') %>:</strong> <%= @position.code %></p>
-    <p><strong><%= t('activerecord.attributes.position.name') %>:</strong> <%= @position.name %></p>
+    <dl class="row">
+      <dt class="col-sm-3"><%= t('activerecord.attributes.position.code') %></dt>
+      <dd class="col-sm-9"><%= @position.code %></dd>
+
+      <dt class="col-sm-3"><%= t('activerecord.attributes.position.name') %></dt>
+      <dd class="col-sm-9"><%= @position.name %></dd>
+
+      <dt class="col-sm-3"><%= t('activerecord.attributes.position.status') %></dt>
+      <dd class="col-sm-9"><span class="badge bg-<%= @position.active? ? 'success' : 'secondary' %>"><%= @position.status.humanize %></span></dd>
+    </dl>
   </div>
   <div class="card-footer">
     <%= link_to t('common.edit'), edit_admin_position_path(@position), class: 'btn btn-warning' %>

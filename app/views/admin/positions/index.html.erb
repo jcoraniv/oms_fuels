@@ -12,6 +12,7 @@
           <th><%= t('admin.positions.table.id') %></th>
           <th><%= t('admin.positions.table.code') %></th>
           <th><%= t('admin.positions.table.name') %></th>
+          <th><%= t('admin.positions.table.status') %></th>
           <th style="width: 150px"><%= t('common.actions') %></th>
         </tr>
       </thead>
@@ -21,10 +22,11 @@
             <td><%= position.id %></td>
             <td><%= position.code %></td>
             <td><%= position.name %></td>
+            <td><span class="badge bg-<%= position.active? ? 'success' : 'secondary' %>"><%= position.status.humanize %></span></td>
             <td>
               <%= link_to t('common.show'), admin_position_path(position), class: "btn btn-sm btn-info" %>
               <%= link_to t('common.edit'), edit_admin_position_path(position), class: "btn btn-sm btn-warning" %>
-              <%= link_to t('common.delete'), admin_position_path(position), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+              <%= button_to t('common.delete'), admin_position_path(position), method: :delete, data: { turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
             </td>
           </tr>
         <% end %>

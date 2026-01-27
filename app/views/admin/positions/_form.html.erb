@@ -11,17 +11,34 @@
   <% end %>
 
   <div class="card-body">
-    <div class="form-group">
-      <%= form.label :code, t('activerecord.attributes.position.code') %>
-      <%= form.text_field :code, class: 'form-control' %>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :code, t('activerecord.attributes.position.code') %>
+          <%= form.text_field :code, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :name, t('activerecord.attributes.position.name') %>
+          <%= form.text_field :name, class: 'form-control' %>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <%= form.label :name, t('activerecord.attributes.position.name') %>
-      <%= form.text_field :name, class: 'form-control' %>
-    </div>
+    <% if @position.persisted? %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <%= form.label :status, t('activerecord.attributes.position.status') %>
+            <%= form.select :status, Position.statuses.keys.map { |k| [k.humanize, k] }, {}, class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
   <div class="card-footer">
     <%= form.submit t('common.save'), class: 'btn btn-primary' %>
     <%= link_to t('common.back'), admin_positions_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>
+
