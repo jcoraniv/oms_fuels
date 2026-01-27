@@ -32,7 +32,12 @@
       </div>
     </div>
 
-    <h4 class="mt-4 mb-3"><%= t('admin.fuel_orders.items.title') %></h4>
+    <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+      <h4 class="mb-0"><%= t('admin.fuel_orders.items.title') %></h4>
+      <button type="button" class="btn btn-success btn-sm" id="add_item">
+        <i class="bi bi-plus"></i> <%= t('admin.fuel_orders.items.add') %>
+      </button>
+    </div>
 
     <table class="table table-bordered" id="fuel-order-items">
       <thead>
@@ -40,6 +45,7 @@
           <th><%= t('admin.fuel_orders.items.fuel') %></th>
           <th><%= t('admin.fuel_orders.items.quantity') %></th>
           <th><%= t('admin.fuel_orders.items.unit_price') %></th>
+          <th><%= t('admin.fuel_orders.items.subtotal') %></th>
           <th style="width: 100px"><%= t('common.actions') %></th>
         </tr>
       </thead>
@@ -50,10 +56,13 @@
               <%= item_form.collection_select :fuel_id, Fuel.all, :id, :description, { prompt: t('admin.fuel_orders.items.select_fuel') }, { class: 'form-control select2' } %>
             </td>
             <td>
-              <%= item_form.number_field :quantity_ordered, step: 0.01, class: 'form-control', required: true %>
+              <%= item_form.number_field :quantity_ordered, step: 0.01, class: 'form-control item-quantity', required: true %>
             </td>
             <td>
-              <%= item_form.number_field :unit_price, step: 0.01, class: 'form-control', required: true %>
+              <%= item_form.number_field :unit_price, step: 0.01, class: 'form-control item-price', required: true %>
+            </td>
+            <td>
+              <span class="item-subtotal">0.00</span>
             </td>
             <td>
               <%= item_form.hidden_field :_destroy %>
@@ -64,11 +73,14 @@
           </tr>
         <% end %>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" class="text-end"><strong><%= t('admin.fuel_orders.items.total') %></strong></td>
+          <td><strong id="order-total">0.00</strong></td>
+          <td></td>
+        </tr>
+      </tfoot>
     </table>
-
-    <button type="button" class="btn btn-success btn-sm mt-2" id="add_item">
-      <i class="bi bi-plus"></i> <%= t('admin.fuel_orders.items.add') %>
-    </button>
   </div>
 
   <div class="card-footer mt-3">
@@ -84,10 +96,13 @@
 <%= options_from_collection_for_select(Fuel.all, :id, :description) %></select>
     </td>
     <td>
-      <input class="form-control" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][quantity_ordered]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_quantity_ordered">
+      <input class="form-control item-quantity" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][quantity_ordered]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_quantity_ordered">
     </td>
     <td>
-      <input class="form-control" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][unit_price]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_unit_price">
+      <input class="form-control item-price" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][unit_price]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_unit_price">
+    </td>
+    <td>
+      <span class="item-subtotal">0.00</span>
     </td>
     <td>
       <input type="hidden" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][_destroy]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD__destroy" value="false">
@@ -99,44 +114,65 @@
 </template>
 
 <script>
-  document.addEventListener('turbo:load', function() {
-    // Add Item
-    const addItemBtn = document.getElementById('add_item');
-    if (addItemBtn) {
-      addItemBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const template = document.getElementById('item-template');
-        const timestamp = new Date().getTime();
-        let content = template.innerHTML.replace(/NEW_RECORD/g, timestamp);
-
-        // Get the selected vehicle from the main form
-        const selectedVehicleId = document.getElementById('fuel_order_vehicle_id') ? document.getElementById('fuel_order_vehicle_id').value : '';
-        if (selectedVehicleId) {
-          // Pre-select the vehicle in the new item row
-          content = content.replace(/<select.*?name="fuel_order\[fuel_order_items_attributes\]\[NEW_RECORD\]\[vehicle_id\].*?>/,
-            `$&<option value="${selectedVehicleId}" selected="selected"></option>`);
-        }
-
-        document.querySelector('#fuel-order-items tbody').insertAdjacentHTML('beforeend', content);
-      });
+  $(function() {
+    // Calculate subtotal for a row
+    function calculateSubtotal(row) {
+      const quantity = parseFloat(row.find('.item-quantity').val()) || 0;
+      const price = parseFloat(row.find('.item-price').val()) || 0;
+      const subtotal = quantity * price;
+      row.find('.item-subtotal').text(subtotal.toFixed(2));
+      calculateTotal();
     }
 
-    // Remove Item
-    document.querySelector('#fuel-order-items').addEventListener('click', function(e) {
-      if (e.target.closest('.remove_fields')) {
-        e.preventDefault();
-        const row = e.target.closest('tr');
-        const destroyInput = row.querySelector('input[name*="_destroy"]');
+    // Calculate total
+    function calculateTotal() {
+      let total = 0;
+      $('#fuel-order-items tbody tr:visible').each(function() {
+        const subtotal = parseFloat($(this).find('.item-subtotal').text()) || 0;
+        total += subtotal;
+      });
+      $('#order-total').text(total.toFixed(2));
+    }
 
-        if (destroyInput) {
-          // If it's an existing record, mark for destruction and hide
-          destroyInput.value = '1';
-          row.style.display = 'none';
-        } else {
-          // If it's a new record (dynamic), just remove the row
-          row.remove();
-        }
+    // Calculate on input change (real-time) and change (on blur)
+    $('#fuel-order-items').on('input change', '.item-quantity, .item-price', function() {
+      calculateSubtotal($(this).closest('tr'));
+    });
+
+    // Add Item
+    $('#add_item').on('click', function(e) {
+      e.preventDefault();
+      const template = $('#item-template');
+      const timestamp = new Date().getTime();
+      let content = template.html().replace(/NEW_RECORD/g, timestamp);
+
+      $('#fuel-order-items tbody').append(content);
+      
+      // Initialize select2 on new row with width 100%
+      $('#fuel-order-items tbody tr:last .select2').select2({ 
+        theme: 'bootstrap-5',
+        width: '100%'
+      });
+    });
+
+    // Remove Item
+    $('#fuel-order-items').on('click', '.remove_fields', function(e) {
+      e.preventDefault();
+      const row = $(this).closest('tr');
+      const destroyInput = row.find('input[name*="_destroy"]');
+
+      if (destroyInput.length) {
+        destroyInput.val('1');
+        row.hide();
+      } else {
+        row.remove();
       }
+      calculateTotal();
+    });
+
+    // Initial calculation for existing rows
+    $('#fuel-order-items tbody tr').each(function() {
+      calculateSubtotal($(this));
     });
   });
 </script>

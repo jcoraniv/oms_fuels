@@ -18,6 +18,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
   <%= stylesheet_link_tag 'admin', media: 'all' %>
+  
+  <!-- Scripts in head to ensure jQuery is available -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <%= javascript_include_tag 'admin' %>
 </head>
 <body class="fixed-header sidebar-expand-lg bg-body-tertiary">
 <!--begin::App Wrapper-->
@@ -190,18 +197,12 @@
   <!--end::Footer-->
 </div>
 <!--end::App Wrapper-->
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-<%= javascript_include_tag 'admin' %>
 
 <script>
   $(document).ready(function() {
     $('.select2').select2({
-      theme: 'bootstrap-5'
+      theme: 'bootstrap-5',
+      width: '100%'
     });
   });
 </script>
