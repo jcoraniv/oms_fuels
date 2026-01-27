@@ -1,29 +1,27 @@
-<p id="notice"><%= notice %></p>
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.vehicles.details') %></h3>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3"><%= t('admin.vehicles.table.plate') %></dt>
+      <dd class="col-sm-9"><%= @vehicle.plate %></dd>
 
-<p>
-  <strong>Plate:</strong>
-  <%= @vehicle.plate %>
-</p>
+      <dt class="col-sm-3"><%= t('admin.vehicles.table.description') %></dt>
+      <dd class="col-sm-9"><%= @vehicle.description %></dd>
 
-<p>
-  <strong><%= t('admin.vehicles.table.description') %>:</strong>
-  <%= @vehicle.description %>
-</p>
+      <dt class="col-sm-3"><%= t('admin.vehicles.table.details') %></dt>
+      <dd class="col-sm-9"><%= @vehicle.details %></dd>
 
-<p>
-  <strong><%= t('admin.vehicles.table.details') %>:</strong>
-  <%= @vehicle.details %>
-</p>
+      <dt class="col-sm-3"><%= t('admin.vehicles.table.vehicle_type') %></dt>
+      <dd class="col-sm-9"><%= @vehicle.vehicle_type.name %></dd>
 
-<p>
-  <strong><%= t('admin.vehicles.table.vehicle_type') %>:</strong>
-  <%= @vehicle.vehicle_type.name %>
-</p>
-
-<p>
-  <strong><%= t('activerecord.attributes.vehicle.status') %>:</strong>
-  <%= @vehicle.status.humanize %>
-</p>
-
-<%= link_to 'Edit', edit_admin_vehicle_path(@vehicle) %> |
-<%= link_to t('common.back'), admin_vehicles_path %>
+      <dt class="col-sm-3"><%= t('activerecord.attributes.vehicle.status') %></dt>
+      <dd class="col-sm-9"><span class="badge bg-<%= @vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= @vehicle.status.humanize %></span></dd>
+    </dl>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_vehicle_path(@vehicle), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_vehicles_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

@@ -1,14 +1,18 @@
-<p id="notice"><%= notice %></p>
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.fuels.details') %></h3>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3"><%= t('admin.fuels.table.description') %></dt>
+      <dd class="col-sm-9"><%= @fuel.description %></dd>
 
-<p>
-  <strong><%= t('admin.fuels.table.description') %>:</strong>
-  <%= @fuel.description %>
-</p>
-
-<p>
-  <strong><%= t('admin.fuels.table.unit_of_measure') %>:</strong>
-  <%= t("activerecord.attributes.fuel.units_of_measure." + @fuel.unit_of_measure) %>
-</p>
-
-<%= link_to t('common.edit'), edit_admin_fuel_path(@fuel) %> |
-<%= link_to t('common.back'), admin_fuels_path %>
+      <dt class="col-sm-3"><%= t('admin.fuels.table.unit_of_measure') %></dt>
+      <dd class="col-sm-9"><%= t("activerecord.attributes.fuel.units_of_measure." + @fuel.unit_of_measure) %></dd>
+    </dl>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_fuel_path(@fuel), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_fuels_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

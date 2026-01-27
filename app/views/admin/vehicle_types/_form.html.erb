@@ -1,30 +1,29 @@
-<%= form_with(model: [:admin, vehicle_type], local: true) do |form|
- %>
-  <% if vehicle_type.errors.any?
- %>
-    <div id="error_explanation">
-      <h2><%= pluralize(vehicle_type.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "vehicle type") %></h2>
-
+<%= form_with(model: [:admin, vehicle_type], local: true) do |form| %>
+  <% if vehicle_type.errors.any? %>
+    <div class="alert alert-danger">
+      <h5><%= pluralize(vehicle_type.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "vehicle type") %></h5>
       <ul>
-        <% vehicle_type.errors.full_messages.each do |message|
- %>
+        <% vehicle_type.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name, t('activerecord.attributes.vehicle_type.name') %>
-    <%= form.text_field :name %>
+  <div class="card-body">
+    <div class="form-group mb-3">
+      <%= form.label :name, t('activerecord.attributes.vehicle_type.name') %>
+      <%= form.text_field :name, class: 'form-control' %>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :description, t('activerecord.attributes.vehicle_type.description') %>
+      <%= form.text_area :description, class: 'form-control', rows: 3 %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :description, t('activerecord.attributes.vehicle_type.description') %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="card-footer">
+    <%= form.submit t('common.save'), class: 'btn btn-primary' %>
+    <%= link_to t('common.back'), admin_vehicle_types_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>

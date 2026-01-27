@@ -1,6 +1,6 @@
-<h1><%= t('admin.vehicle_types.edit') %></h1>
-
-<%= render 'form', vehicle_type: @vehicle_type %>
-
-<%= link_to 'Show', admin_vehicle_type_path(@vehicle_type) %> |
-<%= link_to t('common.back'), admin_vehicle_types_path %>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.vehicle_types.edit') %></h3>
+  </div>
+  <%= render 'form', vehicle_type: @vehicle_type %>
+</div>

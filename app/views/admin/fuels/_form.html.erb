@@ -1,30 +1,29 @@
-<%= form_with(model: [:admin, fuel], local: true) do |form|
- %>
-  <% if fuel.errors.any?
- %>
-    <div id="error_explanation">
-      <h2><%= pluralize(fuel.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "fuel") %></h2>
-
+<%= form_with(model: [:admin, fuel], local: true) do |form| %>
+  <% if fuel.errors.any? %>
+    <div class="alert alert-danger">
+      <h5><%= pluralize(fuel.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "fuel") %></h5>
       <ul>
-        <% fuel.errors.full_messages.each do |message|
- %>
+        <% fuel.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :description, t('activerecord.attributes.fuel.description') %>
-    <%= form.text_field :description %>
+  <div class="card-body">
+    <div class="form-group mb-3">
+      <%= form.label :description, t('activerecord.attributes.fuel.description') %>
+      <%= form.text_field :description, class: 'form-control' %>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :unit_of_measure, t('activerecord.attributes.fuel.unit_of_measure') %>
+      <%= form.select :unit_of_measure, Fuel::UNITS_OF_MEASURE.map { |u| [t("activerecord.attributes.fuel.units_of_measure." + u.to_s), u] }, { prompt: t('admin.fuels.form.select_unit_of_measure') }, { class: 'form-control' } %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :unit_of_measure, t('activerecord.attributes.fuel.unit_of_measure') %>
-    <%= form.select :unit_of_measure, Fuel::UNITS_OF_MEASURE.map { |u| [t("activerecord.attributes.fuel.units_of_measure." + u.to_s), u] }, prompt: t('admin.fuels.form.select_unit_of_measure') %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit t('common.save') %>
+  <div class="card-footer">
+    <%= form.submit t('common.save'), class: 'btn btn-primary' %>
+    <%= link_to t('common.back'), admin_fuels_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>

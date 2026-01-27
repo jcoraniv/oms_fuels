@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_01_000014) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_24_074251) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,7 +40,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000014) do
     t.decimal "received_price", precision: 12, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "fuel_id", null: false
+    t.bigint "vehicle_id"
+    t.index ["fuel_id"], name: "index_fuel_order_items_on_fuel_id"
     t.index ["fuel_order_id"], name: "index_fuel_order_items_on_fuel_order_id"
+    t.index ["vehicle_id"], name: "index_fuel_order_items_on_vehicle_id"
   end
 
   create_table "fuel_orders", force: :cascade do |t|
@@ -60,6 +64,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000014) do
     t.index ["number"], name: "index_fuel_orders_on_number", unique: true
     t.index ["requester_assignment_id"], name: "index_fuel_orders_on_requester_assignment_id"
     t.index ["status"], name: "index_fuel_orders_on_status"
+  end
+
+  create_table "fuels", force: :cascade do |t|
+    t.string "description"
+    t.string "unit_of_measure"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "gestions", force: :cascade do |t|
@@ -153,9 +164,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000014) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  create_table "vehicle_types", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string "plate"
+    t.text "description"
+    t.text "details"
+    t.bigint "vehicle_type_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["vehicle_type_id"], name: "index_vehicles_on_vehicle_type_id"
+  end
+
   add_foreign_key "assignments", "org_positions"
   add_foreign_key "assignments", "personals"
   add_foreign_key "fuel_order_items", "fuel_orders"
+  add_foreign_key "fuel_order_items", "fuels"
+  add_foreign_key "fuel_order_items", "vehicles"
   add_foreign_key "fuel_orders", "assignments", column: "approver_assignment_id"
   add_foreign_key "fuel_orders", "assignments", column: "requester_assignment_id"
   add_foreign_key "fuel_orders", "gestions"
@@ -170,4 +201,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_01_000014) do
   add_foreign_key "user_gestions", "users"
   add_foreign_key "users", "personals"
   add_foreign_key "users", "roles"
+  add_foreign_key "vehicles", "vehicle_types"
 end

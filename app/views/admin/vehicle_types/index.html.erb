@@ -1,28 +1,32 @@
-<h1><%= t('admin.vehicle_types.title') %></h1>
-
-<table>
-  <thead>
-    <tr>
-      <th><%= t('admin.vehicle_types.table.name') %></th>
-      <th><%= t('admin.vehicle_types.table.description') %></th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @vehicle_types.each do |vehicle_type|
- %>
-      <tr>
-        <td><%= vehicle_type.name %></td>
-        <td><%= vehicle_type.description %></td>
-        <td><%= link_to 'Show', admin_vehicle_type_path(vehicle_type) %></td>
-        <td><%= link_to 'Edit', edit_admin_vehicle_type_path(vehicle_type) %></td>
-        <td><%= link_to 'Destroy', admin_vehicle_type_path(vehicle_type), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to t('admin.vehicle_types.new'), new_admin_vehicle_type_path %>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.vehicle_types.title') %></h3>
+    <div class="card-tools">
+      <%= link_to t('admin.vehicle_types.new'), new_admin_vehicle_type_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th><%= t('admin.vehicle_types.table.name') %></th>
+          <th><%= t('admin.vehicle_types.table.description') %></th>
+          <th style="width: 150px"><%= t('common.actions') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @vehicle_types.each do |vehicle_type| %>
+          <tr>
+            <td><%= vehicle_type.name %></td>
+            <td><%= vehicle_type.description %></td>
+            <td>
+              <%= link_to t('common.show'), admin_vehicle_type_path(vehicle_type), class: "btn btn-sm btn-info" %>
+              <%= link_to t('common.edit'), edit_admin_vehicle_type_path(vehicle_type), class: "btn btn-sm btn-warning" %>
+              <%= link_to t('common.delete'), admin_vehicle_type_path(vehicle_type), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

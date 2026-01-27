@@ -1,5 +1,6 @@
-<h1><%= t('admin.fuels.new') %></h1>
-
-<%= render 'form', fuel: @fuel %>
-
-<%= link_to t('common.back'), admin_fuels_path %>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.fuels.new') %></h3>
+  </div>
+  <%= render 'form', fuel: @fuel %>
+</div>

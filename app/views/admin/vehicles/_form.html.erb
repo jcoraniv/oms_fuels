@@ -1,45 +1,56 @@
-<%= form_with(model: [:admin, vehicle], local: true) do |form|
- %>
-  <% if vehicle.errors.any?
- %>
-    <div id="error_explanation">
-      <h2><%= pluralize(vehicle.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "vehicle") %></h2>
-
+<%= form_with(model: [:admin, vehicle], local: true) do |form| %>
+  <% if vehicle.errors.any? %>
+    <div class="alert alert-danger">
+      <h5><%= pluralize(vehicle.errors.count, t("common.error")) %> <%= t("common.prohibited_from_saving", model: "vehicle") %></h5>
       <ul>
-        <% vehicle.errors.full_messages.each do |message|
- %>
+        <% vehicle.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :plate, t('activerecord.attributes.vehicle.plate') %>
-    <%= form.text_field :plate %>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :plate, t('activerecord.attributes.vehicle.plate') %>
+          <%= form.text_field :plate, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group mb-3">
+          <%= form.label :vehicle_type_id, t('activerecord.attributes.vehicle.vehicle_type') %>
+          <%= form.collection_select :vehicle_type_id, VehicleType.order(:name), :id, :name, { prompt: t('common.select') }, { class: 'form-control' } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :description, t('activerecord.attributes.vehicle.description') %>
+      <%= form.text_area :description, class: 'form-control', rows: 3 %>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :details, t('activerecord.attributes.vehicle.details') %>
+      <%= form.text_area :details, class: 'form-control', rows: 3 %>
+    </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :status, t('activerecord.attributes.vehicle.status') %>
+      <div>
+        <% Vehicle.statuses.keys.each do |status_key| %>
+          <div class="form-check form-check-inline">
+            <%= form.radio_button :status, status_key, class: 'form-check-input' %>
+            <%= form.label :status, t("activerecord.attributes.vehicle.statuses.#{status_key}"), value: status_key, class: 'form-check-label' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :description, t('activerecord.attributes.vehicle.description') %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :details, t('activerecord.attributes.vehicle.details') %>
-    <%= form.text_area :details %>
-  </div>
-
-  <div class="field">
-    <%= form.label :vehicle_type_id, t('activerecord.attributes.vehicle.vehicle_type') %>
-    <%= form.collection_select :vehicle_type_id, VehicleType.order(:name), :id, :name, prompt: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :status, t('activerecord.attributes.vehicle.status') %>
-    <%= form.select :status, options_for_select(Vehicle.statuses.keys.map { |s| [t("activerecord.attributes.vehicle.statuses." + s), s] }, vehicle.status), prompt: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="card-footer">
+    <%= form.submit t('common.save'), class: 'btn btn-primary' %>
+    <%= link_to t('common.back'), admin_vehicles_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>

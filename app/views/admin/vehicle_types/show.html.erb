@@ -1,14 +1,18 @@
-<p id="notice"><%= notice %></p>
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title"><%= t('admin.vehicle_types.details') %></h3>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3"><%= t('admin.vehicle_types.table.name') %></dt>
+      <dd class="col-sm-9"><%= @vehicle_type.name %></dd>
 
-<p>
-  <strong>Name:</strong>
-  <%= @vehicle_type.name %>
-</p>
-
-<p>
-  <strong><%= t('admin.vehicle_types.table.description') %>:</strong>
-  <%= @vehicle_type.description %>
-</p>
-
-<%= link_to 'Edit', edit_admin_vehicle_type_path(@vehicle_type) %> |
-<%= link_to t('common.back'), admin_vehicle_types_path %>
+      <dt class="col-sm-3"><%= t('admin.vehicle_types.table.description') %></dt>
+      <dd class="col-sm-9"><%= @vehicle_type.description %></dd>
+    </dl>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_vehicle_type_path(@vehicle_type), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_vehicle_types_path, class: 'btn btn-secondary' %>
+  </div>
+</div>
