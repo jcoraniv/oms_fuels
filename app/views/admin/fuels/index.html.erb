@@ -11,6 +11,7 @@
         <tr>
           <th><%= t('admin.fuels.table.description') %></th>
           <th><%= t('admin.fuels.table.unit_of_measure') %></th>
+          <th><%= t('admin.fuels.table.reference_price') %></th>
           <th style="width: 150px"><%= t('common.actions') %></th>
         </tr>
       </thead>
@@ -19,6 +20,7 @@
           <tr>
             <td><%= fuel.description %></td>
             <td><%= t("activerecord.attributes.fuel.units_of_measure." + fuel.unit_of_measure) %></td>
+            <td><%= number_to_currency(fuel.reference_price) if fuel.reference_price %></td>
             <td>
               <%= link_to t('common.show'), admin_fuel_path(fuel), class: "btn btn-sm btn-info" %>
               <%= link_to t('common.edit'), edit_admin_fuel_path(fuel), class: "btn btn-sm btn-warning" %>

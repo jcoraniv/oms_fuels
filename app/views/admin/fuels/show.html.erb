@@ -9,6 +9,9 @@
 
       <dt class="col-sm-3"><%= t('admin.fuels.table.unit_of_measure') %></dt>
       <dd class="col-sm-9"><%= t("activerecord.attributes.fuel.units_of_measure." + @fuel.unit_of_measure) %></dd>
+
+      <dt class="col-sm-3"><%= t('admin.fuels.table.reference_price') %></dt>
+      <dd class="col-sm-9"><%= number_to_currency(@fuel.reference_price) if @fuel.reference_price %></dd>
     </dl>
   </div>
   <div class="card-footer">

@@ -20,6 +20,11 @@
       <%= form.label :unit_of_measure, t('activerecord.attributes.fuel.unit_of_measure') %>
       <%= form.select :unit_of_measure, Fuel::UNITS_OF_MEASURE.map { |u| [t("activerecord.attributes.fuel.units_of_measure." + u.to_s), u] }, { prompt: t('admin.fuels.form.select_unit_of_measure') }, { class: 'form-control' } %>
     </div>
+
+    <div class="form-group mb-3">
+      <%= form.label :reference_price, t('activerecord.attributes.fuel.reference_price') %>
+      <%= form.number_field :reference_price, step: 0.01, class: 'form-control' %>
+    </div>
   </div>
 
   <div class="card-footer">

@@ -44,6 +44,6 @@ class Admin::FuelsController < Admin::BaseController
     end
 
     def fuel_params
-      params.require(:fuel).permit(:description, :unit_of_measure)
+      params.require(:fuel).permit(:description, :unit_of_measure, :reference_price)
     end
 end
