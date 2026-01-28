@@ -12,21 +12,32 @@
           <th><%= t('admin.positions.table.id') %></th>
           <th><%= t('admin.positions.table.code') %></th>
           <th><%= t('admin.positions.table.name') %></th>
+          <th>Department</th>
+          <th>Assigned To</th>
           <th><%= t('admin.positions.table.status') %></th>
           <th style="width: 150px"><%= t('common.actions') %></th>
         </tr>
       </thead>
       <tbody>
-        <% @positions.each do |position| %>
+        <% @org_positions.each do |org_position| %>
           <tr>
-            <td><%= position.id %></td>
-            <td><%= position.code %></td>
-            <td><%= position.name %></td>
-            <td><span class="badge bg-<%= position.active? ? 'success' : 'secondary' %>"><%= position.status.humanize %></span></td>
+            <td><%= org_position.id %></td>
+            <td><%= org_position.position.code %></td>
+            <td><%= org_position.position.name %></td>
+            <td><%= org_position.org_structure.department.name %></td>
             <td>
-              <%= link_to t('common.show'), admin_position_path(position), class: "btn btn-sm btn-info" %>
-              <%= link_to t('common.edit'), edit_admin_position_path(position), class: "btn btn-sm btn-warning" %>
-              <%= button_to t('common.delete'), admin_position_path(position), method: :delete, data: { turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
+              <% current_assignments = org_position.assignments.select { |a| a.personal_id.present? && (a.start_date.nil? || (a.start_date <= Date.current && (a.end_date.nil? || a.end_date >= Date.current))) } %>
+              <% if current_assignments.any? %>
+                <%= current_assignments.map { |a| a.personal.full_name }.join(', ') %>
+              <% else %>
+                <span class="text-muted">-</span>
+              <% end %>
+            </td>
+            <td><span class="badge bg-<%= org_position.position.active? ? 'success' : 'secondary' %>"><%= org_position.position.status.humanize %></span></td>
+            <td>
+              <%= link_to t('common.show'), admin_position_path(org_position), class: "btn btn-sm btn-info" %>
+              <%= link_to t('common.edit'), edit_admin_position_path(org_position), class: "btn btn-sm btn-warning" %>
+              <%= button_to t('common.delete'), admin_position_path(org_position), method: :delete, data: { turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
             </td>
           </tr>
         <% end %>

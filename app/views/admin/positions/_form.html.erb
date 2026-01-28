@@ -1,9 +1,9 @@
-<%= form_with(model: [:admin, @position], local: true) do |form| %>
-  <% if @position.errors.any? %>
+<%= form_with(model: [:admin, @org_position], url: @org_position.persisted? ? admin_position_path(@org_position) : admin_positions_path, local: true) do |form| %>
+  <% if @org_position.errors.any? %>
     <div id="error_explanation" class="alert alert-danger">
-      <h2><%= pluralize(@position.errors.count, "error") %> prohibited this position from being saved:</h2>
+      <h2><%= pluralize(@org_position.errors.count, "error") %> prohibited this position from being saved:</h2>
       <ul>
-        <% @position.errors.full_messages.each do |message| %>
+        <% @org_position.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
       </ul>
@@ -14,31 +14,84 @@
     <div class="row">
       <div class="col-md-6">
         <div class="form-group mb-3">
-          <%= form.label :code, t('activerecord.attributes.position.code') %>
-          <%= form.text_field :code, class: 'form-control' %>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group mb-3">
-          <%= form.label :name, t('activerecord.attributes.position.name') %>
-          <%= form.text_field :name, class: 'form-control' %>
+          <%= form.label :org_structure_id, 'Department' %>
+          <%= form.select :org_structure_id, 
+              options_from_collection_for_select(@org_structures, :id, ->(os) { os.department.name }, @org_position.org_structure_id), 
+              { prompt: 'Select Department' }, 
+              { class: 'form-control select2', required: true } %>
         </div>
       </div>
     </div>
-    <% if @position.persisted? %>
+
+    <%= form.fields_for :position do |pos_form| %>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group mb-3">
-            <%= form.label :status, t('activerecord.attributes.position.status') %>
-            <%= form.select :status, Position.statuses.keys.map { |k| [k.humanize, k] }, {}, class: 'form-control select2' %>
+            <%= pos_form.label :code, t('activerecord.attributes.position.code') %>
+            <%= pos_form.text_field :code, class: 'form-control', required: true %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group mb-3">
+            <%= pos_form.label :name, t('activerecord.attributes.position.name') %>
+            <%= pos_form.text_field :name, class: 'form-control', required: true %>
           </div>
         </div>
       </div>
+      <% if @org_position.persisted? %>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <%= pos_form.label :status, t('activerecord.attributes.position.status') %>
+              <%= pos_form.select :status, Position.statuses.keys.map { |k| [k.humanize, k] }, {}, class: 'form-control select2' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
     <% end %>
+
+    <h5 class="mt-4 mb-3">Assignments (Optional)</h5>
+    <div id="assignments">
+      <%= form.fields_for :assignments do |assignment_form| %>
+        <div class="assignment-fields border p-3 mb-3">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group mb-3">
+                <%= assignment_form.label :personal_id, 'Personal' %>
+                <%= assignment_form.select :personal_id, 
+                    options_from_collection_for_select(@personals, :id, :full_name), 
+                    { prompt: 'Select Personal' }, 
+                    { class: 'form-control select2' } %>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group mb-3">
+                <%= assignment_form.label :start_date, 'Start Date' %>
+                <%= assignment_form.date_field :start_date, class: 'form-control' %>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group mb-3">
+                <%= assignment_form.label :end_date, 'End Date (Optional)' %>
+                <%= assignment_form.date_field :end_date, class: 'form-control' %>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group mb-3">
+                <label>&nbsp;</label>
+                <% if assignment_form.object.persisted? %>
+                  <%= assignment_form.check_box :_destroy %>
+                  <%= assignment_form.label :_destroy, 'Remove' %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
   <div class="card-footer">
     <%= form.submit t('common.save'), class: 'btn btn-primary' %>
     <%= link_to t('common.back'), admin_positions_path, class: 'btn btn-secondary' %>
   </div>
 <% end %>
-
