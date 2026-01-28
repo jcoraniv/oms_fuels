@@ -1,0 +1,33 @@
+<%= form_with(model: [:admin, @org_structure], url: @org_structure.persisted? ? admin_department_path(@org_structure) : admin_departments_path, local: true) do |form| %>
+  <% if @org_structure.errors.any? %>
+    <div class="alert alert-danger">
+      <h2><%= pluralize(@org_structure.errors.count, "error") %> prohibited this department from being saved:</h2>
+      <ul>
+        <% @org_structure.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <%= form.fields_for :department do |dept_form| %>
+      <div class="form-group mb-3">
+        <%= dept_form.label :name, 'Department Name' %>
+        <%= dept_form.text_field :name, class: 'form-control', required: true %>
+      </div>
+    <% end %>
+    
+    <div class="form-group mb-3">
+      <%= form.label :parent_dept_id, 'Parent Department (Optional)' %>
+      <%= form.select :parent_dept_id, 
+          options_from_collection_for_select(@parent_departments || [], :id, ->(os) { os.department.name }, @org_structure.parent_dept_id), 
+          { prompt: 'None - Top Level' }, 
+          { class: 'form-control select2' } %>
+    </div>
+  </div>
+  <div class="card-footer">
+    <%= form.submit t('common.save'), class: 'btn btn-primary' %>
+    <%= link_to t('common.back'), admin_departments_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

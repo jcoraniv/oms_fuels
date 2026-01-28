@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Departments</h3>
+    <div class="card-tools">
+      <%= link_to 'New Department', new_admin_department_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Parent Department</th>
+          <th style="width: 150px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @org_structures.each do |org_structure| %>
+          <tr>
+            <td><%= org_structure.id %></td>
+            <td><%= org_structure.department.name %></td>
+            <td>
+              <% if org_structure.parent_dept %>
+                <%= org_structure.parent_dept.department.name %>
+              <% else %>
+                <span class="text-muted">-</span>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to t('common.show'), admin_department_path(org_structure), class: "btn btn-sm btn-info" %>
+              <%= link_to t('common.edit'), edit_admin_department_path(org_structure), class: "btn btn-sm btn-warning" %>
+              <%= button_to t('common.delete'), admin_department_path(org_structure), method: :delete, data: { turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

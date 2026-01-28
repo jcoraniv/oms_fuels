@@ -1,0 +1,27 @@
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title">Department Details</h3>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3">Name</dt>
+      <dd class="col-sm-9"><%= @org_structure.department.name %></dd>
+      
+      <dt class="col-sm-3">Gestion</dt>
+      <dd class="col-sm-9"><%= @org_structure.gestion.name %></dd>
+      
+      <dt class="col-sm-3">Parent Department</dt>
+      <dd class="col-sm-9">
+        <% if @org_structure.parent_dept %>
+          <%= @org_structure.parent_dept.department.name %>
+        <% else %>
+          <span class="text-muted">None - Top Level</span>
+        <% end %>
+      </dd>
+    </dl>
+  </div>
+  <div class="card-footer">
+    <%= link_to t('common.edit'), edit_admin_department_path(@org_structure), class: 'btn btn-warning' %>
+    <%= link_to t('common.back'), admin_departments_path, class: 'btn btn-secondary' %>
+  </div>
+</div>

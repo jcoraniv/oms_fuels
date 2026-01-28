@@ -6,5 +6,7 @@ class OrgStructure < ApplicationRecord
   has_many :child_depts, class_name: 'OrgStructure', foreign_key: 'parent_dept_id', dependent: :destroy
   has_many :org_positions, dependent: :destroy
 
+  accepts_nested_attributes_for :department
+
   validates :gestion_id, uniqueness: { scope: :department_id, message: "This department is already part of the organizational structure for this gestion." }
 end
