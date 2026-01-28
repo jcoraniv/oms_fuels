@@ -10,8 +10,8 @@ class Admin::UsersController < Admin::BaseController
 
   def new
     @user = User.new
-    @user.build_personal
     @roles = Role.all
+    @personals = Personal.where.not(id: User.select(:personal_id))
   end
 
   def create
@@ -27,6 +27,7 @@ class Admin::UsersController < Admin::BaseController
 
   def edit
     @roles = Role.all
+    @personals = Personal.where.not(id: User.where.not(id: @user.id).select(:personal_id))
   end
 
   def update
@@ -53,10 +54,8 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def user_params
-    params_hash = params.require(:user).permit(:email, :password, :password_confirmation, :role_id, :active,
-      personal_attributes: [:id, :first_name, :last_name, :email, :phone, :ci])
+    params_hash = params.require(:user).permit(:email, :password, :password_confirmation, :role_id, :active, :personal_id)
     
-    # If password is blank, remove it to avoid updating
     if params_hash[:password].blank?
       params_hash.delete(:password)
       params_hash.delete(:password_confirmation)
