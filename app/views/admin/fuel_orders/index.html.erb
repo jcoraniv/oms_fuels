@@ -11,22 +11,46 @@
         <tr>
           <th><%= t('admin.fuel_orders.table.number') %></th>
           <th><%= t('admin.fuel_orders.table.requester') %></th>
+          <th>Approved By</th>
           <th><%= t('admin.fuel_orders.table.total') %></th>
           <th><%= t('admin.fuel_orders.table.status') %></th>
-          <th style="width: 150px"><%= t('common.actions') %></th>
+          <th style="width: 250px"><%= t('common.actions') %></th>
         </tr>
       </thead>
       <tbody>
         <% @fuel_orders.each do |order| %>
           <tr>
-            <td><%= order.number %></td>
+            <td><%= link_to order.number, admin_fuel_order_path(order), class: "text-primary" %></td>
             <td><%= order.requester_assignment.personal.full_name %></td>
-            <td><%= number_to_currency(order.total) %></td>
-            <td><span class="badge bg-info"><%= t("admin.fuel_orders.status.#{order.status}") %></span></td>
             <td>
-              <%= link_to t('common.show'), admin_fuel_order_path(order), class: "btn btn-sm btn-info" %>
-              <%= link_to t('common.edit'), edit_admin_fuel_order_path(order), class: "btn btn-sm btn-warning" %>
-              <%= link_to t('common.delete'), admin_fuel_order_path(order), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+              <% if order.approver_assignment %>
+                <%= order.approver_assignment.personal.full_name %>
+              <% else %>
+                <span class="text-muted">-</span>
+              <% end %>
+            </td>
+            <td><%= number_to_currency(order.total) %></td>
+            <td>
+              <% 
+                badge_color = case order.status
+                when 'pending' then 'warning'
+                when 'approved' then 'success'
+                when 'completed' then 'primary'
+                when 'canceled' then 'danger'
+                end
+              %>
+              <span class="badge bg-<%= badge_color %>"><%= t("admin.fuel_orders.status.#{order.status}") %></span>
+            </td>
+            <td>
+              <% if order.pending? %>
+                <%= button_to 'Approve', approve_admin_fuel_order_path(order), method: :patch, class: "btn btn-sm btn-success", form: { style: "display: inline-block;" } %>
+                <%= button_to 'Cancel', cancel_admin_fuel_order_path(order), method: :patch, data: { turbo_confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
+              <% elsif order.approved? %>
+                <%= button_to 'Complete', complete_admin_fuel_order_path(order), method: :patch, class: "btn btn-sm btn-primary", form: { style: "display: inline-block;" } %>
+                <%= button_to 'Cancel', cancel_admin_fuel_order_path(order), method: :patch, data: { turbo_confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
+              <% elsif order.completed? %>
+                <%= link_to 'Print', admin_fuel_order_path(order, format: :pdf), class: "btn btn-sm btn-secondary", target: "_blank" %>
+              <% end %>
             </td>
           </tr>
         <% end %>

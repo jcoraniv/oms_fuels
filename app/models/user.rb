@@ -39,4 +39,8 @@ class User < ApplicationRecord
   def employee?
     role.name == 'Employee'
   end
+
+  def operation?
+    role.name == 'Operation'
+  end
 end

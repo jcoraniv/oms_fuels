@@ -14,7 +14,7 @@ class FuelOrder < ApplicationRecord
   validates :total, numericality: { greater_than_or_equal_to: 0 }
 
   before_validation :generate_number, on: :create
-  before_save :calculate_total
+  after_save :calculate_total
 
   private
 
@@ -27,6 +27,7 @@ class FuelOrder < ApplicationRecord
   end
 
   def calculate_total
-    self.total = fuel_order_items.sum(&:partial_price)
+    total_amount = fuel_order_items.reject(&:marked_for_destruction?).sum { |item| item.partial_price || 0 }
+    update_column(:total, total_amount) if total != total_amount
   end
 end

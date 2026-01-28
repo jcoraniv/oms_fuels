@@ -23,7 +23,13 @@ Rails.application.routes.draw do
     resources :professions
     resources :positions
     resources :departments
-    resources :fuel_orders
+    resources :fuel_orders do
+      member do
+        patch :approve
+        patch :complete
+        patch :cancel
+      end
+    end
     resources :vehicle_types
     resources :vehicles
     resources :fuels

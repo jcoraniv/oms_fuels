@@ -20,12 +20,6 @@
       </div>
       <div class="col-md-6">
         <div class="form-group mb-3">
-          <%= form.label :status, t('admin.fuel_orders.form.status') %>
-          <%= form.select :status, FuelOrder.statuses.keys.map { |s| [t("admin.fuel_orders.status.#{s}"), s] }, {}, { class: 'form-control' } %>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group mb-3">
           <%= form.label :vehicle_id, t('activerecord.attributes.fuel_order.vehicle') %>
           <%= form.collection_select :vehicle_id, @vehicles || [], :id, ->(v) { "#{v.plate} - #{v.description}" }, { prompt: t('admin.fuel_orders.form.select_vehicle') }, { class: 'form-control select2' } %>
         </div>
@@ -176,6 +170,8 @@
       if (destroyInput.length) {
         destroyInput.val('1');
         row.hide();
+        // Disable required fields when hiding
+        row.find('input[required], select[required]').prop('required', false);
       } else {
         row.remove();
       }

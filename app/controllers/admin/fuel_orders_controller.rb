@@ -1,10 +1,10 @@
 class Admin::FuelOrdersController < Admin::BaseController
-  before_action :set_fuel_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_fuel_order, only: [:show, :edit, :update, :destroy, :approve, :complete, :cancel]
   before_action :set_assignments, only: [:new, :create, :edit, :update]
   before_action :set_vehicles, only: [:new, :create, :edit, :update]
 
   def index
-    @fuel_orders = FuelOrder.includes(:gestion, requester_assignment: :personal).all
+    @fuel_orders = FuelOrder.includes(:gestion, requester_assignment: :personal, approver_assignment: :personal).all
   end
 
   def show
@@ -35,6 +35,7 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def edit
+    @fuel_order.vehicle_id = @fuel_order.fuel_order_items.first&.vehicle_id
   end
 
   def update
@@ -55,6 +56,31 @@ class Admin::FuelOrdersController < Admin::BaseController
   def destroy
     @fuel_order.destroy
     redirect_to admin_fuel_orders_path, notice: t('common.destroyed')
+  end
+
+  def approve
+    @fuel_order.update(
+      status: :approved,
+      approved_at: Time.current,
+      approver_assignment_id: current_user.personal.assignments.last&.id
+    )
+    redirect_to admin_fuel_orders_path, notice: 'Order approved successfully'
+  end
+
+  def complete
+    @fuel_order.update(
+      status: :completed,
+      completed_at: Time.current
+    )
+    redirect_to admin_fuel_orders_path, notice: 'Order completed successfully'
+  end
+
+  def cancel
+    @fuel_order.update(
+      status: :canceled,
+      canceled_at: Time.current
+    )
+    redirect_to admin_fuel_orders_path, notice: 'Order canceled successfully'
   end
 
   private
