@@ -1,12 +1,32 @@
-<div class="card card-info">
+<% 
+  badge_color = case @fuel_order.status
+  when 'pending' then 'warning'
+  when 'approved' then 'success'
+  when 'completed' then 'info'
+  when 'canceled' then 'danger'
+  end
+%>
+<div class="card card-<%= badge_color %>">
   <div class="card-header">
     <h3 class="card-title"><%= t('admin.fuel_orders.details') %></h3>
   </div>
   <div class="card-body">
-    <p><strong><%= t('admin.fuel_orders.table.number') %>:</strong> <%= @fuel_order.number %></p>
-    <p><strong><%= t('admin.fuel_orders.table.requester') %>:</strong> <%= @fuel_order.requester_assignment.personal.full_name %></p>
-    <p><strong><%= t('admin.fuel_orders.table.total') %>:</strong> <%= number_to_currency(@fuel_order.total) %></p>
-    <p><strong><%= t('admin.fuel_orders.table.status') %>:</strong> <span class="badge bg-info"><%= t("admin.fuel_orders.status.#{@fuel_order.status}") %></span></p>
+    <div class="d-flex justify-content-between align-items-start">
+      <div>
+        <p><strong><%= t('admin.fuel_orders.table.number') %>:</strong> <%= @fuel_order.formatted_number %></p>
+        <p><strong><%= t('admin.fuel_orders.table.requester') %>:</strong> <%= @fuel_order.requester_assignment.personal.full_name %></p>
+        <p><strong>Vehicle:</strong> <%= @fuel_order.fuel_order_items.first&.vehicle&.plate || 'N/A' %></p>
+      </div>
+      <div class="text-center">
+        <span class="badge bg-<%= badge_color %> fs-5"><%= t("admin.fuel_orders.status.#{@fuel_order.status}") %></span>
+        <% if @fuel_order.approver_assignment %>
+          <div class="mt-2 text-muted small">
+            <strong>Approved By:</strong><br>
+            <%= @fuel_order.approver_assignment.personal.full_name %>
+          </div>
+        <% end %>
+      </div>
+    </div>
 
     <h4 class="mt-4 mb-3"><%= t('admin.fuel_orders.items.title') %></h4>
 
@@ -14,22 +34,27 @@
       <thead>
         <tr>
           <th><%= t('admin.fuel_orders.items.fuel') %></th>
-          <th><%= t('admin.fuel_orders.items.quantity') %></th>
-          <th><%= t('admin.fuel_orders.items.unit_price') %></th>
-          <th>Total</th>
+          <th class="text-end"><%= t('admin.fuel_orders.items.quantity') %></th>
+          <th class="text-end"><%= t('admin.fuel_orders.items.unit_price') %></th>
+          <th class="text-end">Total</th>
         </tr>
       </thead>
       <tbody>
         <% @fuel_order.fuel_order_items.each do |item| %>
           <tr>
             <td><%= item.fuel.description %></td>
-            <td><%= item.vehicle.present? ? item.vehicle.plate : 'N/A' %></td>
-            <td><%= item.quantity_ordered %></td>
-            <td><%= number_to_currency(item.unit_price) %></td>
-            <td><%= number_to_currency(item.partial_price) %></td>
+            <td class="text-end"><%= number_with_precision(item.quantity_ordered, precision: 2) %></td>
+            <td class="text-end"><%= number_to_currency(item.unit_price) %></td>
+            <td class="text-end"><%= number_to_currency(item.partial_price) %></td>
           </tr>
         <% end %>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" class="text-end"><strong><%= t('admin.fuel_orders.table.total') %>:</strong></td>
+          <td class="text-end"><strong><%= number_to_currency(@fuel_order.total) %></strong></td>
+        </tr>
+      </tfoot>
     </table>
   </div>
   <div class="card-footer">

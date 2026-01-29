@@ -10,20 +10,26 @@ class FuelOrder < ApplicationRecord
 
   enum :status, { pending: 'pending', approved: 'approved', completed: 'completed', canceled: 'canceled' }, default: 'pending'
 
-  validates :number, presence: true, uniqueness: true
+  validates :number, presence: true, uniqueness: { scope: :gestion_id }
   validates :total, numericality: { greater_than_or_equal_to: 0 }
 
-  before_validation :generate_number, on: :create
+  before_create :generate_number
   after_save :calculate_total
+
+  def formatted_number
+    number.to_s.rjust(4, '0')
+  end
 
   private
 
   def generate_number
     return if number.present?
     
-    last_order = FuelOrder.order(id: :desc).first
-    next_sequence = last_order ? last_order.id + 1 : 1
-    self.number = "OC-#{next_sequence.to_s.rjust(4, '0')}"
+    FuelOrder.transaction do
+      last_order = FuelOrder.where(gestion_id: gestion_id).lock.order(number: :desc).first
+      next_sequence = last_order ? last_order.number.to_i + 1 : 1
+      self.number = next_sequence.to_s
+    end
   end
 
   def calculate_total

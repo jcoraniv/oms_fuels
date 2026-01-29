@@ -4,7 +4,9 @@ class Admin::FuelOrdersController < Admin::BaseController
   before_action :set_vehicles, only: [:new, :create, :edit, :update]
 
   def index
-    @fuel_orders = FuelOrder.includes(:gestion, requester_assignment: :personal, approver_assignment: :personal).all
+    @fuel_orders = FuelOrder.includes(:gestion, requester_assignment: :personal, approver_assignment: :personal)
+                            .where(gestion_id: current_user.current_gestion&.id)
+                            .order(created_at: :desc)
   end
 
   def show
