@@ -8,12 +8,14 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :personal
 
+  enum :status, { active: 0, deleted: 1 }, default: :active
+
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
   validates :role_id, presence: true
   validates :personal_id, presence: true
 
-  scope :active, -> { where(active: true) }
+  scope :not_deleted, -> { where.not(status: 1) }
 
   def current_gestion
     user_gestions.find_by(current: true)&.gestion
@@ -42,5 +44,9 @@ class User < ApplicationRecord
 
   def operation?
     role.name == 'Operation'
+  end
+
+  def soft_delete
+    update(status: :deleted)
   end
 end

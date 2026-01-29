@@ -36,12 +36,6 @@
         { prompt: t('admin.users.table.role') }, { class: "form-select select2", required: true } %>
   </div>
 
-  <div class="mb-3">
-    <%= f.label :active, t('admin.users.table.status'), class: "form-label" %>
-    <%= f.check_box :active, class: "form-check-input" %>
-    <%= f.label :active, t('admin.users.table.active'), class: "form-check-label" %>
-  </div>
-
   <div class="d-flex justify-content-between">
     <%= link_to t('common.cancel'), admin_users_path, class: "btn btn-secondary" %>
     <%= f.submit t('common.save'), class: "btn btn-primary" %>

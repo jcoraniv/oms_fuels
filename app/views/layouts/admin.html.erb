@@ -45,7 +45,7 @@
 
       <!--begin::End Navbar Links-->
       <ul class="navbar-nav ms-auto">
-        <!--begin::Gestión Dropdown-->
+        <!--begin::Gestion Dropdown-->
         <% if current_user&.current_gestion %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -67,7 +67,7 @@
             </ul>
           </li>
         <% end %>
-        <!--end::Gestión Dropdown-->
+        <!--end::Gestion Dropdown-->
 
         <!--begin::User Menu Dropdown-->
         <% if current_user %>
@@ -112,66 +112,68 @@
       <nav class="mt-2">
         <!--begin::Sidebar Menu-->
         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" data-accordion="false">
-          <!-- Administration -->
-          <li class="nav-header">ADMINISTRATION</li>
-          <li class="nav-item <%= 'menu-open' if ['admin/personals', 'admin/professions', 'admin/users'].include?(controller_path) %>">
-            <a href="#" class="nav-link <%= 'active' if ['admin/personals', 'admin/professions', 'admin/users'].include?(controller_path) %>">
-              <i class="nav-icon bi bi-people"></i>
-              <p>
-                Human Resources
-                <i class="nav-arrow bi bi-chevron-right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<%= admin_personals_path %>" class="nav-link <%= 'active' if controller_path == 'admin/personals' %>">
-                  <i class="nav-icon bi bi-person-badge"></i>
-                  <p><%= t('admin.menu.personal') %></p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<%= admin_professions_path %>" class="nav-link <%= 'active' if controller_path == 'admin/professions' %>">
-                  <i class="nav-icon bi bi-mortarboard"></i>
-                  <p><%= t('admin.menu.professions') %></p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<%= admin_users_path %>" class="nav-link <%= 'active' if controller_path == 'admin/users' %>">
-                  <i class="nav-icon bi bi-person-lock"></i>
-                  <p><%= t('admin.menu.users') %></p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item <%= 'menu-open' if ['admin/positions', 'admin/departments'].include?(controller_path) %>">
-            <a href="#" class="nav-link <%= 'active' if ['admin/positions', 'admin/departments'].include?(controller_path) %>">
-              <i class="nav-icon bi bi-diagram-3"></i>
-              <p>
-                Organization
-                <i class="nav-arrow bi bi-chevron-right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<%= admin_positions_path %>" class="nav-link <%= 'active' if controller_path == 'admin/positions' %>">
-                  <i class="nav-icon bi bi-briefcase"></i>
-                  <p><%= t('admin.menu.positions') %></p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<%= admin_departments_path %>" class="nav-link <%= 'active' if controller_path == 'admin/departments' %>">
-                  <i class="nav-icon bi bi-building"></i>
-                  <p>Departments</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="<%= admin_gestions_path %>" class="nav-link <%= 'active' if controller_path == 'admin/gestions' %>">
-              <i class="nav-icon bi bi-calendar-range"></i>
-              <p><%= t('admin.menu.gestions') %></p>
-            </a>
-          </li>
+          <% if current_user.admin? %>
+            <!-- Administration -->
+            <li class="nav-header">ADMINISTRATION</li>
+            <li class="nav-item <%= 'menu-open' if ['admin/personals', 'admin/professions', 'admin/users'].include?(controller_path) %>">
+              <a href="#" class="nav-link <%= 'active' if ['admin/personals', 'admin/professions', 'admin/users'].include?(controller_path) %>">
+                <i class="nav-icon bi bi-people"></i>
+                <p>
+                  Human Resources
+                  <i class="nav-arrow bi bi-chevron-right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<%= admin_personals_path %>" class="nav-link <%= 'active' if controller_path == 'admin/personals' %>">
+                    <i class="nav-icon bi bi-person-badge"></i>
+                    <p><%= t('admin.menu.personal') %></p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<%= admin_professions_path %>" class="nav-link <%= 'active' if controller_path == 'admin/professions' %>">
+                    <i class="nav-icon bi bi-mortarboard"></i>
+                    <p><%= t('admin.menu.professions') %></p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<%= admin_users_path %>" class="nav-link <%= 'active' if controller_path == 'admin/users' %>">
+                    <i class="nav-icon bi bi-person-lock"></i>
+                    <p><%= t('admin.menu.users') %></p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item <%= 'menu-open' if ['admin/positions', 'admin/departments'].include?(controller_path) %>">
+              <a href="#" class="nav-link <%= 'active' if ['admin/positions', 'admin/departments'].include?(controller_path) %>">
+                <i class="nav-icon bi bi-diagram-3"></i>
+                <p>
+                  Organization
+                  <i class="nav-arrow bi bi-chevron-right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<%= admin_positions_path %>" class="nav-link <%= 'active' if controller_path == 'admin/positions' %>">
+                    <i class="nav-icon bi bi-briefcase"></i>
+                    <p><%= t('admin.menu.positions') %></p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<%= admin_departments_path %>" class="nav-link <%= 'active' if controller_path == 'admin/departments' %>">
+                    <i class="nav-icon bi bi-building"></i>
+                    <p>Departments</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="<%= admin_gestions_path %>" class="nav-link <%= 'active' if controller_path == 'admin/gestions' %>">
+                <i class="nav-icon bi bi-calendar-range"></i>
+                <p><%= t('admin.menu.gestions') %></p>
+              </a>
+            </li>
+          <% end %>
 
           <!-- Orders -->
           <li class="nav-header">ORDERS</li>
@@ -183,36 +185,38 @@
           </li>
 
           <!-- Vehicle Fleet -->
-          <li class="nav-header">VEHICLE FLEET</li>
-          <li class="nav-item <%= 'menu-open' if ['admin/vehicle_types', 'admin/vehicles'].include?(controller_path) %>">
-            <a href="#" class="nav-link <%= 'active' if ['admin/vehicle_types', 'admin/vehicles'].include?(controller_path) %>">
-              <i class="nav-icon bi bi-truck"></i>
-              <p>
-                Vehicles
-                <i class="nav-arrow bi bi-chevron-right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<%= admin_vehicle_types_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicle_types' %>">
-                  <i class="nav-icon bi bi-car-front"></i>
-                  <p>Vehicle Types</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<%= admin_vehicles_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicles' %>">
-                  <i class="nav-icon bi bi-truck-front"></i>
-                  <p>Vehicles</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="<%= admin_fuels_path %>" class="nav-link <%= 'active' if controller_path == 'admin/fuels' %>">
-              <i class="nav-icon bi bi-fuel-pump-fill"></i>
-              <p><%= t('admin.menu.fuels') %></p>
-            </a>
-          </li>
+          <% if current_user.admin? %>
+            <li class="nav-header">VEHICLE FLEET</li>
+            <li class="nav-item <%= 'menu-open' if ['admin/vehicle_types', 'admin/vehicles'].include?(controller_path) %>">
+              <a href="#" class="nav-link <%= 'active' if ['admin/vehicle_types', 'admin/vehicles'].include?(controller_path) %>">
+                <i class="nav-icon bi bi-truck"></i>
+                <p>
+                  Vehicles
+                  <i class="nav-arrow bi bi-chevron-right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<%= admin_vehicle_types_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicle_types' %>">
+                    <i class="nav-icon bi bi-car-front"></i>
+                    <p>Vehicle Types</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<%= admin_vehicles_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicles' %>">
+                    <i class="nav-icon bi bi-truck-front"></i>
+                    <p>Vehicles</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="<%= admin_fuels_path %>" class="nav-link <%= 'active' if controller_path == 'admin/fuels' %>">
+                <i class="nav-icon bi bi-fuel-pump-fill"></i>
+                <p><%= t('admin.menu.fuels') %></p>
+              </a>
+            </li>
+          <% end %>
         </ul>
         <!--end::Sidebar Menu-->
       </nav>

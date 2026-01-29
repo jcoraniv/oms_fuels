@@ -4,22 +4,24 @@ class Admin::FuelOrdersController < Admin::BaseController
   before_action :set_vehicles, only: [:new, :create, :edit, :update]
 
   def index
-    @fuel_orders = FuelOrder.includes(:gestion, requester_assignment: :personal, approver_assignment: :personal)
-                            .where(gestion_id: current_user.current_gestion&.id)
+    @fuel_orders = policy_scope(FuelOrder).includes(:gestion, requester_assignment: :personal, approver_assignment: :personal)
                             .order(created_at: :desc)
   end
 
   def show
+    authorize @fuel_order
   end
 
   def new
     @fuel_order = FuelOrder.new
+    authorize @fuel_order
     @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
     @fuel_order.fuel_order_items.build # Build one item by default
   end
 
   def create
     @fuel_order = FuelOrder.new(fuel_order_params)
+    authorize @fuel_order
     @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
 
     # Assign vehicle_id to all fuel_order_items before saving
@@ -37,10 +39,12 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def edit
+    authorize @fuel_order
     @fuel_order.vehicle_id = @fuel_order.fuel_order_items.first&.vehicle_id
   end
 
   def update
+    authorize @fuel_order
     # Assign vehicle_id to all fuel_order_items before saving
     if fuel_order_params[:vehicle_id].present?
       @fuel_order.fuel_order_items.each do |item|
@@ -56,11 +60,13 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def destroy
+    authorize @fuel_order
     @fuel_order.destroy
     redirect_to admin_fuel_orders_path, notice: t('common.destroyed')
   end
 
   def approve
+    authorize @fuel_order
     @fuel_order.update(
       status: :approved,
       approved_at: Time.current,
@@ -70,6 +76,7 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def complete
+    authorize @fuel_order
     @fuel_order.update(
       status: :completed,
       completed_at: Time.current
@@ -78,6 +85,7 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def cancel
+    authorize @fuel_order
     @fuel_order.update(
       status: :canceled,
       canceled_at: Time.current

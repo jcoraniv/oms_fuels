@@ -42,13 +42,16 @@
               <span class="badge bg-<%= badge_color %>"><%= t("admin.fuel_orders.status.#{order.status}") %></span>
             </td>
             <td>
-              <% if order.pending? %>
+              <% if policy(order).approve? && order.pending? %>
                 <%= button_to 'Approve', approve_admin_fuel_order_path(order), method: :patch, class: "btn btn-sm btn-success", form: { style: "display: inline-block;" } %>
+              <% end %>
+              <% if policy(order).cancel? && (order.pending? || order.approved?) %>
                 <%= button_to 'Cancel', cancel_admin_fuel_order_path(order), method: :patch, data: { turbo_confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
-              <% elsif order.approved? %>
+              <% end %>
+              <% if policy(order).complete? && order.approved? %>
                 <%= button_to 'Complete', complete_admin_fuel_order_path(order), method: :patch, class: "btn btn-sm btn-info", form: { style: "display: inline-block;" } %>
-                <%= button_to 'Cancel', cancel_admin_fuel_order_path(order), method: :patch, data: { turbo_confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
-              <% elsif order.completed? %>
+              <% end %>
+              <% if order.completed? %>
                 <%= link_to 'Print', admin_fuel_order_path(order, format: :pdf), class: "btn btn-sm btn-secondary", target: "_blank" %>
               <% end %>
             </td>
