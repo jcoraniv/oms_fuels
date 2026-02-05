@@ -1,8 +1,71 @@
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title"><%= t('admin.dashboard.title') %></h3>
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Dashboard</h1>
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <%= t('admin.dashboard.welcome_msg') %>
+</div>
+
+<div class="row">
+  <div class="col-lg-3 col-6">
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3><%= @orders_by_status[:pending] %></h3>
+        <p><%= t('admin.dashboard.pending_orders') %></p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-clock"></i>
+      </div>
+      <%= link_to admin_fuel_orders_path(status: 'pending'), class: 'small-box-footer' do %>
+        <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-6">
+    <div class="small-box bg-success">
+      <div class="inner">
+        <h3><%= @orders_by_status[:approved] %></h3>
+        <p><%= t('admin.dashboard.approved_orders') %></p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <%= link_to admin_fuel_orders_path(status: 'approved'), class: 'small-box-footer' do %>
+        <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-6">
+    <div class="small-box bg-primary">
+      <div class="inner">
+        <h3><%= @orders_by_status[:completed] %></h3>
+        <p><%= t('admin.dashboard.completed_orders') %></p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-flag-checkered"></i>
+      </div>
+      <%= link_to admin_fuel_orders_path(status: 'completed'), class: 'small-box-footer' do %>
+        <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-6">
+    <div class="small-box bg-danger">
+      <div class="inner">
+        <h3><%= @orders_by_status[:canceled] %></h3>
+        <p><%= t('admin.dashboard.canceled_orders') %></p>
+      </div>
+      <div class="icon">
+        <i class="fas fa-times-circle"></i>
+      </div>
+      <%= link_to admin_fuel_orders_path(status: 'canceled'), class: 'small-box-footer' do %>
+        <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
+      <% end %>
+    </div>
   </div>
 </div>
