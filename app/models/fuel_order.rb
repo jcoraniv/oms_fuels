@@ -10,10 +10,10 @@ class FuelOrder < ApplicationRecord
 
   enum :status, { pending: 'pending', approved: 'approved', completed: 'completed', canceled: 'canceled' }, default: 'pending'
 
-  validates :number, presence: true, uniqueness: { scope: :gestion_id }
+  validates :number, presence: true, uniqueness: { scope: :gestion_id }, on: :update
   validates :total, numericality: { greater_than_or_equal_to: 0 }
 
-  before_create :generate_number
+  before_validation :generate_number, on: :create
   after_save :calculate_total
 
   def formatted_number

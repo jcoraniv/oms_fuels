@@ -10,6 +10,14 @@ class Admin::FuelOrdersController < Admin::BaseController
 
   def show
     authorize @fuel_order
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = FuelOrderPdf.new(@fuel_order)
+        filename = "#{@fuel_order.formatted_number}_#{@fuel_order.created_at.strftime('%Y%m%d')}.pdf"
+        send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
+      end
+    end
   end
 
   def new
