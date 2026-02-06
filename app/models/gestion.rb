@@ -11,6 +11,10 @@ class Gestion < ApplicationRecord
 
   after_create :assign_to_all_users
 
+  def self.default
+    Gestion.where(active: true)&.last
+  end
+
   private
 
   def assign_to_all_users

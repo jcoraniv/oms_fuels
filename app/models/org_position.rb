@@ -1,9 +1,7 @@
 class OrgPosition < ApplicationRecord
   belongs_to :org_structure
   belongs_to :position
-  belongs_to :reports_to_position, class_name: 'OrgPosition', optional: true
 
-  has_many :direct_reports, class_name: 'OrgPosition', foreign_key: 'reports_to_position_id', dependent: :nullify
   has_many :assignments, dependent: :destroy
   has_many :personals, through: :assignments
 

@@ -12,13 +12,23 @@
 
   <div class="card-body">
     <div class="row">
-      <div class="col-md-6">
+      <% unless current_user.employee? %>
+        <div class="col-md-4">
+          <div class="form-group mb-3">
+            <%= form.label :requester_assignment_id, t('admin.fuel_orders.form.requester') %>
+            <%= form.collection_select :requester_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_requester') }, { class: 'form-control select2' } %>
+          </div>
+        </div>
+      <% else %>
+        <%= form.hidden_field :requester_assignment_id %>
+      <% end %>
+      <div class="<%= current_user.employee? ? 'col-md-6' : 'col-md-4' %>">
         <div class="form-group mb-3">
-          <%= form.label :requester_assignment_id, t('admin.fuel_orders.form.requester') %>
-          <%= form.collection_select :requester_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_requester') }, { class: 'form-control select2' } %>
+          <%= form.label :approver_assignment_id, t('admin.fuel_orders.form.approver') %>
+          <%= form.collection_select :approver_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_approver') }, { class: 'form-control select2' } %>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="<%= current_user.employee? ? 'col-md-6' : 'col-md-4' %>">
         <div class="form-group mb-3">
           <%= form.label :vehicle_id, t('activerecord.attributes.fuel_order.vehicle') %>
           <%= form.collection_select :vehicle_id, @vehicles || [], :id, ->(v) { "#{v.plate} - #{v.description}" }, { prompt: t('admin.fuel_orders.form.select_vehicle') }, { class: 'form-control select2' } %>

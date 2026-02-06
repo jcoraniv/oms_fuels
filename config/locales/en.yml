@@ -131,7 +131,9 @@ en:
         status: "Status"
       form:
         requester: "Requester"
+        approver: "Approve by"
         select_requester: "Select a requester"
+        select_approver: "Select an approver"
         total: "Total Amount"
         status: "Status"
       items:

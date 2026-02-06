@@ -11,7 +11,7 @@
 
   <div class="mb-3">
     <%= f.label :personal_id, t('activerecord.attributes.personal.first_name'), class: "form-label" %>
-    <%= f.select :personal_id, options_from_collection_for_select(@personals, :id, :full_name, @user.personal_id), 
+    <%= f.select :personal_id, options_from_collection_for_select(@personals, :id, :full_name, @user.personal_id),
         { prompt: 'Select Personal' }, { class: "form-select select2", required: true, id: "user_personal_id" } %>
   </div>
 
@@ -32,7 +32,7 @@
 
   <div class="mb-3">
     <%= f.label :role_id, t('activerecord.attributes.user.role'), class: "form-label" %>
-    <%= f.select :role_id, options_from_collection_for_select(@roles, :id, :name, @user.role_id), 
+    <%= f.select :role_id, options_from_collection_for_select(@roles, :id, :name, @user.role_id),
         { prompt: t('admin.users.table.role') }, { class: "form-select select2", required: true } %>
   </div>
 
@@ -45,7 +45,7 @@
 <script>
 $(document).ready(function() {
   const personals = <%= raw @personals.to_json(only: [:id, :email]) %>;
-  
+
   $('#user_personal_id').on('change', function() {
     const selectedId = parseInt($(this).val());
     const personal = personals.find(p => p.id === selectedId);

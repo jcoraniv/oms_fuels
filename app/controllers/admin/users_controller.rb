@@ -11,19 +11,19 @@ class Admin::UsersController < Admin::BaseController
   def new
     @user = User.new
     @roles = Role.all
-    @personals = Personal.where.not(id: User.select(:personal_id))
+    @personals = Personal.where.not(id: User.active.select(:personal_id))
   end
 
   def create
     @user = User.new(user_params)
     @roles = Role.all
-    @personals = Personal.where.not(id: User.select(:personal_id))
+    @personals = Personal.where.not(id: User.active.select(:personal_id))
 
     if @user.save
-      # Assign active gestion to newly created user
-      active_gestion = Gestion.find_by(active: true)
-      if active_gestion
-        @user.user_gestions.create(gestion_id: active_gestion.id, current: true)
+      # Assign current gestion to newly created user
+      gestion = current_user&.current_gestion || Gestion::default
+      if gestion
+        @user.user_gestions.create(gestion_id: gestion.id, current: true)
       end
       redirect_to admin_users_path, notice: "User created successfully"
     else

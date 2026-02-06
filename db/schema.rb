@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_29_221356) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_06_234854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -61,7 +61,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_29_221356) do
     t.datetime "updated_at", null: false
     t.index ["approver_assignment_id"], name: "index_fuel_orders_on_approver_assignment_id"
     t.index ["gestion_id"], name: "index_fuel_orders_on_gestion_id"
-    t.index ["number"], name: "index_fuel_orders_on_number", unique: true
+    t.index ["number", "gestion_id"], name: "index_fuel_orders_on_number_and_gestion_id", unique: true
     t.index ["requester_assignment_id"], name: "index_fuel_orders_on_requester_assignment_id"
     t.index ["status"], name: "index_fuel_orders_on_status"
   end
@@ -86,12 +86,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_29_221356) do
   create_table "org_positions", force: :cascade do |t|
     t.bigint "org_structure_id", null: false
     t.bigint "position_id", null: false
-    t.bigint "reports_to_position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["org_structure_id"], name: "index_org_positions_on_org_structure_id"
     t.index ["position_id"], name: "index_org_positions_on_position_id"
-    t.index ["reports_to_position_id"], name: "index_org_positions_on_reports_to_position_id"
   end
 
   create_table "org_structures", force: :cascade do |t|
@@ -192,7 +190,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_29_221356) do
   add_foreign_key "fuel_orders", "assignments", column: "approver_assignment_id"
   add_foreign_key "fuel_orders", "assignments", column: "requester_assignment_id"
   add_foreign_key "fuel_orders", "gestions"
-  add_foreign_key "org_positions", "org_positions", column: "reports_to_position_id"
   add_foreign_key "org_positions", "org_structures"
   add_foreign_key "org_positions", "positions"
   add_foreign_key "org_structures", "departments"

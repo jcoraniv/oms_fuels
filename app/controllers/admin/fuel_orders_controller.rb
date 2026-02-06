@@ -24,6 +24,7 @@ class Admin::FuelOrdersController < Admin::BaseController
     @fuel_order = FuelOrder.new
     authorize @fuel_order
     @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
+    @fuel_order.requester_assignment_id = current_user.personal.assignments.last&.id if current_user.employee?
     @fuel_order.fuel_order_items.build # Build one item by default
   end
 
@@ -31,6 +32,7 @@ class Admin::FuelOrdersController < Admin::BaseController
     @fuel_order = FuelOrder.new(fuel_order_params)
     authorize @fuel_order
     @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
+    @fuel_order.requester_assignment_id = current_user.personal.assignments.last&.id if current_user.employee?
 
     # Assign vehicle_id to all fuel_order_items before saving
     if @fuel_order.vehicle_id.present?
@@ -114,7 +116,7 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def fuel_order_params
-    params.require(:fuel_order).permit(:requester_assignment_id, :status, :vehicle_id,
+    params.require(:fuel_order).permit(:requester_assignment_id, :approver_assignment_id, :status, :vehicle_id,
       fuel_order_items_attributes: [:id, :fuel_id, :quantity_ordered, :unit_price, :_destroy])
   end
 

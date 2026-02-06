@@ -11,9 +11,11 @@
 <div class="card">
   <div class="card-header">
     <h3 class="card-title"><%= t('admin.gestions.title') %></h3>
-    <div class="card-tools">
-      <%= link_to t('admin.gestions.new'), new_admin_gestion_path, class: "btn btn-primary" %>
-    </div>
+    <% if current_user.admin? %>
+      <div class="card-tools">
+        <%= link_to t('admin.gestions.new'), new_admin_gestion_path, class: "btn btn-primary" %>
+      </div>
+    <% end %>
   </div>
   <div class="card-body p-0">
     <table class="table table-striped">

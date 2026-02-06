@@ -1,5 +1,6 @@
 class Admin::GestionsController < Admin::BaseController
   before_action :set_gestion, only: [:show, :edit, :update, :destroy]
+  before_action :require_admin, only: [:new, :create]
 
   def index
     @gestions = Gestion.all
@@ -45,5 +46,9 @@ class Admin::GestionsController < Admin::BaseController
 
   def gestion_params
     params.require(:gestion).permit(:code, :name, :active)
+  end
+
+  def require_admin
+    redirect_to admin_gestions_path, alert: 'Access denied' unless current_user.admin?
   end
 end

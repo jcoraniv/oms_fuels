@@ -11,6 +11,7 @@ class FuelOrder < ApplicationRecord
   enum :status, { pending: 'pending', approved: 'approved', completed: 'completed', canceled: 'canceled' }, default: 'pending'
 
   validates :number, presence: true, uniqueness: { scope: :gestion_id }, on: :update
+  validates :approver_assignment_id, presence: true
   validates :total, numericality: { greater_than_or_equal_to: 0 }
 
   before_validation :generate_number, on: :create
@@ -27,8 +28,7 @@ class FuelOrder < ApplicationRecord
     
     FuelOrder.transaction do
       last_order = FuelOrder.where(gestion_id: gestion_id).lock.order(number: :desc).first
-      next_sequence = last_order ? last_order.number.to_i + 1 : 1
-      self.number = next_sequence.to_s
+      self.number = last_order ? (last_order.number.to_i + 1).to_s : '1'
     end
   end
 

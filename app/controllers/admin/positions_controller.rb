@@ -13,8 +13,9 @@ class Admin::PositionsController < Admin::BaseController
   def new
     @org_position = OrgPosition.new
     @org_position.build_position
+    @org_position.assignments.build
     @org_structures = current_user.current_gestion.org_structures.includes(:department)
-    @personals = Personal.all
+    @personals = Personal.where.not(id: Assignment.joins(org_position: :org_structure).where(org_structures: { gestion_id: current_user.current_gestion.id }).select(:personal_id))
   end
 
   def create
@@ -23,14 +24,14 @@ class Admin::PositionsController < Admin::BaseController
       redirect_to admin_positions_path, notice: t('common.created')
     else
       @org_structures = current_user.current_gestion.org_structures.includes(:department)
-      @personals = Personal.all
+      @personals = Personal.where.not(id: Assignment.joins(org_position: :org_structure).where(org_structures: { gestion_id: current_user.current_gestion.id }).select(:personal_id))
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
     @org_structures = current_user.current_gestion.org_structures.includes(:department)
-    @personals = Personal.all
+    @personals = Personal.where.not(id: Assignment.joins(org_position: :org_structure).where(org_structures: { gestion_id: current_user.current_gestion.id }).where.not(org_position_id: @org_position.id).select(:personal_id))
     @org_position.assignments.build if @org_position.assignments.empty?
   end
 
@@ -39,7 +40,7 @@ class Admin::PositionsController < Admin::BaseController
       redirect_to admin_positions_path, notice: t('common.updated')
     else
       @org_structures = current_user.current_gestion.org_structures.includes(:department)
-      @personals = Personal.all
+      @personals = Personal.where.not(id: Assignment.joins(org_position: :org_structure).where(org_structures: { gestion_id: current_user.current_gestion.id }).where.not(org_position_id: @org_position.id).select(:personal_id))
       render :edit, status: :unprocessable_entity
     end
   end
