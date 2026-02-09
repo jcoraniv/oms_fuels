@@ -1,0 +1,28 @@
+.navbar-badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 4px;
+  position: absolute;
+  right: 5px;
+  top: 9px;
+}
+
+.dropdown-menu-lg {
+  max-width: 300px;
+  min-width: 280px;
+  padding: 0;
+}
+
+.dropdown-item.dropdown-header {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.dropdown-item.dropdown-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  text-align: center;
+}

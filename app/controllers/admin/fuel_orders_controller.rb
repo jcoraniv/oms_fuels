@@ -5,7 +5,8 @@ class Admin::FuelOrdersController < Admin::BaseController
 
   def index
     @fuel_orders = policy_scope(FuelOrder).includes(:gestion, requester_assignment: :personal, approver_assignment: :personal)
-                            .order(created_at: :desc)
+    @fuel_orders = @fuel_orders.where(status: params[:status]) if params[:status].present?
+    @fuel_orders = @fuel_orders.order(created_at: :desc)
   end
 
   def show

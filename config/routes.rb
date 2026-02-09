@@ -33,5 +33,6 @@ Rails.application.routes.draw do
     resources :vehicle_types
     resources :vehicles
     resources :fuels
+    post 'notifications/mark_read', to: 'notifications#mark_read', as: :mark_read_notifications
   end
 end

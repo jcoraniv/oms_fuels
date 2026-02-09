@@ -71,6 +71,10 @@
         <% end %>
         <!--end::Gestion Dropdown-->
 
+        <!--begin::Notifications-->
+        <%= render 'layouts/notifications' if current_user %>
+        <!--end::Notifications-->
+
         <!--begin::User Menu Dropdown-->
         <% if current_user %>
           <li class="nav-item dropdown user-menu">
@@ -215,7 +219,7 @@
             <li class="nav-item">
               <a href="<%= admin_fuels_path %>" class="nav-link <%= 'active' if controller_path == 'admin/fuels' %>">
                 <i class="nav-icon bi bi-fuel-pump-fill"></i>
-                <p><%= t('admin.menu.fuels.title') %></p>
+                <p><%= t('admin.menu.fuels') %></p>
               </a>
             </li>
           <% end %>

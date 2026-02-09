@@ -59,7 +59,8 @@ en:
       fuel_orders: "Fuel Orders"
       vehicle_fleet: "Vehicle Fleet"
       profile: "Profile"
-    
+      fuels: "Fuels"
+
     users:
       title: "Users"
       new: "New User"

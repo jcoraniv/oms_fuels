@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_09_153143) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -81,6 +81,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_153143) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code"], name: "index_gestions_on_code", unique: true
+  end
+
+  create_table "notification_reads", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "gestion_id", null: false
+    t.string "notification_type", null: false
+    t.datetime "read_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gestion_id"], name: "index_notification_reads_on_gestion_id"
+    t.index ["user_id", "gestion_id", "notification_type"], name: "index_notification_reads_unique", unique: true
+    t.index ["user_id"], name: "index_notification_reads_on_user_id"
   end
 
   create_table "org_positions", force: :cascade do |t|
@@ -190,6 +202,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_153143) do
   add_foreign_key "fuel_orders", "assignments", column: "approver_assignment_id"
   add_foreign_key "fuel_orders", "assignments", column: "requester_assignment_id"
   add_foreign_key "fuel_orders", "gestions"
+  add_foreign_key "notification_reads", "gestions"
+  add_foreign_key "notification_reads", "users"
   add_foreign_key "org_positions", "org_structures"
   add_foreign_key "org_positions", "positions"
   add_foreign_key "org_structures", "departments"
