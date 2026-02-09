@@ -21,7 +21,7 @@
         <tr>
           <th><%= t('admin.fuel_orders.table.number') %></th>
           <th><%= t('admin.fuel_orders.table.requester') %></th>
-          <th>Approved By</th>
+          <th><%= @fuel_orders.any?(&:canceled?) ? t('admin.fuel_orders.table.rejected_by') : t('admin.fuel_orders.table.approver') %></th>
           <th><%= t('admin.fuel_orders.table.total') %></th>
           <th><%= t('admin.fuel_orders.table.status') %></th>
           <th style="width: 250px"><%= t('common.actions') %></th>

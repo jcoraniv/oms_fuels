@@ -55,7 +55,10 @@ class FuelOrderPolicy < ApplicationPolicy
     end
 
     def user_assignment_ids
-      user.personal.assignments.pluck(:id)
+      user.personal.assignments
+          .joins(org_position: :org_structure)
+          .where(org_structures: { gestion_id: user.current_gestion&.id })
+          .pluck(:id)
     end
   end
 
@@ -70,10 +73,18 @@ class FuelOrderPolicy < ApplicationPolicy
   end
 
   def owns_order?
-    user.personal.assignments.pluck(:id).include?(record.requester_assignment_id)
+    user.personal.assignments
+        .joins(org_position: :org_structure)
+        .where(org_structures: { gestion_id: user.current_gestion&.id })
+        .pluck(:id)
+        .include?(record.requester_assignment_id)
   end
 
   def can_approve?
-    user.personal.assignments.pluck(:id).include?(record.approver_assignment_id)
+    user.personal.assignments
+        .joins(org_position: :org_structure)
+        .where(org_structures: { gestion_id: user.current_gestion&.id })
+        .pluck(:id)
+        .include?(record.approver_assignment_id)
   end
 end

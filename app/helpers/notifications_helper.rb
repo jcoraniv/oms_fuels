@@ -10,7 +10,10 @@ module NotificationsHelper
     return [] unless gestion
 
     notifications = []
-    assignment_ids = user.personal.assignments.pluck(:id)
+    assignment_ids = user.personal.assignments
+                         .joins(org_position: :org_structure)
+                         .where(org_structures: { gestion_id: gestion.id })
+                         .pluck(:id)
 
     if user.admin?
       read_record = user.notification_reads.find_by(gestion: gestion, notification_type: NOTIFICATION_TYPES[:pending])
