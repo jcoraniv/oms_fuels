@@ -10,9 +10,9 @@ module NotificationsHelper
     return [] unless gestion
 
     notifications = []
-    personal = user.personal
+    assignment_ids = user.personal.assignments.pluck(:id)
 
-    if user.admin? || user.operation?
+    if user.admin?
       read_record = user.notification_reads.find_by(gestion: gestion, notification_type: NOTIFICATION_TYPES[:pending])
       last_read_at = read_record&.read_at || Time.at(0)
       requested_count = FuelOrder.where(gestion: gestion, status: :pending)
@@ -25,13 +25,27 @@ module NotificationsHelper
         url: admin_mark_read_notifications_path(type: NOTIFICATION_TYPES[:pending]),
         type: NOTIFICATION_TYPES[:pending]
       } if requested_count > 0
+    elsif user.operation?
+      read_record = user.notification_reads.find_by(gestion: gestion, notification_type: NOTIFICATION_TYPES[:pending])
+      last_read_at = read_record&.read_at || Time.at(0)
+      requested_count = FuelOrder.where(gestion: gestion, status: :pending, approver_assignment_id: assignment_ids)
+                                  .where('created_at > ?', last_read_at).count
+      
+      notifications << {
+        title: 'New Requested Orders',
+        count: requested_count,
+        icon: 'bi-file-earmark-text',
+        url: admin_mark_read_notifications_path(type: NOTIFICATION_TYPES[:pending]),
+        type: NOTIFICATION_TYPES[:pending]
+      } if requested_count > 0
     end
 
-    approved_orders = if user.admin?
-      FuelOrder.where(gestion: gestion, status: :approved)
+    if user.admin?
+      approved_orders = FuelOrder.where(gestion: gestion, status: :approved)
+    elsif user.operation?
+      approved_orders = FuelOrder.where(gestion: gestion, status: :approved, requester_assignment_id: assignment_ids)
     else
-      assignment_ids = personal.assignments.joins(org_position: :org_structure).where(org_structures: { gestion: gestion }).pluck(:id)
-      FuelOrder.where(gestion: gestion, status: :approved, requester_assignment_id: assignment_ids)
+      approved_orders = FuelOrder.where(gestion: gestion, status: :approved, requester_assignment_id: assignment_ids)
     end
     
     read_record = user.notification_reads.find_by(gestion: gestion, notification_type: NOTIFICATION_TYPES[:approved])
@@ -46,11 +60,12 @@ module NotificationsHelper
       type: NOTIFICATION_TYPES[:approved]
     } if approved_count > 0
 
-    canceled_orders = if user.admin?
-      FuelOrder.where(gestion: gestion, status: :canceled)
+    if user.admin?
+      canceled_orders = FuelOrder.where(gestion: gestion, status: :canceled)
+    elsif user.operation?
+      canceled_orders = FuelOrder.where(gestion: gestion, status: :canceled, requester_assignment_id: assignment_ids)
     else
-      assignment_ids = personal.assignments.joins(org_position: :org_structure).where(org_structures: { gestion: gestion }).pluck(:id)
-      FuelOrder.where(gestion: gestion, status: :canceled, requester_assignment_id: assignment_ids)
+      canceled_orders = FuelOrder.where(gestion: gestion, status: :canceled, requester_assignment_id: assignment_ids)
     end
     
     read_record = user.notification_reads.find_by(gestion: gestion, notification_type: NOTIFICATION_TYPES[:canceled])

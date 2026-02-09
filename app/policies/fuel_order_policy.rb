@@ -24,7 +24,7 @@ class FuelOrderPolicy < ApplicationPolicy
   end
 
   def complete?
-    admin? || operations?
+    admin? || operations? || (record.approved? && owns_order?)
   end
 
   def cancel?
@@ -51,7 +51,7 @@ class FuelOrderPolicy < ApplicationPolicy
     end
 
     def operations?
-      user.role.name == 'Operations'
+      user.role.name == 'Operation'
     end
 
     def user_assignment_ids
@@ -66,7 +66,7 @@ class FuelOrderPolicy < ApplicationPolicy
   end
 
   def operations?
-    user.role.name == 'Operations'
+    user.role.name == 'Operation'
   end
 
   def owns_order?
