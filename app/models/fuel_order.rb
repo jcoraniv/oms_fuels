@@ -26,10 +26,8 @@ class FuelOrder < ApplicationRecord
   def generate_number
     return if number.present?
     
-    FuelOrder.transaction do
-      last_order = FuelOrder.where(gestion_id: gestion_id).lock.order(number: :desc).first
-      self.number = last_order ? (last_order.number.to_i + 1).to_s : '1'
-    end
+    last_order = FuelOrder.where(gestion_id: gestion_id).order(number: :desc).lock('FOR UPDATE').first
+    self.number = last_order ? last_order.number + 1 : 1
   end
 
   def calculate_total

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_06_234854) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_09_153143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -48,7 +48,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_06_234854) do
   end
 
   create_table "fuel_orders", force: :cascade do |t|
-    t.string "number", null: false
+    t.integer "number", null: false
     t.bigint "gestion_id", null: false
     t.bigint "requester_assignment_id", null: false
     t.bigint "approver_assignment_id"

@@ -29,21 +29,34 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def create
-    @fuel_order = FuelOrder.new(fuel_order_params)
-    authorize @fuel_order
-    @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
-    @fuel_order.requester_assignment_id = current_user.personal.assignments.last&.id if current_user.employee?
+    retries = 0
+    begin
+      FuelOrder.transaction do
+        @fuel_order = FuelOrder.new(fuel_order_params)
+        authorize @fuel_order
+        @fuel_order.gestion = current_user.current_gestion if current_user&.current_gestion
+        @fuel_order.requester_assignment_id = current_user.personal.assignments.last&.id if current_user.employee?
 
-    # Assign vehicle_id to all fuel_order_items before saving
-    if @fuel_order.vehicle_id.present?
-      @fuel_order.fuel_order_items.each do |item|
-        item.vehicle_id = @fuel_order.vehicle_id
+        # Assign vehicle_id to all fuel_order_items before saving
+        if @fuel_order.vehicle_id.present?
+          @fuel_order.fuel_order_items.each do |item|
+            item.vehicle_id = @fuel_order.vehicle_id
+          end
+        end
+
+        @fuel_order.save!
+        redirect_to admin_fuel_orders_path, notice: t('common.created')
       end
-    end
-
-    if @fuel_order.save
-      redirect_to admin_fuel_orders_path, notice: t('common.created')
-    else
+    rescue ActiveRecord::RecordNotUnique
+      retries += 1
+      if retries <= 3
+        @fuel_order.number = nil
+        retry
+      else
+        @fuel_order.errors.add(:base, 'Unable to generate order number. Please try again.')
+        render :new, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordInvalid
       render :new, status: :unprocessable_entity
     end
   end
