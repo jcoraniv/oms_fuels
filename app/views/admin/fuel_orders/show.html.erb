@@ -21,7 +21,7 @@
         <span class="badge bg-<%= badge_color %> fs-5"><%= t("admin.fuel_orders.status.#{@fuel_order.status}") %></span>
         <% if @fuel_order.approver_assignment %>
           <div class="mt-2 text-muted small">
-            <strong>Approved By:</strong><br>
+            <strong><%= @fuel_order.canceled? ? t('admin.fuel_orders.form.rejected_by') : t('admin.fuel_orders.form.approver') %></strong><br>
             <%= @fuel_order.approver_assignment.personal.full_name %>
           </div>
         <% end %>

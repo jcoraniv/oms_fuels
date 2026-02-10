@@ -24,7 +24,7 @@
       <% end %>
       <div class="<%= current_user.employee? ? 'col-md-6' : 'col-md-4' %>">
         <div class="form-group mb-3">
-          <%= form.label :approver_assignment_id, t('admin.fuel_orders.form.approver') %>
+          <%= form.label :approver_assignment_id, @fuel_order.canceled? ? t('admin.fuel_orders.form.rejected_by') : t('admin.fuel_orders.form.approver') %>
           <%= form.collection_select :approver_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_approver') }, { class: 'form-control select2' } %>
         </div>
       </div>

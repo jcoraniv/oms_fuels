@@ -12,7 +12,7 @@ class FuelOrderPolicy < ApplicationPolicy
   end
 
   def update?
-    admin? || (owns_order? && record.pending?)
+    (admin? || owns_order?) && record.pending?
   end
 
   def destroy?

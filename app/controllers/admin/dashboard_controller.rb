@@ -11,17 +11,18 @@ class Admin::DashboardController < Admin::BaseController
     base_scope = if current_user.admin?
                    FuelOrder.where(gestion: gestion)
                  elsif current_user.operation?
-                   assignment = current_user.personal.assignments.current
+                   assignment = current_user.personal.assignments
                                             .joins(org_position: :org_structure)
-                                            .find_by(org_structures: { gestion_id: gestion.id })
+                                            .where(org_structures: { gestion_id: gestion.id }).last
 
                    FuelOrder.where(gestion: gestion)
                             .where("requester_assignment_id = ? OR approver_assignment_id = ?", assignment&.id, assignment&.id)
                  else
                    # employee
-                   assignment = current_user.personal.assignments.current
+                   assignment = current_user.personal.assignments
                                             .joins(org_position: :org_structure)
-                                            .find_by(org_structures: { gestion_id: gestion.id })
+                                            .where(org_structures: { gestion_id: gestion.id }).last
+
                    FuelOrder.where(gestion: gestion, requester_assignment_id: assignment&.id)
                  end
 

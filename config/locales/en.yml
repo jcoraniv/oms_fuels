@@ -137,6 +137,7 @@ en:
         approver: "Approve by"
         select_requester: "Select a requester"
         select_approver: "Select an approver"
+        rejected_by: "Rejected By"
         total: "Total Amount"
         status: "Status"
       items:

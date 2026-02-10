@@ -1,3 +1,4 @@
+<% any_fuel_order_canceled = @fuel_orders.any?(&:canceled?)  %>
 <div class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
@@ -21,10 +22,13 @@
         <tr>
           <th><%= t('admin.fuel_orders.table.number') %></th>
           <th><%= t('admin.fuel_orders.table.requester') %></th>
-          <th><%= @fuel_orders.any?(&:canceled?) ? t('admin.fuel_orders.table.rejected_by') : t('admin.fuel_orders.table.approver') %></th>
+          <th><%= t('admin.fuel_orders.table.approver') %></th>
+          <% if any_fuel_order_canceled %>
+            <th><%=  t('admin.fuel_orders.table.rejected_by') %></th>
+          <% end %>
           <th><%= t('admin.fuel_orders.table.total') %></th>
           <th><%= t('admin.fuel_orders.table.status') %></th>
-          <th style="width: 250px"><%= t('common.actions') %></th>
+          <th class="text-center" style="width: 250px"><%= t('common.actions') %></th>
         </tr>
       </thead>
       <tbody>
@@ -33,12 +37,21 @@
             <td><%= link_to order.formatted_number, admin_fuel_order_path(order), class: "text-primary" %></td>
             <td><%= order.requester_assignment.personal.full_name %></td>
             <td>
-              <% if order.approver_assignment %>
+              <% if !order.canceled? && order.approver_assignment %>
                 <%= order.approver_assignment.personal.full_name %>
               <% else %>
                 <span class="text-muted">-</span>
               <% end %>
             </td>
+            <% if any_fuel_order_canceled %>
+              <td>
+                <% if order.canceled? && order.approver_assignment %>
+                  <%= order.approver_assignment.personal.full_name %>
+                <% else %>
+                  <span class="text-muted">-</span>
+                <% end %>
+              </td>
+            <% end %>
             <td><%= number_to_currency(order.total) %></td>
             <td>
               <% 
@@ -51,7 +64,10 @@
               %>
               <span class="badge bg-<%= badge_color %>"><%= t("admin.fuel_orders.status.#{order.status}") %></span>
             </td>
-            <td>
+            <td class="text-center">
+              <% if policy(order).update? && order.pending? %>
+                <%= link_to 'Edit', edit_admin_fuel_order_path(order), class: "btn btn-sm btn-warning" %>
+              <% end %>
               <% if policy(order).approve? && order.pending? %>
                 <%= button_to 'Approve', approve_admin_fuel_order_path(order), method: :patch, class: "btn btn-sm btn-success", form: { style: "display: inline-block;" } %>
               <% end %>
