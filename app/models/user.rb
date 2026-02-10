@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :user_gestions, dependent: :destroy
   has_many :gestions, through: :user_gestions
   has_many :notification_reads, dependent: :destroy
+  has_many :push_subscriptions, dependent: :destroy
 
   accepts_nested_attributes_for :personal
 

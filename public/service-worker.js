@@ -1,0 +1,23 @@
+self.addEventListener('push', function(event) {
+  const data = event.data.json();
+  const options = {
+    body: data.body,
+    icon: '/icon.png',
+    badge: '/badge.png',
+    data: { url: data.url },
+    requireInteraction: false,
+    tag: 'oms-fuels-notification',
+    renotify: true,
+    vibrate: [200, 100, 200]
+  };
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
+});

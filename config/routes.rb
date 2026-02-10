@@ -33,6 +33,10 @@ Rails.application.routes.draw do
     resources :vehicle_types
     resources :vehicles
     resources :fuels
+    get 'settings', to: 'settings#index'
     post 'notifications/mark_read', to: 'notifications#mark_read', as: :mark_read_notifications
   end
+
+  resources :push_subscriptions, only: [:create, :destroy]
+  get 'push_subscriptions/vapid_public_key', to: 'push_subscriptions#vapid_public_key'
 end

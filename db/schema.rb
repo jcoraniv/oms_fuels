@@ -145,6 +145,17 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.index ["name"], name: "index_professions_on_name", unique: true
   end
 
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "endpoint"
+    t.string "p256dh"
+    t.string "auth"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "endpoint"], name: "index_push_subscriptions_on_user_id_and_endpoint", unique: true
+    t.index ["user_id"], name: "index_push_subscriptions_on_user_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -210,6 +221,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
   add_foreign_key "org_structures", "gestions"
   add_foreign_key "org_structures", "org_structures", column: "parent_dept_id"
   add_foreign_key "personals", "professions"
+  add_foreign_key "push_subscriptions", "users"
   add_foreign_key "user_gestions", "gestions"
   add_foreign_key "user_gestions", "users"
   add_foreign_key "users", "personals"

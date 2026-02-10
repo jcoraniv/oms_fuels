@@ -46,6 +46,7 @@ class Admin::FuelOrdersController < Admin::BaseController
         end
 
         @fuel_order.save!
+        WebPushService.notify_new_order(@fuel_order)
         redirect_to admin_fuel_orders_path, notice: t('common.created')
       end
     rescue ActiveRecord::RecordNotUnique

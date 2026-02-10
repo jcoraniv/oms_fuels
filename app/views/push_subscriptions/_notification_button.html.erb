@@ -1,0 +1,43 @@
+<div id="push-notification-container" class="mt-3">
+  <button id="enable-push" class="btn btn-primary btn-sm" style="display: none;">
+    <i class="bi bi-bell"></i> Enable Notifications
+  </button>
+  <button id="disable-push" class="btn btn-secondary btn-sm" style="display: none;">
+    <i class="bi bi-bell-slash"></i> Disable Notifications
+  </button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+  const enableBtn = document.getElementById('enable-push');
+  const disableBtn = document.getElementById('disable-push');
+
+  if (!enableBtn || !disableBtn) return;
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.getSubscription();
+    
+    if (subscription) {
+      disableBtn.style.display = 'inline-block';
+    } else {
+      enableBtn.style.display = 'inline-block';
+    }
+
+    enableBtn.addEventListener('click', async () => {
+      await window.pushNotifications.subscribe();
+      enableBtn.style.display = 'none';
+      disableBtn.style.display = 'inline-block';
+    });
+
+    disableBtn.addEventListener('click', async () => {
+      await window.pushNotifications.unsubscribe();
+      disableBtn.style.display = 'none';
+      enableBtn.style.display = 'inline-block';
+    });
+  } catch (error) {
+    console.error('Error checking push subscription:', error);
+  }
+});
+</script>
