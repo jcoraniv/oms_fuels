@@ -6,42 +6,48 @@ class FuelOrderPdf < Prawn::Document
   end
 
   def generate
-    header
-    order_info
+    draw_header
     items_table
     totals
     signatures
+    add_page_numbers
   end
 
   private
 
-  def header
+  def draw_header
+    # Logo at top right
     logo_path = Rails.root.join('app', 'assets', 'images', 'logo.png')
     if File.exist?(logo_path)
-      image logo_path, width: 80, position: :right
+      bounding_box([bounds.right - 80, bounds.top], width: 80, height: 80) do
+        image logo_path, width: 80, position: :center
+      end
     end
     
-    text "OMS Fuels", size: 24, style: :bold, align: :center
-    text "Fuel Order Receipt", size: 18, align: :center
-    move_down 20
-  end
-
-  def order_info
-    text "Order #: #{@fuel_order.formatted_number}", size: 14, style: :bold
-    text "Date: #{@fuel_order.created_at.strftime('%B %d, %Y')}"
-    text "Status: #{@fuel_order.status.titleize}"
-    text "Requester: #{@fuel_order.requester_assignment.personal.full_name}"
-    text "Department: #{@fuel_order.requester_assignment.department.name}"
+    text "Fuel Order Receipt", size: 14, align: :center
+    text "Order #: #{@fuel_order.formatted_number}", size: 11, style: :bold, align: :center
+    move_down 10
+    
+    text "Date: #{@fuel_order.created_at.strftime('%B %d, %Y')}", size: 9
+    text "Status: #{@fuel_order.status.titleize}", size: 9
+    text "Requester: #{@fuel_order.requester_assignment.personal.full_name}", size: 9
+    text "Department: #{@fuel_order.requester_assignment.department.name}", size: 9
     
     if @fuel_order.approver_assignment
-      text "Approved by: #{@fuel_order.approver_assignment.personal.full_name}"
-      text "Approved at: #{@fuel_order.approved_at.strftime('%B %d, %Y %H:%M')}" if @fuel_order.approved_at
+      text "Approved by: #{@fuel_order.approver_assignment.personal.full_name}", size: 9
+      text "Approved at: #{@fuel_order.approved_at.strftime('%B %d, %Y %H:%M')}", size: 9 if @fuel_order.approved_at
     end
     
-    move_down 20
+    move_down 15
   end
 
-  def items_table
+  def add_page_numbers
+    string = "Page <page> of <total>"
+    options = { at: [bounds.right - 150, 0], width: 150, align: :right, size: 10 }
+    number_pages string, options
+  end
+
+def items_table
     table_data = [["Fuel", "Vehicle", "Quantity", "Unit Price", "Subtotal"]]
     
     @fuel_order.fuel_order_items.each do |item|
@@ -71,39 +77,52 @@ class FuelOrderPdf < Prawn::Document
   end
 
   def signatures
-    move_down 40
+    signature_height = 120
+    
+    if cursor < signature_height + 50
+      start_new_page
+      draw_header
+    else
+      move_cursor_to signature_height + 30
+    end
     
     # Requester signature
-    bounding_box([0, cursor], width: 200) do
+    bounding_box([0, cursor], width: bounds.width / 2 - 10) do
       if @fuel_order.requester_sign.attached?
         begin
           image StringIO.new(@fuel_order.requester_sign.download), fit: [150, 50], position: :center
         rescue => e
           Rails.logger.error "Error loading requester signature: #{e.message}"
+          move_down 50
         end
+      else
+        move_down 50
       end
       stroke_horizontal_rule
       move_down 5
-      text "Requested by", align: :center, style: :bold
-      text @fuel_order.requester_assignment.personal.full_name, align: :center, size: 10
-      text @fuel_order.requester_assignment.position.name, align: :center, size: 9, style: :italic
+      text "Requested by", align: :center, style: :bold, size: 10
+      text @fuel_order.requester_assignment.personal.full_name, align: :center, size: 9
+      text @fuel_order.requester_assignment.position.name, align: :center, size: 8, style: :italic
     end
 
     # Approver signature
     if @fuel_order.approver_assignment
-      bounding_box([bounds.width - 200, cursor + 85], width: 200) do
+      bounding_box([bounds.width / 2 + 10, cursor + 85], width: bounds.width / 2 - 10) do
         if @fuel_order.approver_sign.attached?
           begin
             image StringIO.new(@fuel_order.approver_sign.download), fit: [150, 50], position: :center
           rescue => e
             Rails.logger.error "Error loading approver signature: #{e.message}"
+            move_down 50
           end
+        else
+          move_down 50
         end
         stroke_horizontal_rule
         move_down 5
-        text "Approved by", align: :center, style: :bold
-        text @fuel_order.approver_assignment.personal.full_name, align: :center, size: 10
-        text @fuel_order.approver_assignment.position.name, align: :center, size: 9, style: :italic
+        text "Approved by", align: :center, style: :bold, size: 10
+        text @fuel_order.approver_assignment.personal.full_name, align: :center, size: 9
+        text @fuel_order.approver_assignment.position.name, align: :center, size: 8, style: :italic
       end
     end
   end
