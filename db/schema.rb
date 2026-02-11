@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_11_020822) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_11_212900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -208,16 +208,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_11_020822) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", null: false
+    t.string "username", null: false
     t.string "password_digest", null: false
     t.integer "role_id", null: false
     t.integer "personal_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["personal_id"], name: "index_users_on_personal_id"
     t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   create_table "vehicle_types", force: :cascade do |t|

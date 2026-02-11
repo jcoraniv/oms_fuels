@@ -1,7 +1,7 @@
 <%= form_with(model: [:admin, @fuel_order], local: true, data: { controller: "nested-form" }) do |form| %>
   <% if @fuel_order.errors.any? %>
     <div id="error_explanation" class="alert alert-danger">
-      <h2><%= pluralize(@fuel_order.errors.count, "error") %> prohibited this order from being saved:</h2>
+      <h2><%= t('common.error_count', count: @fuel_order.errors.count) %> <%= t('common.prohibited_from_saving', model: t('activerecord.models.fuel_order').downcase) %></h2>
       <ul>
         <% @fuel_order.errors.full_messages.each do |message| %>
           <li><%= message %></li>

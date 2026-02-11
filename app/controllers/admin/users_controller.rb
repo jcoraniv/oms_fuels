@@ -61,7 +61,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def user_params
-    params_hash = params.require(:user).permit(:email, :password, :password_confirmation, :role_id, :status, :personal_id, :sign_image)
+    params_hash = params.require(:user).permit(:username, :password, :password_confirmation, :role_id, :status, :personal_id, :sign_image)
     
     if params_hash[:password].blank?
       params_hash.delete(:password)

@@ -1,7 +1,7 @@
 <%= form_with(model: [:admin, @org_structure], url: @org_structure.persisted? ? admin_department_path(@org_structure) : admin_departments_path, local: true) do |form| %>
   <% if @org_structure.errors.any? %>
     <div class="alert alert-danger">
-      <h2><%= pluralize(@org_structure.errors.count, "error") %> prohibited this department from being saved:</h2>
+      <h2><%= t('common.error_count', count: @org_structure.errors.count) %> <%= t('common.prohibited_from_saving', model: 'department') %></h2>
       <ul>
         <% @org_structure.errors.full_messages.each do |message| %>
           <li><%= message %></li>

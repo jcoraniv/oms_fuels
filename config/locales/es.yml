@@ -1,6 +1,17 @@
 es:
   app_name: "SE Combustible"
   
+  date:
+    month_names: [~, "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+    abbr_month_names: [~, "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+    day_names: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"]
+    abbr_day_names: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"]
+  
+  time:
+    formats:
+      date_only: "%d de %B de %Y"
+      datetime: "%d de %B de %Y %H:%M"
+  
   common:
     actions: "Acciones"
     edit: "Editar"
@@ -15,6 +26,9 @@ es:
     destroyed: "Eliminado exitosamente"
     soft_deleted: "Marcado como eliminado exitosamente"
     error: "error"
+    error_count:
+      one: "1 error"
+      other: "%{count} errores"
     prohibited_from_saving: "prohibió guardar este %{model}"
     welcome: "Bienvenido, %{name}"
     welcome_back: "Bienvenido de nuevo, %{name}"
@@ -23,10 +37,10 @@ es:
     login:
       title: "Iniciar Sesión"
       sign_in_msg: "Inicie sesión para continuar"
-      email_placeholder: "Correo Electrónico"
+      username_placeholder: "Usuario"
       password_placeholder: "Contraseña"
       sign_in_btn: "Iniciar Sesión"
-      invalid_credentials: "Correo o contraseña inválidos"
+      invalid_credentials: "Usuario o contraseña inválidos"
     logout:
       success: "Sesión cerrada exitosamente"
       btn: "Cerrar Sesión"
@@ -77,7 +91,7 @@ es:
       table:
         id: "#"
         full_name: "Nombre Completo"
-        email: "Correo Electrónico"
+        username: "Usuario"
         role: "Rol"
         status: "Estado"
         active: "Activo"
@@ -216,9 +230,10 @@ es:
       vehicle_type: "Tipo de Vehículo"
       vehicle: "Vehículo"
       fuel: "Combustible"
+      department: "Departamento"
     attributes:
       user:
-        email: "Correo Electrónico"
+        username: "Usuario"
         password: "Contraseña"
         role: "Rol"
         active: "Activo"
@@ -266,10 +281,23 @@ es:
       fuel_order_item:
         fuel: "Combustible"
         vehicle: "Vehículo"
+    errors:
+      messages:
+        taken: "ya está en uso"
+        blank: "no puede estar en blanco"
+        invalid: "no es válido"
+        too_short: "es demasiado corto (mínimo %{count} caracteres)"
+        too_long: "es demasiado largo (máximo %{count} caracteres)"
+        confirmation: "no coincide"
+        not_a_number: "no es un número"
+        greater_than: "debe ser mayor que %{count}"
+        greater_than_or_equal_to: "debe ser mayor o igual que %{count}"
+        less_than: "debe ser menor que %{count}"
+        less_than_or_equal_to: "debe ser menor o igual que %{count}"
 
   pdf:
     fuel_order:
-      title: "Recibo de Orden de Combustible"
+      title: "Pedido de Combustible"
       order_number: "Orden #"
       date: "Fecha"
       status: "Estado"

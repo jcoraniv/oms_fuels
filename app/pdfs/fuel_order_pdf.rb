@@ -1,6 +1,6 @@
 class FuelOrderPdf < Prawn::Document
   def initialize(fuel_order)
-    super(page_size: 'LETTER', margin: 40)
+    super(page_size: 'LETTER', margin: [0, 40, 40, 40])
     @fuel_order = fuel_order
     generate
   end
@@ -24,21 +24,9 @@ class FuelOrderPdf < Prawn::Document
       end
     end
     
-    text I18n.t('app_name'), size: 20, style: :bold, align: :center
-    text I18n.t('pdf.fuel_order.title'), size: 14, align: :center
+    text I18n.t('pdf.fuel_order.title'), size: 20, style: :bold, align: :center
     text "#{I18n.t('pdf.fuel_order.order_number')}: #{@fuel_order.formatted_number}", size: 11, style: :bold, align: :center
-    move_down 10
-    
-    text "#{I18n.t('pdf.fuel_order.date')}: #{@fuel_order.created_at.strftime('%B %d, %Y')}", size: 9
-    text "#{I18n.t('pdf.fuel_order.status')}: #{@fuel_order.status.titleize}", size: 9
-    text "#{I18n.t('pdf.fuel_order.requester')}: #{@fuel_order.requester_assignment.personal.full_name}", size: 9
-    text "#{I18n.t('pdf.fuel_order.department')}: #{@fuel_order.requester_assignment.department.name}", size: 9
-    
-    if @fuel_order.approver_assignment
-      text "#{I18n.t('pdf.fuel_order.approved_by')}: #{@fuel_order.approver_assignment.personal.full_name}", size: 9
-      text "#{I18n.t('pdf.fuel_order.approved_at')}: #{@fuel_order.approved_at.strftime('%B %d, %Y %H:%M')}", size: 9 if @fuel_order.approved_at
-    end
-    
+
     move_down 15
   end
 
@@ -73,7 +61,7 @@ class FuelOrderPdf < Prawn::Document
 
   def totals
     move_down 10
-    text "#{I18n.t('pdf.fuel_order.total')}: #{format_currency(@fuel_order.total)}", size: 14, style: :bold, align: :right
+    text "<b>#{I18n.t('pdf.fuel_order.total')}:</b> #{format_currency(@fuel_order.total)}", size: 14, align: :right, inline_format: true
     move_down 30
   end
 

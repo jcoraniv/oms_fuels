@@ -16,8 +16,8 @@
   </div>
 
   <div class="mb-3">
-    <%= f.label :email, t('activerecord.attributes.user.email'), class: "form-label" %>
-    <%= f.email_field :email, class: "form-control", required: true, id: "user_email" %>
+    <%= f.label :username, t('activerecord.attributes.user.username'), class: "form-label" %>
+    <%= f.text_field :username, class: "form-control", required: true, id: "user_username" %>
   </div>
 
   <div class="mb-3">
@@ -54,14 +54,14 @@
 
 <script>
 $(document).ready(function() {
-  const personals = <%= raw @personals.to_json(only: [:id, :email]) %>;
+  const personals = <%= raw @personals.to_json(only: [:id, :ci]) %>;
 
   $('#user_personal_id').on('change', function() {
     const selectedId = parseInt($(this).val());
     const personal = personals.find(p => p.id === selectedId);
 
-    if (personal && personal.email) {
-      $('#user_email').val(personal.email);
+    if (personal && personal.ci) {
+      $('#user_username').val(personal.ci);
     }
   });
 });

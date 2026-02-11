@@ -6,7 +6,7 @@
   <%= search_form_for @q, url: admin_users_path, method: :get do |f| %>
     <div class="row">
       <div class="col-md-4">
-        <%= f.text_field :email_cont, class: 'form-control', placeholder: 'Search by email' %>
+        <%= f.text_field :username_cont, class: 'form-control', placeholder: 'Search by username' %>
       </div>
       <div class="col-md-4">
         <%= f.text_field :personal_first_name_or_personal_last_name_cont, class: 'form-control', placeholder: 'Search by name' %>
@@ -24,7 +24,7 @@
       <thead>
         <tr>
           <th><%= t('admin.users.table.full_name') %></th>
-          <th><%= t('admin.users.table.email') %></th>
+          <th><%= t('admin.users.table.username') %></th>
           <th><%= t('admin.users.table.role') %></th>
           <th><%= t('admin.users.table.status') %></th>
           <th style="width: 150px"><%= t('common.actions') %></th>
@@ -34,7 +34,7 @@
         <% @users.each do |user| %>
           <tr>
             <td><%= link_to user.full_name, admin_user_path(user), class: "text-primary" %></td>
-            <td><%= user.email %></td>
+            <td><%= user.username %></td>
             <td><span class="badge bg-secondary"><%= user.role.name %></span></td>
             <td>
               <span class="badge bg-<%= user.active? ? 'success' : 'danger' %>"><%= user.status.titleize %></span>

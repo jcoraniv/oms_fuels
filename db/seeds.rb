@@ -1,53 +1,46 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
+puts "🌱 Starting seeds..."
 
-# --- Professions ---
-# puts "Seeding Professions..."
-# professions = ["Senior Technician", "Worker", "Bachelor's Degree", "Master's Degree"]
-# professions.each { |name| Profession.find_or_create_by!(name: name) }
-# puts "Professions seeded."
+# Profession
+puts "Creating profession..."
+profession = Profession.find_or_create_by!(name: 'Ingeniero de Sistemas')
 
-# --- Gestions ---
-puts "Seeding Gestions..."
-gestions_data = [
-  { code: "2023", name: "Gestion 2023" },
-  { code: "2024", name: "Gestion 2024" },
-  { code: "2025", name: "Gestion 2025" }
-]
-gestions_data.each do |attrs|
-  Gestion.find_or_create_by!(code: attrs[:code]) do |gestion|
-    gestion.name = attrs[:name]
-  end
+# Personal
+puts "Creating personal..."
+personal = Personal.find_or_create_by!(ci: '12345678') do |p|
+  p.first_name = 'Samuel'
+  p.last_name = 'Gareca'
+  p.email = 'samuel.gareca@oms.com'
+  p.phone = '70123456'
+  p.profession = profession
 end
-puts "Gestions seeded."
 
-# --- Roles ---
-puts "Seeding Roles..."
+# Role Admin
+puts "Creating admin role..."
 admin_role = Role.find_or_create_by!(name: 'Admin')
-employee_role = Role.find_or_create_by!(name: 'Employee')
-puts "Roles seeded."
 
-# --- Admin User ---
-puts "Seeding Admin User..."
-admin_personal = Personal.find_or_create_by!(email: 'admin@example.com') do |p|
-  p.first_name = 'Admin'
-  p.last_name = 'User'
-  p.ci = '0000000'
-end
-
-admin_user = User.find_or_create_by!(email: 'admin@example.com') do |u|
-  u.password = 'password'
-  u.password_confirmation = 'password'
+# Admin User
+puts "Creating admin user..."
+admin_user = User.find_or_create_by!(username: 'sgareca') do |u|
+  u.password = 'sgareca'
+  u.password_confirmation = 'sgareca'
   u.role = admin_role
-  u.personal = admin_personal
-  u.active = true
+  u.personal = personal
+  u.status = 0
 end
-puts "Admin User seeded."
 
-# --- UserGestions for Admin ---
-puts "Seeding UserGestions for Admin..."
-Gestion.all.each do |gestion|
-  UserGestion.find_or_create_by!(user: admin_user, gestion: gestion)
+# Gestion 2026
+puts "Creating gestion 2026..."
+gestion_2026 = Gestion.find_or_create_by!(code: '2026') do |g|
+  g.name = 'Gestion 2026'
+  g.active = true
 end
-puts "UserGestions for Admin seeded."
+
+# UserGestion
+puts "Assigning gestion to user..."
+UserGestion.find_or_create_by!(user: admin_user, gestion: gestion_2026) do |ug|
+  ug.current = true
+end
+
+puts "✅ Seeds completed successfully!"
+puts "👤 Username: sgareca"
+puts "🔑 Password: oms.@dm1n"

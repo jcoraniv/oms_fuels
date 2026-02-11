@@ -1,7 +1,7 @@
 <%= form_with(model: [:admin, @gestion], local: true) do |form| %>
   <% if @gestion.errors.any? %>
     <div id="error_explanation" class="alert alert-danger">
-      <h2><%= pluralize(@gestion.errors.count, "error") %> prohibited this gestion from being saved:</h2>
+      <h2><%= t('common.error_count', count: @gestion.errors.count) %> <%= t('common.prohibited_from_saving', model: t('activerecord.models.gestion').downcase) %></h2>
       <ul>
         <% @gestion.errors.full_messages.each do |message| %>
           <li><%= message %></li>
