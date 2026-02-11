@@ -1,5 +1,9 @@
 class Fuel < ApplicationRecord
+  include SoftDeletable
+  
   UNITS_OF_MEASURE = ['liter', 'gallon', 'cubic_meter', 'kilogram'].freeze
+  
+  has_many :fuel_order_items
 
   validates :description, presence: true
   validates :unit_of_measure, presence: true, inclusion: { in: UNITS_OF_MEASURE.map(&:to_s) }

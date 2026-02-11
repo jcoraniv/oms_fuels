@@ -1,9 +1,11 @@
 class Admin::GestionsController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_gestion, only: [:show, :edit, :update, :destroy]
   before_action :require_admin, only: [:new, :create]
 
   def index
-    @gestions = Gestion.all
+    @gestions = Gestion.not_deleted.all
   end
 
   def show
@@ -34,8 +36,7 @@ class Admin::GestionsController < Admin::BaseController
   end
 
   def destroy
-    @gestion.destroy
-    redirect_to admin_gestions_path, notice: 'Gestion was successfully destroyed.'
+    destroy_with_soft_delete(@gestion, admin_gestions_path, 'Gestion')
   end
 
   private

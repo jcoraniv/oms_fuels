@@ -1,8 +1,10 @@
 class Admin::ProfessionsController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_profession, only: [:show, :edit, :update, :destroy]
 
   def index
-    @professions = Profession.all
+    @professions = Profession.not_deleted.all
   end
 
   def show
@@ -33,8 +35,7 @@ class Admin::ProfessionsController < Admin::BaseController
   end
 
   def destroy
-    @profession.destroy
-    redirect_to admin_professions_path, notice: 'Profession was successfully destroyed.'
+    destroy_with_soft_delete(@profession, admin_professions_path, 'Profession')
   end
 
   private

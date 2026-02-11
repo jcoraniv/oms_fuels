@@ -1,8 +1,10 @@
 class Admin::FuelsController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_fuel, only: [:show, :edit, :update, :destroy]
 
   def index
-    @fuels = Fuel.all
+    @fuels = Fuel.not_deleted.all
   end
 
   def show
@@ -34,8 +36,7 @@ class Admin::FuelsController < Admin::BaseController
   end
 
   def destroy
-    @fuel.destroy
-    redirect_to admin_fuels_url, notice: t('common.destroyed', model: 'Fuel')
+    destroy_with_soft_delete(@fuel, admin_fuels_url, 'Fuel')
   end
 
   private

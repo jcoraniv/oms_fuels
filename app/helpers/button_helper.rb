@@ -9,7 +9,24 @@ module ButtonHelper
     content = content_tag(:i, '', class: config[:icon])
     
     if options[:method] || options[:turbo_method]
-      button_to path, options.merge(form: { style: 'display: inline-block;' }) do
+      method = options.delete(:method) || options.delete(:turbo_method)
+      
+      # Extract confirm message
+      confirm_message = options.dig(:data, :turbo_confirm)
+      options[:data].delete(:turbo_confirm) if confirm_message
+      
+      button_options = {
+        method: method,
+        class: options[:class],
+        title: options[:title],
+        data: options[:data],
+        form: { 
+          style: 'display: inline-block;',
+          onsubmit: confirm_message ? "return confirm('#{confirm_message}')" : nil
+        }.compact
+      }
+      
+      button_to path, button_options do
         content
       end
     else

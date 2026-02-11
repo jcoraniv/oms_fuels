@@ -1,7 +1,8 @@
 class Vehicle < ApplicationRecord
-  belongs_to :vehicle_type
+  include SoftDeletable
   
-  enum :status, { active: 'active', inactive: 'inactive' }, default: :active
+  belongs_to :vehicle_type
+  has_many :fuel_orders
   
   validates :plate, presence: true
 end

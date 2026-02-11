@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_11_010535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
   end
 
   create_table "fuel_order_items", force: :cascade do |t|
@@ -72,6 +73,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "reference_price", precision: 10, scale: 2
+    t.integer "status", default: 0, null: false
   end
 
   create_table "gestions", force: :cascade do |t|
@@ -80,6 +82,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["code"], name: "index_gestions_on_code", unique: true
   end
 
@@ -124,6 +127,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "profession_id"
+    t.integer "status", default: 0, null: false
     t.index ["ci"], name: "index_personals_on_ci", unique: true
     t.index ["email"], name: "index_personals_on_email"
     t.index ["profession_id"], name: "index_personals_on_profession_id"
@@ -142,6 +146,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
     t.index ["name"], name: "index_professions_on_name", unique: true
   end
 
@@ -192,6 +197,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
   end
 
   create_table "vehicles", force: :cascade do |t|
@@ -201,7 +207,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_09_160431) do
     t.bigint "vehicle_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
+    t.integer "status", default: 0, null: false
     t.index ["vehicle_type_id"], name: "index_vehicles_on_vehicle_type_id"
   end
 

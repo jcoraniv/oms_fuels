@@ -1,8 +1,10 @@
 class Admin::VehiclesController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
 
   def index
-    @vehicles = Vehicle.all
+    @vehicles = Vehicle.not_deleted.all
   end
 
   def show
@@ -34,8 +36,7 @@ class Admin::VehiclesController < Admin::BaseController
   end
 
   def destroy
-    @vehicle.destroy
-    redirect_to admin_vehicles_url, notice: t('common.destroyed', model: 'Vehicle')
+    destroy_with_soft_delete(@vehicle, admin_vehicles_url, 'Vehicle')
   end
 
   private

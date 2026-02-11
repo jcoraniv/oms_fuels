@@ -1,4 +1,6 @@
 class Admin::UsersController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -48,10 +50,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def destroy
-    @user.soft_delete
-    redirect_to admin_users_path, notice: "User deleted successfully"
-  rescue ActiveRecord::RecordNotDestroyed
-    redirect_to admin_users_path, alert: "Could not delete user"
+    destroy_with_soft_delete(@user, admin_users_path, 'User')
   end
 
   private

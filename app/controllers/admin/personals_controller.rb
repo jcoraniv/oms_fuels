@@ -1,9 +1,11 @@
 class Admin::PersonalsController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_personal, only: [:show, :edit, :update, :destroy]
   before_action :set_professions, only: [:new, :create, :edit, :update]
 
   def index
-    @personals = Personal.includes(:profession).all
+    @personals = Personal.not_deleted.includes(:profession).all
   end
 
   def show
@@ -34,8 +36,7 @@ class Admin::PersonalsController < Admin::BaseController
   end
 
   def destroy
-    @personal.destroy
-    redirect_to admin_personals_path, notice: 'Personal was successfully destroyed.'
+    destroy_with_soft_delete(@personal, admin_personals_path, 'Personal')
   end
 
   private

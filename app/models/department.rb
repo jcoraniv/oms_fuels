@@ -1,7 +1,9 @@
 class Department < ApplicationRecord
-  has_many :org_structures, dependent: :destroy # New association
-  has_many :gestions, through: :org_structures # New association
-  has_many :org_positions, through: :org_structures # New association
+  include SoftDeletable
+  
+  has_many :org_structures, dependent: :destroy
+  has_many :gestions, through: :org_structures
+  has_many :org_positions, through: :org_structures
 
   validates :name, presence: true
 end
