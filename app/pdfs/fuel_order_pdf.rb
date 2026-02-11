@@ -24,31 +24,32 @@ class FuelOrderPdf < Prawn::Document
       end
     end
     
-    text "Fuel Order Receipt", size: 14, align: :center
-    text "Order #: #{@fuel_order.formatted_number}", size: 11, style: :bold, align: :center
+    text I18n.t('app_name'), size: 20, style: :bold, align: :center
+    text I18n.t('pdf.fuel_order.title'), size: 14, align: :center
+    text "#{I18n.t('pdf.fuel_order.order_number')}: #{@fuel_order.formatted_number}", size: 11, style: :bold, align: :center
     move_down 10
     
-    text "Date: #{@fuel_order.created_at.strftime('%B %d, %Y')}", size: 9
-    text "Status: #{@fuel_order.status.titleize}", size: 9
-    text "Requester: #{@fuel_order.requester_assignment.personal.full_name}", size: 9
-    text "Department: #{@fuel_order.requester_assignment.department.name}", size: 9
+    text "#{I18n.t('pdf.fuel_order.date')}: #{@fuel_order.created_at.strftime('%B %d, %Y')}", size: 9
+    text "#{I18n.t('pdf.fuel_order.status')}: #{@fuel_order.status.titleize}", size: 9
+    text "#{I18n.t('pdf.fuel_order.requester')}: #{@fuel_order.requester_assignment.personal.full_name}", size: 9
+    text "#{I18n.t('pdf.fuel_order.department')}: #{@fuel_order.requester_assignment.department.name}", size: 9
     
     if @fuel_order.approver_assignment
-      text "Approved by: #{@fuel_order.approver_assignment.personal.full_name}", size: 9
-      text "Approved at: #{@fuel_order.approved_at.strftime('%B %d, %Y %H:%M')}", size: 9 if @fuel_order.approved_at
+      text "#{I18n.t('pdf.fuel_order.approved_by')}: #{@fuel_order.approver_assignment.personal.full_name}", size: 9
+      text "#{I18n.t('pdf.fuel_order.approved_at')}: #{@fuel_order.approved_at.strftime('%B %d, %Y %H:%M')}", size: 9 if @fuel_order.approved_at
     end
     
     move_down 15
   end
 
   def add_page_numbers
-    string = "Page <page> of <total>"
+    string = "#{I18n.t('pdf.fuel_order.page')} <page> #{I18n.t('pdf.fuel_order.of')} <total>"
     options = { at: [bounds.right - 150, 0], width: 150, align: :right, size: 10 }
     number_pages string, options
   end
 
-def items_table
-    table_data = [["Fuel", "Vehicle", "Quantity", "Unit Price", "Subtotal"]]
+  def items_table
+    table_data = [[I18n.t('pdf.fuel_order.fuel'), I18n.t('pdf.fuel_order.vehicle'), I18n.t('pdf.fuel_order.quantity'), I18n.t('pdf.fuel_order.unit_price'), I18n.t('pdf.fuel_order.subtotal')]]
     
     @fuel_order.fuel_order_items.each do |item|
       table_data << [
@@ -72,7 +73,7 @@ def items_table
 
   def totals
     move_down 10
-    text "Total: #{format_currency(@fuel_order.total)}", size: 14, style: :bold, align: :right
+    text "#{I18n.t('pdf.fuel_order.total')}: #{format_currency(@fuel_order.total)}", size: 14, style: :bold, align: :right
     move_down 30
   end
 
@@ -100,7 +101,7 @@ def items_table
       end
       stroke_horizontal_rule
       move_down 5
-      text "Requested by", align: :center, style: :bold, size: 10
+      text I18n.t('pdf.fuel_order.requested_by'), align: :center, style: :bold, size: 10
       text @fuel_order.requester_assignment.personal.full_name, align: :center, size: 9
       text @fuel_order.requester_assignment.position.name, align: :center, size: 8, style: :italic
     end
@@ -120,7 +121,7 @@ def items_table
         end
         stroke_horizontal_rule
         move_down 5
-        text "Approved by", align: :center, style: :bold, size: 10
+        text I18n.t('pdf.fuel_order.approved_by_signature'), align: :center, style: :bold, size: 10
         text @fuel_order.approver_assignment.personal.full_name, align: :center, size: 9
         text @fuel_order.approver_assignment.position.name, align: :center, size: 8, style: :italic
       end

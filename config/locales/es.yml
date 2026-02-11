@@ -1,0 +1,275 @@
+es:
+  app_name: "OMS Combustibles"
+  
+  common:
+    actions: "Acciones"
+    edit: "Editar"
+    delete: "Eliminar"
+    show: "Ver"
+    back: "Volver"
+    save: "Guardar"
+    cancel: "Cancelar"
+    confirm_delete: "¿Está seguro que desea eliminar este elemento?"
+    created: "Creado exitosamente"
+    updated: "Actualizado exitosamente"
+    destroyed: "Eliminado exitosamente"
+    soft_deleted: "Marcado como eliminado exitosamente"
+    error: "error"
+    prohibited_from_saving: "prohibió guardar este %{model}"
+    welcome: "Bienvenido, %{name}"
+    welcome_back: "Bienvenido de nuevo, %{name}"
+    
+  auth:
+    login:
+      title: "Iniciar Sesión"
+      sign_in_msg: "Inicie sesión para continuar"
+      email_placeholder: "Correo Electrónico"
+      password_placeholder: "Contraseña"
+      sign_in_btn: "Iniciar Sesión"
+      invalid_credentials: "Correo o contraseña inválidos"
+    logout:
+      success: "Sesión cerrada exitosamente"
+      btn: "Cerrar Sesión"
+    gestion:
+      select_title: "Seleccionar Gestión"
+      select_msg: "Por favor seleccione una gestión para continuar"
+      select_placeholder: "Seleccione una gestión"
+      continue_btn: "Continuar"
+      selected: "Gestión seleccionada: %{name}"
+      invalid: "Gestión inválida o no tiene acceso"
+      none_active: "No tiene acceso a ninguna gestión activa"
+      change: "Cambiar Gestión"
+      new: "Nueva Gestión"
+
+  admin:
+    dashboard:
+      title: "Panel de Control"
+      welcome_msg: "¡Bienvenido al panel de administración!"
+      pending_orders: "Órdenes Pendientes"
+      approved_orders: "Órdenes Aprobadas"
+      completed_orders: "Órdenes Completadas"
+      canceled_orders: "Órdenes Canceladas"
+      more_info: "Más información"
+    menu:
+      administration: "ADMINISTRACIÓN"
+      users: "Usuarios"
+      personal: "Personal"
+      gestions: "Gestiones"
+      professions: "Profesiones"
+      positions: "Cargos"
+      fuel_orders: "Órdenes"
+      vehicle_fleet: "Parque Automotor"
+      profile: "Perfil"
+      fuels: "Combustibles"
+      human_resources: "Recursos Humanos"
+      organization: "Organización"
+      departments: "Departamentos"
+      orders: "ÓRDENES"
+      vehicles: "Vehículos"
+      vehicle_types: "Tipos de Vehículo"
+      settings: "CONFIGURACIÓN"
+      notifications: "Notificaciones"
+
+    users:
+      title: "Usuarios"
+      new: "Nuevo Usuario"
+      edit: "Editar Usuario"
+      table:
+        id: "#"
+        full_name: "Nombre Completo"
+        email: "Correo Electrónico"
+        role: "Rol"
+        status: "Estado"
+        active: "Activo"
+        inactive: "Inactivo"
+    
+    personals:
+      title: "Personal"
+      new: "Nuevo Personal"
+      edit: "Editar Personal"
+      details: "Detalles del Personal"
+      table:
+        id: "ID"
+        first_name: "Nombre"
+        last_name: "Apellido"
+        email: "Correo Electrónico"
+        phone: "Teléfono"
+        ci: "CI"
+        profession: "Profesión"
+    
+    gestions:
+      title: "Gestiones"
+      new: "Nueva Gestión"
+      edit: "Editar Gestión"
+      table:
+        id: "ID"
+        code: "Código"
+        name: "Nombre"
+        active: "Activo"
+        status_active: "Activo"
+        status_inactive: "Inactivo"
+        
+    professions:
+      title: "Profesiones"
+      new: "Nueva Profesión"
+      edit: "Editar Profesión"
+      details: "Detalles de la Profesión"
+      table:
+        id: "ID"
+        name: "Nombre"
+
+    positions:
+      title: "Cargos"
+      new: "Nuevo Cargo"
+      edit: "Editar Cargo"
+      details: "Detalles del Cargo"
+      table:
+        id: "ID"
+        code: "Código"
+        name: "Nombre"
+        status: "Estado"
+
+    fuel_orders:
+      title: "Órdenes"
+      new: "Nueva Orden"
+      edit: "Editar Orden"
+      details: "Detalles de la Orden"
+      table:
+        number: "Número"
+        requester: "Solicitante"
+        approver: "Aprobado Por"
+        rejected_by: "Rechazado Por"
+        total: "Total"
+        status: "Estado"
+      form:
+        requester: "Solicitante"
+        approver: "Aprobado por"
+        select_requester: "Seleccione un solicitante"
+        select_approver: "Seleccione un aprobador"
+        rejected_by: "Rechazado Por"
+        total: "Monto Total"
+        status: "Estado"
+      items:
+        title: "Items de la Orden"
+        quantity: "Cantidad"
+        unit_price: "Precio Unitario"
+        add: "Agregar Item"
+        fuel: "Combustible"
+        vehicle: "Vehículo"
+        select_fuel: "Seleccione un combustible"
+        select_vehicle: "Seleccione un vehículo"
+      status:
+        pending: "Pendiente"
+        approved: "Aprobado"
+        completed: "Completado"
+        canceled: "Cancelado"
+    vehicle_types:
+      title: "Tipos de Vehículo"
+      new: "Nuevo Tipo de Vehículo"
+      edit: "Editar Tipo de Vehículo"
+      table:
+        name: "Nombre"
+        description: "Descripción"
+    vehicles:
+      title: "Vehículos"
+      new: "Nuevo Vehículo"
+      edit: "Editar Vehículo"
+      table:
+        plate: "Placa"
+        description: "Descripción"
+        details: "Detalles"
+        vehicle_type: "Tipo de Vehículo"
+        status: "Estado"
+    fuels:
+      title: "Combustibles"
+      new: "Nuevo Combustible"
+      edit: "Editar Combustible"
+      table:
+        description: "Descripción"
+        unit_of_measure: "Unidad de Medida"
+        reference_price: "Precio de Referencia"
+      form:
+        select_unit_of_measure: "Seleccione una unidad de medida"
+
+  activerecord:
+    models:
+      user: "Usuario"
+      personal: "Personal"
+      gestion: "Gestión"
+      profession: "Profesión"
+      position: "Cargo"
+      fuel_order: "Orden de Combustible"
+      vehicle_type: "Tipo de Vehículo"
+      vehicle: "Vehículo"
+      fuel: "Combustible"
+    attributes:
+      user:
+        email: "Correo Electrónico"
+        password: "Contraseña"
+        role: "Rol"
+        active: "Activo"
+      personal:
+        first_name: "Nombre"
+        last_name: "Apellido"
+        email: "Correo Electrónico"
+        phone: "Teléfono"
+        ci: "CI"
+        profession: "Profesión"
+      gestion:
+        code: "Código"
+        name: "Nombre"
+        active: "Activo"
+      profession:
+        name: "Nombre"
+      position:
+        code: "Código"
+        name: "Nombre"
+        status: "Estado"
+      fuel_order:
+        number: "Número"
+        total: "Total"
+        status: "Estado"
+      vehicle_type:
+        name: "Nombre"
+        description: "Descripción"
+      vehicle:
+        plate: "Placa"
+        description: "Descripción"
+        details: "Detalles"
+        vehicle_type: "Tipo de Vehículo"
+        status: "Estado"
+        statuses:
+          active: "Activo"
+          inactive: "Inactivo"
+      fuel:
+        description: "Descripción"
+        unit_of_measure: "Unidad de Medida"
+        units_of_measure:
+          liter: "Litro"
+          gallon: "Galón"
+          cubic_meter: "Metro Cúbico"
+          kilogram: "Kilogramo"
+      fuel_order_item:
+        fuel: "Combustible"
+        vehicle: "Vehículo"
+
+  pdf:
+    fuel_order:
+      title: "Recibo de Orden de Combustible"
+      order_number: "Orden #"
+      date: "Fecha"
+      status: "Estado"
+      requester: "Solicitante"
+      department: "Departamento"
+      approved_by: "Aprobado por"
+      approved_at: "Aprobado el"
+      page: "Página"
+      of: "de"
+      fuel: "Combustible"
+      vehicle: "Vehículo"
+      quantity: "Cantidad"
+      unit_price: "Precio Unitario"
+      subtotal: "Subtotal"
+      total: "Total"
+      requested_by: "Solicitado por"
+      approved_by_signature: "Aprobado por"

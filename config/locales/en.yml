@@ -244,3 +244,24 @@ en:
       fuel_order_item:
         fuel: "Fuel"
         vehicle: "Vehicle"
+
+  pdf:
+    fuel_order:
+      title: "Fuel Order Receipt"
+      order_number: "Order #"
+      date: "Date"
+      status: "Status"
+      requester: "Requester"
+      department: "Department"
+      approved_by: "Approved by"
+      approved_at: "Approved at"
+      page: "Page"
+      of: "of"
+      fuel: "Fuel"
+      vehicle: "Vehicle"
+      quantity: "Quantity"
+      unit_price: "Unit Price"
+      subtotal: "Subtotal"
+      total: "Total"
+      requested_by: "Requested by"
+      approved_by_signature: "Approved by"

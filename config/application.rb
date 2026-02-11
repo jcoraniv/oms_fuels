@@ -25,5 +25,9 @@ module OmsFuels
     # config.eager_load_paths << Rails.root.join("extras")
     
     config.autoload_paths << Rails.root.join('app', 'pdfs')
+    
+    # Set default locale to Spanish
+    config.i18n.default_locale = :es
+    config.i18n.available_locales = [:en, :es]
   end
 end

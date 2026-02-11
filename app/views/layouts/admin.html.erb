@@ -120,12 +120,12 @@
         <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" data-accordion="false">
           <% if current_user.admin? %>
             <!-- Administration -->
-            <li class="nav-header">ADMINISTRATION</li>
+            <li class="nav-header"><%= t('admin.menu.administration') %></li>
             <li class="nav-item <%= 'menu-open' if ['admin/personals', 'admin/professions', 'admin/users'].include?(controller_path) %>">
               <a href="#" class="nav-link <%= 'active' if ['admin/personals', 'admin/professions', 'admin/users'].include?(controller_path) %>">
                 <i class="nav-icon bi bi-people"></i>
                 <p>
-                  Human Resources
+                  <%= t('admin.menu.human_resources') %>
                   <i class="nav-arrow bi bi-chevron-right"></i>
                 </p>
               </a>
@@ -154,7 +154,7 @@
               <a href="#" class="nav-link <%= 'active' if ['admin/positions', 'admin/departments'].include?(controller_path) %>">
                 <i class="nav-icon bi bi-diagram-3"></i>
                 <p>
-                  Organization
+                  <%= t('admin.menu.organization') %>
                   <i class="nav-arrow bi bi-chevron-right"></i>
                 </p>
               </a>
@@ -168,7 +168,7 @@
                 <li class="nav-item">
                   <a href="<%= admin_departments_path %>" class="nav-link <%= 'active' if controller_path == 'admin/departments' %>">
                     <i class="nav-icon bi bi-building"></i>
-                    <p>Departments</p>
+                    <p><%= t('admin.menu.departments') %></p>
                   </a>
                 </li>
               </ul>
@@ -182,7 +182,7 @@
           <% end %>
 
           <!-- Orders -->
-          <li class="nav-header">ORDERS</li>
+          <li class="nav-header"><%= t('admin.menu.orders') %></li>
           <li class="nav-item">
             <a href="<%= admin_fuel_orders_path %>" class="nav-link <%= 'active' if controller_path == 'admin/fuel_orders' %>">
               <i class="nav-icon bi bi-file-earmark-text"></i>
@@ -192,12 +192,12 @@
 
           <!-- Vehicle Fleet -->
           <% if current_user.admin? %>
-            <li class="nav-header">VEHICLE FLEET</li>
+            <li class="nav-header"><%= t('admin.menu.vehicle_fleet') %></li>
             <li class="nav-item <%= 'menu-open' if ['admin/vehicle_types', 'admin/vehicles'].include?(controller_path) %>">
               <a href="#" class="nav-link <%= 'active' if ['admin/vehicle_types', 'admin/vehicles'].include?(controller_path) %>">
                 <i class="nav-icon bi bi-truck"></i>
                 <p>
-                  Vehicles
+                  <%= t('admin.menu.vehicles') %>
                   <i class="nav-arrow bi bi-chevron-right"></i>
                 </p>
               </a>
@@ -205,13 +205,13 @@
                 <li class="nav-item">
                   <a href="<%= admin_vehicle_types_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicle_types' %>">
                     <i class="nav-icon bi bi-car-front"></i>
-                    <p>Vehicle Types</p>
+                    <p><%= t('admin.menu.vehicle_types') %></p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="<%= admin_vehicles_path %>" class="nav-link <%= 'active' if controller_path == 'admin/vehicles' %>">
                     <i class="nav-icon bi bi-truck-front"></i>
-                    <p>Vehicles</p>
+                    <p><%= t('admin.menu.vehicles') %></p>
                   </a>
                 </li>
               </ul>
@@ -225,12 +225,12 @@
           <% end %>
 
           <!-- Settings -->
-          <li class="nav-header">SETTINGS</li>
+          <li class="nav-header"><%= t('admin.menu.settings') %></li>
           <li class="nav-item">
             <div class="nav-link d-flex justify-content-between align-items-center" style="cursor: default;">
               <div class="d-flex">
                 <i class="nav-icon bi bi-bell"></i>
-                <span>Notifications</span>
+                <span><%= t('admin.menu.notifications') %></span>
               </div>
               <div class="form-check form-switch mb-0">
                 <input class="form-check-input" type="checkbox" id="push-notification-switch" style="cursor: pointer;">
