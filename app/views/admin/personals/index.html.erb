@@ -40,9 +40,9 @@
             <td><%= personal.ci %></td>
             <td><%= personal.profession&.name %></td>
             <td>
-              <%= link_to t('common.show'), admin_personal_path(personal), class: "btn btn-sm btn-info" %>
-              <%= link_to t('common.edit'), edit_admin_personal_path(personal), class: "btn btn-sm btn-warning" %>
-              <%= link_to t('common.delete'), admin_personal_path(personal), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+              <%= action_button(:show, admin_personal_path(personal)) %>
+              <%= action_button(:edit, edit_admin_personal_path(personal)) %>
+              <%= action_button(:delete, admin_personal_path(personal), turbo_method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>
             </td>
           </tr>
         <% end %>

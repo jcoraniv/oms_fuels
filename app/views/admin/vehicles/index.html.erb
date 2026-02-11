@@ -36,9 +36,9 @@
             <td><%= vehicle.vehicle_type.name %></td>
             <td><span class="badge bg-<%= vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= vehicle.status.humanize %></span></td>
             <td>
-              <%= link_to t('common.show'), admin_vehicle_path(vehicle), class: "btn btn-sm btn-info" %>
-              <%= link_to t('common.edit'), edit_admin_vehicle_path(vehicle), class: "btn btn-sm btn-warning" %>
-              <%= link_to t('common.delete'), admin_vehicle_path(vehicle), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+              <%= action_button(:show, admin_vehicle_path(vehicle)) %>
+              <%= action_button(:edit, edit_admin_vehicle_path(vehicle)) %>
+              <%= action_button(:delete, admin_vehicle_path(vehicle), turbo_method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>
             </td>
           </tr>
         <% end %>

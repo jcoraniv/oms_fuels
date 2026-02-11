@@ -32,9 +32,9 @@
             <td><%= t("activerecord.attributes.fuel.units_of_measure." + fuel.unit_of_measure) %></td>
             <td><%= number_to_currency(fuel.reference_price) if fuel.reference_price %></td>
             <td>
-              <%= link_to t('common.show'), admin_fuel_path(fuel), class: "btn btn-sm btn-info" %>
-              <%= link_to t('common.edit'), edit_admin_fuel_path(fuel), class: "btn btn-sm btn-warning" %>
-              <%= link_to t('common.delete'), admin_fuel_path(fuel), data: { turbo_method: :delete, turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger" %>
+              <%= action_button(:show, admin_fuel_path(fuel)) %>
+              <%= action_button(:edit, edit_admin_fuel_path(fuel)) %>
+              <%= action_button(:delete, admin_fuel_path(fuel), turbo_method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>
             </td>
           </tr>
         <% end %>

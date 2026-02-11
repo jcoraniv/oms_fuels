@@ -38,9 +38,9 @@
               <% end %>
             </td>
             <td>
-              <%= link_to t('common.show'), admin_department_path(org_structure), class: "btn btn-sm btn-info" %>
-              <%= link_to t('common.edit'), edit_admin_department_path(org_structure), class: "btn btn-sm btn-warning" %>
-              <%= button_to t('common.delete'), admin_department_path(org_structure), method: :delete, data: { turbo_confirm: t('common.confirm_delete') }, class: "btn btn-sm btn-danger", form: { style: "display: inline-block;" } %>
+              <%= action_button(:show, admin_department_path(org_structure)) %>
+              <%= action_button(:edit, edit_admin_department_path(org_structure)) %>
+              <%= action_button(:delete, admin_department_path(org_structure), method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>
             </td>
           </tr>
         <% end %>
