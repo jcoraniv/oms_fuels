@@ -1,5 +1,5 @@
 es:
-  app_name: "OMS Combustibles"
+  app_name: "SE Combustible"
   
   common:
     actions: "Acciones"
@@ -160,7 +160,7 @@ es:
         title: "Items de la Orden"
         quantity: "Cantidad"
         unit_price: "Precio Unitario"
-        add: "Agregar Item"
+        add: "Agregar"
         fuel: "Combustible"
         vehicle: "Vehículo"
         select_fuel: "Seleccione un combustible"
