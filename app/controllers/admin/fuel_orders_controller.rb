@@ -46,6 +46,11 @@ class Admin::FuelOrdersController < Admin::BaseController
           end
         end
 
+        # Copy requester signature
+        if current_user.sign_image.attached?
+          @fuel_order.requester_sign.attach(current_user.sign_image.blob)
+        end
+
         @fuel_order.save!
         WebPushService.notify_new_order(@fuel_order)
         redirect_to admin_fuel_orders_path, notice: t('common.created')
@@ -98,6 +103,12 @@ class Admin::FuelOrdersController < Admin::BaseController
       approved_at: Time.current,
       approver_assignment_id: current_user.personal.assignments.last&.id
     )
+    
+    # Copy approver signature
+    if current_user.sign_image.attached?
+      @fuel_order.approver_sign.attach(current_user.sign_image.blob)
+    end
+    
     redirect_to admin_fuel_orders_path, notice: 'Order approved successfully'
   end
 

@@ -36,6 +36,16 @@
         { prompt: t('admin.users.table.role') }, { class: "form-select select2", required: true } %>
   </div>
 
+  <div class="mb-3">
+    <%= f.label :sign_image, 'Signature Image', class: "form-label" %>
+    <%= f.file_field :sign_image, class: "form-control", accept: 'image/*' %>
+    <% if @user.sign_image.attached? %>
+      <div class="mt-2">
+        <%= image_tag @user.sign_image, style: 'max-width: 200px; max-height: 100px;' %>
+      </div>
+    <% end %>
+  </div>
+
   <div class="d-flex justify-content-between">
     <%= link_to t('common.cancel'), admin_users_path, class: "btn btn-secondary" %>
     <%= f.submit t('common.save'), class: "btn btn-primary" %>

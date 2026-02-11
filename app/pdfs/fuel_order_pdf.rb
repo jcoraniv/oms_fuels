@@ -73,7 +73,15 @@ class FuelOrderPdf < Prawn::Document
   def signatures
     move_down 40
     
+    # Requester signature
     bounding_box([0, cursor], width: 200) do
+      if @fuel_order.requester_sign.attached?
+        begin
+          image StringIO.new(@fuel_order.requester_sign.download), fit: [150, 50], position: :center
+        rescue => e
+          Rails.logger.error "Error loading requester signature: #{e.message}"
+        end
+      end
       stroke_horizontal_rule
       move_down 5
       text "Requested by", align: :center, style: :bold
@@ -81,8 +89,16 @@ class FuelOrderPdf < Prawn::Document
       text @fuel_order.requester_assignment.position.name, align: :center, size: 9, style: :italic
     end
 
+    # Approver signature
     if @fuel_order.approver_assignment
-      bounding_box([bounds.width - 200, cursor + 35], width: 200) do
+      bounding_box([bounds.width - 200, cursor + 85], width: 200) do
+        if @fuel_order.approver_sign.attached?
+          begin
+            image StringIO.new(@fuel_order.approver_sign.download), fit: [150, 50], position: :center
+          rescue => e
+            Rails.logger.error "Error loading approver signature: #{e.message}"
+          end
+        end
         stroke_horizontal_rule
         move_down 5
         text "Approved by", align: :center, style: :bold

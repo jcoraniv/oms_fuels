@@ -2,6 +2,7 @@ class User < ApplicationRecord
   include SoftDeletable
   
   has_secure_password
+  has_one_attached :sign_image
 
   belongs_to :role
   belongs_to :personal

@@ -69,3 +69,4 @@ gem "prawn-table"
 gem "web-push"
 gem "kaminari"
 gem "ransack"
+gem "aws-sdk-s3", require: false

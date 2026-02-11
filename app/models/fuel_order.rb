@@ -5,6 +5,9 @@ class FuelOrder < ApplicationRecord
 
   attr_accessor :vehicle_id
 
+  has_one_attached :requester_sign
+  has_one_attached :approver_sign
+
   has_many :fuel_order_items, dependent: :destroy
   accepts_nested_attributes_for :fuel_order_items, allow_destroy: true, reject_if: :all_blank
 
