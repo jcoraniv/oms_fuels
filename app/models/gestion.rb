@@ -13,6 +13,10 @@ class Gestion < ApplicationRecord
 
   after_create :assign_to_all_users
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["code", "name", "active", "status", "created_at", "updated_at"]
+  end
+
   def self.default
     Gestion.where(active: true)&.last
   end

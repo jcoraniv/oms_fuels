@@ -15,6 +15,22 @@
       <%= link_to t('admin.vehicles.new'), new_admin_vehicle_path, class: "btn btn-primary" %>
     </div>
   </div>
+  <div class="card-body">
+    <%= search_form_for @q, url: admin_vehicles_path, method: :get, html: { class: 'mb-3' } do |f| %>
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.text_field :plate_cont, class: 'form-control', placeholder: 'Search by plate' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :description_cont, class: 'form-control', placeholder: 'Search by description' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.submit 'Search', class: 'btn btn-primary' %>
+          <%= link_to 'Reset', admin_vehicles_path, class: 'btn btn-secondary' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
   <div class="card-body p-0">
     <table class="table table-striped">
       <thead>
@@ -43,5 +59,8 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="card-footer clearfix">
+    <%= paginate @vehicles %>
   </div>
 </div>

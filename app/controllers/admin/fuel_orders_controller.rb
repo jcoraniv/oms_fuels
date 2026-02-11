@@ -4,9 +4,10 @@ class Admin::FuelOrdersController < Admin::BaseController
   before_action :set_vehicles, only: [:new, :create, :edit, :update]
 
   def index
-    @fuel_orders = policy_scope(FuelOrder).includes(:gestion, requester_assignment: :personal, approver_assignment: :personal)
+    @q = policy_scope(FuelOrder).includes(:gestion, requester_assignment: :personal, approver_assignment: :personal).ransack(params[:q])
+    @fuel_orders = @q.result
     @fuel_orders = @fuel_orders.where(status: params[:status]) if params[:status].present?
-    @fuel_orders = @fuel_orders.order(created_at: :desc)
+    @fuel_orders = @fuel_orders.order(created_at: :desc).page(params[:page])
   end
 
   def show

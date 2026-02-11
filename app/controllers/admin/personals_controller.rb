@@ -5,7 +5,8 @@ class Admin::PersonalsController < Admin::BaseController
   before_action :set_professions, only: [:new, :create, :edit, :update]
 
   def index
-    @personals = Personal.not_deleted.includes(:profession).all
+    @q = Personal.not_deleted.includes(:profession).ransack(params[:q])
+    @personals = @q.result.page(params[:page])
   end
 
   def show

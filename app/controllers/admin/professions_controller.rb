@@ -4,7 +4,8 @@ class Admin::ProfessionsController < Admin::BaseController
   before_action :set_profession, only: [:show, :edit, :update, :destroy]
 
   def index
-    @professions = Profession.not_deleted.all
+    @q = Profession.not_deleted.ransack(params[:q])
+    @professions = @q.result.page(params[:page])
   end
 
   def show

@@ -5,7 +5,8 @@ class Admin::GestionsController < Admin::BaseController
   before_action :require_admin, only: [:new, :create]
 
   def index
-    @gestions = Gestion.not_deleted.all
+    @q = Gestion.not_deleted.ransack(params[:q])
+    @gestions = @q.result.page(params[:page])
   end
 
   def show

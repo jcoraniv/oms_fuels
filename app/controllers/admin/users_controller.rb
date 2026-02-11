@@ -4,7 +4,8 @@ class Admin::UsersController < Admin::BaseController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = User.not_deleted.includes(:role, :personal).all
+    @q = User.not_deleted.includes(:role, :personal).ransack(params[:q])
+    @users = @q.result.page(params[:page])
   end
 
   def show

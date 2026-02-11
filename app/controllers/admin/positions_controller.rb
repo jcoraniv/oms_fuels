@@ -3,7 +3,8 @@ class Admin::PositionsController < Admin::BaseController
   before_action :ensure_gestion
 
   def index
-    @org_positions = current_user.current_gestion.org_positions.includes(:position, :org_structure, assignments: :personal)
+    @q = current_user.current_gestion.org_positions.includes(:position, :org_structure, assignments: :personal).ransack(params[:q])
+    @org_positions = @q.result.page(params[:page])
   end
 
   def show

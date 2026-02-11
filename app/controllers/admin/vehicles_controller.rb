@@ -4,7 +4,8 @@ class Admin::VehiclesController < Admin::BaseController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
 
   def index
-    @vehicles = Vehicle.not_deleted.all
+    @q = Vehicle.not_deleted.ransack(params[:q])
+    @vehicles = @q.result.page(params[:page])
   end
 
   def show

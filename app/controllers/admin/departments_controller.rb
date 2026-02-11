@@ -3,7 +3,8 @@ class Admin::DepartmentsController < Admin::BaseController
   before_action :ensure_gestion
 
   def index
-    @org_structures = current_user.current_gestion.org_structures.includes(:department, parent_dept: :department)
+    @q = current_user.current_gestion.org_structures.includes(:department, parent_dept: :department).ransack(params[:q])
+    @org_structures = @q.result.page(params[:page])
   end
 
   def show

@@ -17,6 +17,14 @@ class User < ApplicationRecord
   validates :role_id, presence: true
   validates :personal_id, presence: true
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["email", "role_id", "personal_id", "status", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["role", "personal", "user_gestions", "gestions"]
+  end
+
   def current_gestion
     user_gestions.find_by(current: true)&.gestion
   end

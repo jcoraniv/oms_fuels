@@ -4,7 +4,8 @@ class Admin::VehicleTypesController < Admin::BaseController
   before_action :set_vehicle_type, only: [:show, :edit, :update, :destroy]
 
   def index
-    @vehicle_types = VehicleType.not_deleted.all
+    @q = VehicleType.not_deleted.ransack(params[:q])
+    @vehicle_types = @q.result.page(params[:page])
   end
 
   def show

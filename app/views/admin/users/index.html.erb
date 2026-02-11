@@ -15,6 +15,22 @@
       <%= link_to t('admin.users.new'), new_admin_user_path, class: "btn btn-primary" %>
     </div>
   </div>
+  <div class="card-body">
+    <%= search_form_for @q, url: admin_users_path, method: :get, html: { class: 'mb-3' } do |f| %>
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.text_field :email_cont, class: 'form-control', placeholder: 'Search by email' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.text_field :personal_first_name_or_personal_last_name_cont, class: 'form-control', placeholder: 'Search by name' %>
+        </div>
+        <div class="col-md-4">
+          <%= f.submit 'Search', class: 'btn btn-primary' %>
+          <%= link_to 'Reset', admin_users_path, class: 'btn btn-secondary' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
   <div class="card-body p-0">
     <table class="table table-striped">
       <thead>
@@ -43,5 +59,8 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="card-footer clearfix">
+    <%= paginate @users %>
   </div>
 </div>

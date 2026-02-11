@@ -4,7 +4,8 @@ class Admin::FuelsController < Admin::BaseController
   before_action :set_fuel, only: [:show, :edit, :update, :destroy]
 
   def index
-    @fuels = Fuel.not_deleted.all
+    @q = Fuel.not_deleted.ransack(params[:q])
+    @fuels = @q.result.page(params[:page])
   end
 
   def show

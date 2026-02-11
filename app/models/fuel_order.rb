@@ -17,6 +17,14 @@ class FuelOrder < ApplicationRecord
   before_validation :generate_number, on: :create
   after_save :calculate_total
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["number", "status", "total", "gestion_id", "requester_assignment_id", "approver_assignment_id", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["gestion", "requester_assignment", "approver_assignment", "fuel_order_items"]
+  end
+
   def formatted_number
     number.to_s.rjust(4, '0')
   end
