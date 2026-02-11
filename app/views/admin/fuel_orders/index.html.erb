@@ -16,6 +16,9 @@
       <%= link_to t('admin.fuel_orders.new'), new_admin_fuel_order_path, class: "btn btn-primary" %>
     </div>
   </div>
+  <div class="card-body">
+    <%= render 'search' %>
+  </div>
   <div class="card-body p-0">
     <table class="table table-striped">
       <thead>

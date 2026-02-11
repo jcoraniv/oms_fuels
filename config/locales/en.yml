@@ -126,6 +126,13 @@ en:
       new: "New Fuel Order"
       edit: "Edit Fuel Order"
       details: "Fuel Order Details"
+      search:
+        number: "Number"
+        status: "Status"
+        all_statuses: "All"
+        requester: "Requester"
+        approver: "Approved/Rejected By"
+        search_btn: "Search"
       table:
         number: "Number"
         requester: "Requester"

@@ -58,7 +58,7 @@ es:
       professions: "Profesiones"
       positions: "Cargos"
       fuel_orders: "Órdenes"
-      vehicle_fleet: "Parque Automotor"
+      vehicle_fleet: "PARQUE AUTOMOTOR"
       profile: "Perfil"
       fuels: "Combustibles"
       human_resources: "Recursos Humanos"
@@ -134,6 +134,13 @@ es:
       new: "Nueva Orden"
       edit: "Editar Orden"
       details: "Detalles de la Orden"
+      search:
+        number: "Número"
+        status: "Estado"
+        all_statuses: "Todos"
+        requester: "Solicitante"
+        approver: "Aprobado/Rechazado Por"
+        search_btn: "Buscar"
       table:
         number: "Número"
         requester: "Solicitante"

@@ -11,6 +11,14 @@ class Assignment < ApplicationRecord
   delegate :department, to: :org_position
   delegate :position, to: :org_position
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["personal_id", "org_position_id", "start_date", "end_date", "created_at", "updated_at"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["personal", "org_position"]
+  end
+
   private
 
   def end_date_after_start_date
