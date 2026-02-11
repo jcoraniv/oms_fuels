@@ -197,6 +197,13 @@ es:
         reference_price: "Precio de Referencia"
       form:
         select_unit_of_measure: "Seleccione una unidad de medida"
+    departments:
+      title: "Departamentos"
+      new: "Nuevo Departamento"
+      edit: "Editar Departamento"
+      table:
+        name: "Nombre"
+        parent_department: "Departamento Padre"
 
   activerecord:
     models:

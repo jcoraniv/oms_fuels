@@ -1,22 +1,11 @@
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0"><%= t('admin.vehicle_types.title') %></h1>
-      </div>
-    </div>
-  </div>
-</div>
+<% content_for :page_title, t('admin.vehicle_types.title') %>
+<% content_for :page_actions do %>
+  <%= link_to t('admin.vehicle_types.new'), new_admin_vehicle_type_path, class: 'btn btn-primary' %>
+<% end %>
 
 <div class="card">
-  <div class="card-header">
-    <h3 class="card-title"><%= t('admin.vehicle_types.title') %></h3>
-    <div class="card-tools">
-      <%= link_to t('admin.vehicle_types.new'), new_admin_vehicle_type_path, class: "btn btn-primary" %>
-    </div>
-  </div>
   <div class="card-body p-0">
-    <table class="table table-striped">
+    <table class="table table-bordered table-hover dataTable dtr-inline">
       <thead>
         <tr>
           <th><%= t('admin.vehicle_types.table.name') %></th>

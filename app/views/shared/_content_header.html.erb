@@ -1,0 +1,44 @@
+<% if content_for?(:page_title) || content_for?(:page_actions) || content_for?(:table_tabs) %>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <% if content_for?(:page_title) %>
+          <div class="col-sm-<%= content_for?(:page_actions) ? '6' : '12' %>">
+            <h1 class="m-0">
+              <%= yield :page_title %>
+              <% if content_for?(:page_title_small) %>
+                <small class="text-muted"><%= yield :page_title_small %></small>
+              <% end %>
+            </h1>
+          </div>
+        <% end %>
+
+        <% if content_for?(:page_actions) %>
+          <div class="col-sm-6">
+            <div class="d-flex justify-content-sm-end">
+              <%= yield :page_actions %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <% if content_for?(:page_tabs) %>
+        <div class="row">
+          <div class="col-12">
+            <ul class="nav nav-tabs">
+              <%= yield :page_tabs %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <% if content_for?(:table_tabs) %>
+        <div class="row">
+          <div class="col-12">
+            <%= yield :table_tabs %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

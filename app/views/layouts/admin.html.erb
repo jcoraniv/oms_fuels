@@ -246,9 +246,11 @@
   <!--end::Sidebar-->
   <!--begin::App Main-->
   <main class="app-main">
+    <%= render 'shared/content_header' %>
     <!--begin::App Content-->
     <div class="app-content">
       <div class="container-fluid">
+        <%= render partial: 'shared/table_filter' if content_for?(:table_filter) %>
         <%= yield %>
       </div>
     </div>

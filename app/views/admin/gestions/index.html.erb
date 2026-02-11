@@ -1,24 +1,13 @@
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0"><%= t('admin.gestions.title') %></h1>
-      </div>
-    </div>
-  </div>
-</div>
+<% content_for :page_title, t('admin.gestions.title') %>
+<% if current_user.admin? %>
+  <% content_for :page_actions do %>
+    <%= link_to t('admin.gestions.new'), new_admin_gestion_path, class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
 
 <div class="card">
-  <div class="card-header">
-    <h3 class="card-title"><%= t('admin.gestions.title') %></h3>
-    <% if current_user.admin? %>
-      <div class="card-tools">
-        <%= link_to t('admin.gestions.new'), new_admin_gestion_path, class: "btn btn-primary" %>
-      </div>
-    <% end %>
-  </div>
   <div class="card-body p-0">
-    <table class="table table-striped">
+    <table class="table table-bordered table-hover dataTable dtr-inline">
       <thead>
         <tr>
           <th><%= t('admin.gestions.table.code') %></th>

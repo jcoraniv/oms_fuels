@@ -1,10 +1,10 @@
-<%= search_form_for @q, url: admin_fuel_orders_path, method: :get, html: { class: 'mb-3' } do |f| %>
-  <div class="row">
-    <div class="col-md-3">
+<%= search_form_for @q, url: admin_fuel_orders_path, method: :get do |f| %>
+  <div class="row mt-4">
+    <div class="col-md-6">
       <%= f.label :number_eq, t('admin.fuel_orders.search.number'), class: 'form-label' %>
       <%= f.number_field :number_eq, class: 'form-control', placeholder: t('admin.fuel_orders.search.number') %>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
       <%= f.label :status_eq, t('admin.fuel_orders.search.status'), class: 'form-label' %>
       <%= f.select :status_eq, options_for_select([
         [t('admin.fuel_orders.search.all_statuses'), ''],
@@ -14,15 +14,21 @@
         [t('admin.fuel_orders.status.canceled'), 'canceled']
       ], params.dig(:q, :status_eq)), {}, class: 'form-select' %>
     </div>
-    <div class="col-md-2">
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
       <%= f.label :requester_assignment_personal_first_name_or_requester_assignment_personal_last_name_cont, t('admin.fuel_orders.search.requester'), class: 'form-label' %>
       <%= f.search_field :requester_assignment_personal_first_name_or_requester_assignment_personal_last_name_cont, class: 'form-control', placeholder: t('admin.fuel_orders.search.requester') %>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-6">
       <%= f.label :approver_assignment_personal_first_name_or_approver_assignment_personal_last_name_cont, t('admin.fuel_orders.search.approver'), class: 'form-label' %>
       <%= f.search_field :approver_assignment_personal_first_name_or_approver_assignment_personal_last_name_cont, class: 'form-control', placeholder: t('admin.fuel_orders.search.approver') %>
     </div>
-    <div class="col-md-2 d-flex align-items-end">
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12 ">
       <%= f.submit t('admin.fuel_orders.search.search_btn'), class: 'btn btn-primary' %>
     </div>
   </div>
