@@ -19,7 +19,6 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th><%= t('admin.positions.table.id') %></th>
           <th><%= t('admin.positions.table.code') %></th>
           <th><%= t('admin.positions.table.name') %></th>
           <th>Department</th>
@@ -31,8 +30,7 @@
       <tbody>
         <% @org_positions.each do |org_position| %>
           <tr>
-            <td><%= org_position.id %></td>
-            <td><%= org_position.position.code %></td>
+            <td><%= link_to org_position.position.code, admin_position_path(org_position), class: "text-primary" %></td>
             <td><%= org_position.position.name %></td>
             <td><%= org_position.org_structure.department.name %></td>
             <td>
@@ -45,7 +43,6 @@
             </td>
             <td><span class="badge bg-<%= org_position.position.active? ? 'success' : 'secondary' %>"><%= org_position.position.status.humanize %></span></td>
             <td>
-              <%= action_button(:show, admin_position_path(org_position)) %>
               <%= action_button(:edit, edit_admin_position_path(org_position)) %>
               <%= action_button(:delete, admin_position_path(org_position), method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>
             </td>

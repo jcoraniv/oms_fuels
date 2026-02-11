@@ -30,13 +30,12 @@
       <tbody>
         <% @vehicles.each do |vehicle| %>
           <tr>
-            <td><%= vehicle.plate %></td>
+            <td><%= link_to vehicle.plate, admin_vehicle_path(vehicle), class: "text-primary" %></td>
             <td><%= vehicle.description %></td>
             <td><%= vehicle.details %></td>
             <td><%= vehicle.vehicle_type.name %></td>
             <td><span class="badge bg-<%= vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= vehicle.status.humanize %></span></td>
             <td>
-              <%= action_button(:show, admin_vehicle_path(vehicle)) %>
               <%= action_button(:edit, edit_admin_vehicle_path(vehicle)) %>
               <%= action_button(:delete, admin_vehicle_path(vehicle), turbo_method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>
             </td>

@@ -19,7 +19,6 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th><%= t('admin.professions.table.id') %></th>
           <th><%= t('admin.professions.table.name') %></th>
           <th style="width: 150px"><%= t('common.actions') %></th>
         </tr>
@@ -27,10 +26,8 @@
       <tbody>
         <% @professions.each do |profession| %>
           <tr>
-            <td><%= profession.id %></td>
-            <td><%= profession.name %></td>
+            <td><%= link_to profession.name, admin_profession_path(profession), class: "text-primary" %></td>
             <td>
-              <%= action_button(:show, admin_profession_path(profession)) %>
               <%= action_button(:edit, edit_admin_profession_path(profession)) %>
               <%= action_button(:delete, admin_profession_path(profession), turbo_method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>
             </td>

@@ -21,7 +21,6 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th><%= t('admin.gestions.table.id') %></th>
           <th><%= t('admin.gestions.table.code') %></th>
           <th><%= t('admin.gestions.table.name') %></th>
           <th><%= t('admin.gestions.table.active') %></th>
@@ -31,7 +30,6 @@
       <tbody>
         <% @gestions.each do |gestion| %>
           <tr>
-            <td><%= gestion.id %></td>
             <td><%= gestion.code %></td>
             <td><%= gestion.name %></td>
             <td>
