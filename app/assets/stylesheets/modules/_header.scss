@@ -1,0 +1,26 @@
+// Header/Navbar styles with custom palette
+.app-header {
+  background-color: var(--color-white) !important;
+  border-bottom: 1px solid var(--color-mint-light);
+  
+  .nav-link {
+    color: var(--color-teal-dark) !important;
+    
+    &:hover {
+      color: var(--color-teal) !important;
+    }
+  }
+  
+  .dropdown-menu {
+    .dropdown-item {
+      &:hover, &.active {
+        background-color: var(--color-mint-light) !important;
+        color: var(--color-teal-dark) !important;
+      }
+    }
+  }
+}
+
+.user-header {
+  background-color: var(--color-teal) !important;
+}

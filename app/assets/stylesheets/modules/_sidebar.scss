@@ -1,0 +1,40 @@
+// Sidebar styles with custom palette
+.app-sidebar {
+  background-color: var(--color-teal-darker) !important;
+  
+  .sidebar-brand {
+    background-color: var(--color-teal-darker) !important;
+    border-bottom: 1px solid var(--color-teal-dark);
+    
+    .brand-link {
+      color: var(--color-white) !important;
+    }
+  }
+  
+  .nav-link {
+    color: var(--color-mint-light) !important;
+    
+    &:hover {
+      background-color: var(--color-teal-dark) !important;
+      color: var(--color-white) !important;
+    }
+    
+    &.active {
+      background-color: var(--color-teal-dark) !important;
+      color: var(--color-white) !important;
+    }
+  }
+  
+  .nav-header {
+    color: var(--color-mint) !important;
+  }
+  
+  .nav-treeview .nav-link {
+    color: var(--color-mint-light) !important;
+    
+    &:hover, &.active {
+      background-color: rgba(83, 144, 145, 0.3) !important;
+      color: var(--color-white) !important;
+    }
+  }
+}

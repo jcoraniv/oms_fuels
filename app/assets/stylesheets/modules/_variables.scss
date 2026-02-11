@@ -1,0 +1,75 @@
+// Custom color palette
+:root {
+  --color-white: #ffffff;
+  --color-mint-light: #cceae8;
+  --color-mint: #a8dcd9;
+  --color-teal: #68c3b7;
+  --color-teal-dark: #539091;
+  --color-teal-darker: #3d6b6c;
+  
+  // Override Bootstrap variables
+  --bs-primary: #68c3b7;
+  --bs-primary-rgb: 104, 195, 183;
+  --bs-secondary: #539091;
+  --bs-secondary-rgb: 83, 144, 145;
+  --bs-light: #cceae8;
+  --bs-light-rgb: 204, 234, 232;
+  --bs-info: #a8dcd9;
+  --bs-info-rgb: 168, 220, 217;
+  
+  // Link colors
+  --bs-link-color: #68c3b7;
+  --bs-link-hover-color: #539091;
+}
+
+// Apply to buttons
+.btn-primary {
+  background-color: var(--color-teal) !important;
+  border-color: var(--color-teal) !important;
+  
+  &:hover {
+    background-color: var(--color-teal-dark) !important;
+    border-color: var(--color-teal-dark) !important;
+  }
+}
+
+// Apply to badges
+.badge.bg-primary {
+  background-color: var(--color-teal) !important;
+}
+
+.badge.bg-secondary:not(.bg-success):not(.bg-danger):not(.bg-warning):not(.bg-info) {
+  background-color: var(--color-teal-dark) !important;
+}
+
+// Keep original state badge colors
+.badge.bg-success {
+  background-color: #198754 !important;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.badge.bg-info {
+  background-color: #0dcaf0 !important;
+  color: #000 !important;
+}
+
+// Apply to links
+a {
+  color: var(--color-teal);
+  
+  &:hover {
+    color: var(--color-teal-dark);
+  }
+}
+
+.text-primary {
+  color: var(--color-teal) !important;
+}
