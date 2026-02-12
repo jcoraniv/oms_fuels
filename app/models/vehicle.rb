@@ -4,7 +4,7 @@ class Vehicle < ApplicationRecord
   belongs_to :vehicle_type
   has_many :fuel_order_items
   
-  validates :plate, presence: true
+  validates :plate, presence: true, uniqueness: true
 
   def self.ransackable_attributes(auth_object = nil)
     ["plate", "description", "details", "vehicle_type_id", "status", "created_at", "updated_at"]

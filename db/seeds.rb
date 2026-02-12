@@ -17,6 +17,8 @@ end
 # Role Admin
 puts "Creating admin role..."
 admin_role = Role.find_or_create_by!(name: 'Admin')
+Role.find_or_create_by!(name: 'Operation')
+Role.find_or_create_by!(name: 'Employee')
 
 # Admin User
 puts "Creating admin user..."

@@ -13,6 +13,7 @@
       <thead>
         <tr>
           <th><%= t('admin.fuel_orders.table.number') %></th>
+          <th><%= t('pdf.fuel_order.vehicle') %></th>
           <th><%= t('admin.fuel_orders.table.requester') %></th>
           <th><%= t('admin.fuel_orders.table.approver') %></th>
           <% if any_fuel_order_canceled %>
@@ -27,6 +28,10 @@
         <% @fuel_orders.each do |order| %>
           <tr>
             <td><%= link_to order.formatted_number, admin_fuel_order_path(order), class: "text-primary" %></td>
+            <td>
+              <% vehicle = order.fuel_order_items.first&.vehicle %>
+              <%= vehicle ? vehicle.plate : '-' %>
+            </td>
             <td><%= order.requester_assignment.personal.full_name %></td>
             <td>
               <% if !order.canceled? && order.approver_assignment %>
