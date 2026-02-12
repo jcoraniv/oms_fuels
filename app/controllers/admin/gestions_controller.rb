@@ -21,6 +21,7 @@ class Admin::GestionsController < Admin::BaseController
     if @gestion.save
       redirect_to admin_gestions_path, notice: 'Gestion was successfully created.'
     else
+      flash.now[:error] = @gestion.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -32,6 +33,7 @@ class Admin::GestionsController < Admin::BaseController
     if @gestion.update(gestion_params)
       redirect_to admin_gestions_path, notice: 'Gestion was successfully updated.'
     else
+      flash.now[:error] = @gestion.errors.full_messages
       render :edit, status: :unprocessable_entity
     end
   end

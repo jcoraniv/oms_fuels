@@ -250,6 +250,7 @@
     <!--begin::App Content-->
     <div class="app-content">
       <div class="container-fluid">
+        <%= flash_alerts %>
         <%= render partial: 'shared/table_filter' if content_for?(:table_filter) %>
         <%= yield %>
       </div>
@@ -259,11 +260,12 @@
   <!--end::App Main-->
   <!--begin::Footer-->
   <footer class="app-footer">
+    <div class="float-end d-none d-sm-inline">
+      <b>Version</b> 1.0.0
+    </div>
     <strong>
-      Copyright &copy; 2024&nbsp;
-      <a href="#" class="text-decoration-none"><%= t('app_name') %></a>.
+      Developed by <a href="https://www.linkedin.com/in/javier-corani" target="_blank" class="text-decoration-none">Javier Corani</a>.
     </strong>
-    All rights reserved.
   </footer>
   <!--end::Footer-->
 </div>
@@ -274,6 +276,17 @@
     $('.select2').select2({
       theme: 'bootstrap-5',
       width: '100%'
+    });
+
+    // Auto-dismiss alerts
+    $('.alert[data-auto-dismiss]').each(function() {
+      const alert = $(this);
+      const delay = parseInt(alert.data('auto-dismiss'));
+      setTimeout(function() {
+        alert.fadeOut('slow', function() {
+          alert.alert('close');
+        });
+      }, delay);
     });
 
     // Push Notification Switch

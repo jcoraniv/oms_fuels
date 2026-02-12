@@ -24,6 +24,7 @@ class Admin::VehicleTypesController < Admin::BaseController
     if @vehicle_type.save
       redirect_to admin_vehicle_type_path(@vehicle_type), notice: t('common.created', model: 'Vehicle type')
     else
+      flash.now[:error] = @vehicle_type.errors.full_messages
       render :new
     end
   end
@@ -32,6 +33,7 @@ class Admin::VehicleTypesController < Admin::BaseController
     if @vehicle_type.update(vehicle_type_params)
       redirect_to admin_vehicle_type_path(@vehicle_type), notice: 'Vehicle type was successfully updated.'
     else
+      flash.now[:error] = @vehicle_type.errors.full_messages
       render :edit
     end
   end

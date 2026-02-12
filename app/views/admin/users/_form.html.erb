@@ -1,14 +1,4 @@
 <%= form_with model: [:admin, @user], local: true do |f| %>
-  <% if @user.errors.any? %>
-    <div class="alert alert-danger">
-      <ul class="mb-0">
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <div class="mb-3">
     <%= f.label :personal_id, t('activerecord.attributes.personal.first_name'), class: "form-label" %>
     <%= f.select :personal_id, options_from_collection_for_select(@personals, :id, :full_name, @user.personal_id),

@@ -30,6 +30,7 @@ class Admin::UsersController < Admin::BaseController
       end
       redirect_to admin_users_path, notice: "User created successfully"
     else
+      flash.now[:error] = @user.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -46,6 +47,7 @@ class Admin::UsersController < Admin::BaseController
     if @user.update(user_params)
       redirect_to admin_users_path, notice: "User updated successfully"
     else
+      flash.now[:error] = @user.errors.full_messages
       render :edit, status: :unprocessable_entity
     end
   end

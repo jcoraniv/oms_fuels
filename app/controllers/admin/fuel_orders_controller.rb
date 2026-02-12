@@ -61,10 +61,12 @@ class Admin::FuelOrdersController < Admin::BaseController
         @fuel_order.number = nil
         retry
       else
+        flash.now[:error] = 'Unable to generate order number. Please try again.'
         @fuel_order.errors.add(:base, 'Unable to generate order number. Please try again.')
         render :new, status: :unprocessable_entity
       end
     rescue ActiveRecord::RecordInvalid
+      flash.now[:error] = @fuel_order.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -86,6 +88,7 @@ class Admin::FuelOrdersController < Admin::BaseController
     if @fuel_order.update(fuel_order_params)
       redirect_to admin_fuel_orders_path, notice: t('common.updated')
     else
+      flash.now[:error] = @fuel_order.errors.full_messages
       render :edit, status: :unprocessable_entity
     end
   end
@@ -123,9 +126,10 @@ class Admin::FuelOrdersController < Admin::BaseController
 
   def cancel
     authorize @fuel_order
-    @fuel_order.update(
+    @fuel_order.update_columns(
       status: :canceled,
-      canceled_at: Time.current
+      canceled_at: Time.current,
+      approver_assignment_id: current_user.personal.assignments.last&.id
     )
     redirect_to admin_fuel_orders_path, notice: 'Order canceled successfully'
   end
@@ -148,6 +152,6 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def set_vehicles
-    @vehicles = Vehicle.all
+    @vehicles = Vehicle.not_deleted
   end
 end

@@ -9,8 +9,6 @@ class Gestion < ApplicationRecord
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true
 
-  scope :active_gestions, -> { where(active: true) }
-
   after_create :assign_to_all_users
 
   def self.ransackable_attributes(auth_object = nil)

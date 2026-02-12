@@ -1,15 +1,4 @@
 <%= form_with(model: [:admin, @org_position], url: @org_position.persisted? ? admin_position_path(@org_position) : admin_positions_path, local: true) do |form| %>
-  <% if @org_position.errors.any? %>
-    <div id="error_explanation" class="alert alert-danger">
-      <h2><%= t('common.error_count', count: @org_position.errors.count) %> <%= t('common.prohibited_from_saving', model: t('activerecord.models.position').downcase) %></h2>
-      <ul>
-        <% @org_position.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <div class="card-body">
     <div class="row">
       <div class="col-md-6">

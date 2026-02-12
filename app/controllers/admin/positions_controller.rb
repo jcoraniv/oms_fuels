@@ -24,6 +24,7 @@ class Admin::PositionsController < Admin::BaseController
     if @org_position.save
       redirect_to admin_positions_path, notice: t('common.created')
     else
+      flash.now[:error] = @org_position.errors.full_messages
       @org_structures = current_user.current_gestion.org_structures.includes(:department)
       @personals = Personal.where.not(id: Assignment.joins(org_position: :org_structure).where(org_structures: { gestion_id: current_user.current_gestion.id }).select(:personal_id))
       render :new, status: :unprocessable_entity
@@ -40,6 +41,7 @@ class Admin::PositionsController < Admin::BaseController
     if @org_position.update(org_position_params)
       redirect_to admin_positions_path, notice: t('common.updated')
     else
+      flash.now[:error] = @org_position.errors.full_messages
       @org_structures = current_user.current_gestion.org_structures.includes(:department)
       @personals = Personal.where.not(id: Assignment.joins(org_position: :org_structure).where(org_structures: { gestion_id: current_user.current_gestion.id }).where.not(org_position_id: @org_position.id).select(:personal_id))
       render :edit, status: :unprocessable_entity

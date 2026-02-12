@@ -15,6 +15,7 @@ class FuelOrder < ApplicationRecord
 
   validates :number, presence: true, uniqueness: { scope: :gestion_id }, on: :update
   validates :approver_assignment_id, presence: true
+  validates :vehicle_id, presence: true, unless: :canceled?
   validates :total, numericality: { greater_than_or_equal_to: 0 }
 
   before_validation :generate_number, on: :create

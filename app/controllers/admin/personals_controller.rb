@@ -21,6 +21,7 @@ class Admin::PersonalsController < Admin::BaseController
     if @personal.save
       redirect_to admin_personals_path, notice: 'Personal was successfully created.'
     else
+      flash.now[:error] = @personal.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -32,6 +33,7 @@ class Admin::PersonalsController < Admin::BaseController
     if @personal.update(personal_params)
       redirect_to admin_personals_path, notice: 'Personal was successfully updated.'
     else
+      flash.now[:error] = @personal.errors.full_messages
       render :edit, status: :unprocessable_entity
     end
   end

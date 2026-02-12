@@ -24,6 +24,7 @@ class Admin::VehiclesController < Admin::BaseController
     if @vehicle.save
       redirect_to admin_vehicle_path(@vehicle), notice: t('common.created', model: 'Vehicle')
     else
+      flash.now[:error] = @vehicle.errors.full_messages
       render :new
     end
   end
@@ -32,6 +33,7 @@ class Admin::VehiclesController < Admin::BaseController
     if @vehicle.update(vehicle_params)
       redirect_to admin_vehicle_path(@vehicle), notice: 'Vehicle was successfully updated.'
     else
+      flash.now[:error] = @vehicle.errors.full_messages
       render :edit
     end
   end

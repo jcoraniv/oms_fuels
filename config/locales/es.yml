@@ -1,5 +1,5 @@
 es:
-  app_name: "SE Combustible"
+  app_name: "Sé Combustible"
   
   date:
     month_names: [~, "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
@@ -258,6 +258,12 @@ es:
         number: "Número"
         total: "Total"
         status: "Estado"
+        requester_assignment: "Solicitante"
+        requester_assignment_id: "Solicitante"
+        approver_assignment: "Aprobador"
+        approver_assignment_id: "Aprobador"
+        vehicle: "Vehículo"
+        vehicle_id: "Vehículo"
       vehicle_type:
         name: "Nombre"
         description: "Descripción"
@@ -273,6 +279,7 @@ es:
       fuel:
         description: "Descripción"
         unit_of_measure: "Unidad de Medida"
+        reference_price: "Precio de Referencia"
         units_of_measure:
           liter: "Litro"
           gallon: "Galón"
@@ -286,6 +293,8 @@ es:
         taken: "ya está en uso"
         blank: "no puede estar en blanco"
         invalid: "no es válido"
+        inclusion: "no está incluido en la lista"
+        required: "es obligatorio"
         too_short: "es demasiado corto (mínimo %{count} caracteres)"
         too_long: "es demasiado largo (máximo %{count} caracteres)"
         confirmation: "no coincide"

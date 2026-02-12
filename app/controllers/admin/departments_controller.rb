@@ -21,6 +21,7 @@ class Admin::DepartmentsController < Admin::BaseController
     if @org_structure.save
       redirect_to admin_departments_path, notice: t('common.created')
     else
+      flash.now[:error] = @org_structure.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -33,6 +34,7 @@ class Admin::DepartmentsController < Admin::BaseController
     if @org_structure.update(org_structure_params)
       redirect_to admin_departments_path, notice: t('common.updated')
     else
+      flash.now[:error] = @org_structure.errors.full_messages
       render :edit, status: :unprocessable_entity
     end
   end

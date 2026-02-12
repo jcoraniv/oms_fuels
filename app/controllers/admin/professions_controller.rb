@@ -20,6 +20,7 @@ class Admin::ProfessionsController < Admin::BaseController
     if @profession.save
       redirect_to admin_professions_path, notice: 'Profession was successfully created.'
     else
+      flash.now[:error] = @profession.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -31,6 +32,7 @@ class Admin::ProfessionsController < Admin::BaseController
     if @profession.update(profession_params)
       redirect_to admin_professions_path, notice: 'Profession was successfully updated.'
     else
+      flash.now[:error] = @profession.errors.full_messages
       render :edit, status: :unprocessable_entity
     end
   end

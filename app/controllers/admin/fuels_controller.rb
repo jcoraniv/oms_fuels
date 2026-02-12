@@ -24,6 +24,7 @@ class Admin::FuelsController < Admin::BaseController
     if @fuel.save
       redirect_to admin_fuel_path(@fuel), notice: t('common.created', model: 'Fuel')
     else
+      flash.now[:error] = @fuel.errors.full_messages
       render :new
     end
   end
@@ -32,6 +33,7 @@ class Admin::FuelsController < Admin::BaseController
     if @fuel.update(fuel_params)
       redirect_to admin_fuel_path(@fuel), notice: t('common.updated', model: 'Fuel')
     else
+      flash.now[:error] = @fuel.errors.full_messages
       render :edit
     end
   end

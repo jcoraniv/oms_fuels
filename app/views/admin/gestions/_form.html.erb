@@ -1,15 +1,4 @@
 <%= form_with(model: [:admin, @gestion], local: true) do |form| %>
-  <% if @gestion.errors.any? %>
-    <div id="error_explanation" class="alert alert-danger">
-      <h2><%= t('common.error_count', count: @gestion.errors.count) %> <%= t('common.prohibited_from_saving', model: t('activerecord.models.gestion').downcase) %></h2>
-      <ul>
-        <% @gestion.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <div class="card-body">
     <div class="form-group">
       <%= form.label :code, t('activerecord.attributes.gestion.code') %>
@@ -18,10 +7,6 @@
     <div class="form-group">
       <%= form.label :name, t('activerecord.attributes.gestion.name') %>
       <%= form.text_field :name, class: 'form-control' %>
-    </div>
-    <div class="form-group form-check">
-      <%= form.check_box :active, class: 'form-check-input' %>
-      <%= form.label :active, t('activerecord.attributes.gestion.active'), class: 'form-check-label' %>
     </div>
   </div>
   <div class="card-footer">

@@ -64,7 +64,7 @@
                 <%= action_button(:approve, approve_admin_fuel_order_path(order), method: :patch) %>
               <% end %>
               <% if policy(order).cancel? && (order.pending? || order.approved?) %>
-                <%= action_button(:cancel, cancel_admin_fuel_order_path(order), method: :patch, data: { turbo_confirm: 'Are you sure?' }) %>
+                <%= action_button(:cancel, cancel_admin_fuel_order_path(order), method: :patch, data: { confirm: 'Are you sure?' }) %>
               <% end %>
               <% if policy(order).complete? && order.approved? %>
                 <%= action_button(:complete, complete_admin_fuel_order_path(order), method: :patch) %>

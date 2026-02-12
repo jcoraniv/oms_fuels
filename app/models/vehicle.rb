@@ -2,7 +2,7 @@ class Vehicle < ApplicationRecord
   include SoftDeletable
   
   belongs_to :vehicle_type
-  has_many :fuel_orders
+  has_many :fuel_order_items
   
   validates :plate, presence: true
 
