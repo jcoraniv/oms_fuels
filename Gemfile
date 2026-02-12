@@ -60,7 +60,7 @@ end
 
 gem "jquery-rails"
 gem "bootstrap", "~> 5.3"
-gem "sassc-rails", "~> 2.1"
+gem "dartsass-sprockets"
 gem "turbo-rails"
 gem "importmap-rails"
 gem "pundit"
