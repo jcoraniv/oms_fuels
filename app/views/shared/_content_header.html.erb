@@ -4,12 +4,12 @@
       <div class="row mb-2 align-items-center">
         <% if content_for?(:page_title) %>
           <div class="col-sm-<%= content_for?(:page_actions) ? '6' : '12' %>">
-            <h1 class="m-0">
+            <h2 class="m-0">
               <%= yield :page_title %>
               <% if content_for?(:page_title_small) %>
                 <small class="text-muted"><%= yield :page_title_small %></small>
               <% end %>
-            </h1>
+            </h2>
           </div>
         <% end %>
 

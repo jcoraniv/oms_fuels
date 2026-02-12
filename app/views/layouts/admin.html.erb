@@ -83,6 +83,9 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <li class="user-header text-bg-primary">
+                <% if current_user.sign_image.attached? %>
+                  <%= image_tag current_user.sign_image, class: "img-fluid mb-2", style: "max-height: 80px;" %>
+                <% end %>
                 <p>
                   <%= current_user.full_name %>
                   <small><%= current_user.role.name %></small>

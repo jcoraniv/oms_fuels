@@ -20,6 +20,9 @@ es:
     back: "Volver"
     save: "Guardar"
     cancel: "Cancelar"
+    approve: "Aprobar"
+    complete: "Completar"
+    print: "Imprimir"
     confirm_delete: "¿Está seguro que desea eliminar este elemento?"
     created: "Creado exitosamente"
     updated: "Actualizado exitosamente"
@@ -118,6 +121,14 @@ es:
         status: "Estado"
         active: "Activo"
         inactive: "Inactivo"
+      form:
+        sign_image: "Imagen de Firma"
+        sign_image_help: "Solo se aceptan archivos JPG o PNG"
+      form:
+        sign_image: "Imagen de Firma"
+        sign_image_help: "Solo se aceptan archivos JPG o PNG"
+        select_personal: "Seleccione Personal"
+        select_role: "Seleccione Rol"
     
     personals:
       title: "Personal"

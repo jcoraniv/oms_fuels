@@ -25,7 +25,7 @@ module NotificationsHelper
         title: 'New Requested Orders',
         count: requested_count,
         icon: 'bi-file-earmark-text',
-        url: admin_mark_read_notifications_path(type: NOTIFICATION_TYPES[:pending]),
+        url: admin_mark_read_notifications_path(status_eq: NOTIFICATION_TYPES[:pending]),
         type: NOTIFICATION_TYPES[:pending]
       } if requested_count > 0
     elsif user.operation?

@@ -1,8 +1,15 @@
+<% content_for :page_title do %>
+  <%= link_to t('admin.menu.vehicles'), admin_vehicles_path %> /
+  <%= @vehicle.plate %>
+<% end %>
+
 <div class="card card-info">
-  <div class="card-header">
-    <h3 class="card-title"><%= t('admin.vehicles.details') %></h3>
-  </div>
   <div class="card-body">
+    <div class="d-flex justify-content-end mb-3">
+      <%= link_to edit_admin_vehicle_path(@vehicle), class: 'btn btn-warning btn-sm' do %>
+        <i class="bi bi-pencil"></i>
+      <% end %>
+    </div>
     <dl class="row">
       <dt class="col-sm-3"><%= t('admin.vehicles.table.plate') %></dt>
       <dd class="col-sm-9"><%= @vehicle.plate %></dd>
@@ -19,9 +26,5 @@
       <dt class="col-sm-3"><%= t('activerecord.attributes.vehicle.status') %></dt>
       <dd class="col-sm-9"><span class="badge bg-<%= @vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= @vehicle.status.humanize %></span></dd>
     </dl>
-  </div>
-  <div class="card-footer">
-    <%= link_to t('common.edit'), edit_admin_vehicle_path(@vehicle), class: 'btn btn-warning' %>
-    <%= link_to t('common.back'), admin_vehicles_path, class: 'btn btn-secondary' %>
   </div>
 </div>

@@ -1,8 +1,15 @@
+<% content_for :page_title do %>
+  <%= link_to t('admin.menu.vehicle_types'), admin_vehicle_types_path %> /
+  <%= @vehicle_type.name %>
+<% end %>
+
 <div class="card card-info">
-  <div class="card-header">
-    <h3 class="card-title"><%= t('admin.vehicle_types.details') %></h3>
-  </div>
   <div class="card-body">
+    <div class="d-flex justify-content-end mb-3">
+      <%= link_to edit_admin_vehicle_type_path(@vehicle_type), class: 'btn btn-warning btn-sm' do %>
+        <i class="bi bi-pencil"></i>
+      <% end %>
+    </div>
     <dl class="row">
       <dt class="col-sm-3"><%= t('admin.vehicle_types.table.name') %></dt>
       <dd class="col-sm-9"><%= @vehicle_type.name %></dd>
@@ -10,9 +17,5 @@
       <dt class="col-sm-3"><%= t('admin.vehicle_types.table.description') %></dt>
       <dd class="col-sm-9"><%= @vehicle_type.description %></dd>
     </dl>
-  </div>
-  <div class="card-footer">
-    <%= link_to t('common.edit'), edit_admin_vehicle_type_path(@vehicle_type), class: 'btn btn-warning' %>
-    <%= link_to t('common.back'), admin_vehicle_types_path, class: 'btn btn-secondary' %>
   </div>
 </div>

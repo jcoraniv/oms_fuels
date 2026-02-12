@@ -1,3 +1,8 @@
+<% content_for :page_title do %>
+  <%= link_to t('admin.menu.fuel_orders'), admin_fuel_orders_path %> /
+  <%= @fuel_order.formatted_number %>
+<% end %>
+
 <% 
   badge_color = case @fuel_order.status
   when 'pending' then 'warning'
@@ -7,9 +12,6 @@
   end
 %>
 <div class="card card-<%= badge_color %>">
-  <div class="card-header">
-    <h3 class="card-title"><%= t('admin.fuel_orders.details') %></h3>
-  </div>
   <div class="card-body">
     <div class="d-flex justify-content-between align-items-start">
       <div>
@@ -57,10 +59,31 @@
       </tfoot>
     </table>
   </div>
-  <div class="card-footer">
-    <% if policy(@fuel_order).update? %>
-      <%= link_to t('common.edit'), edit_admin_fuel_order_path(@fuel_order), class: 'btn btn-warning' %>
+  <div class="card-footer d-flex justify-content-end gap-2">
+    <% if policy(@fuel_order).update? && @fuel_order.pending? %>
+      <%= link_to edit_admin_fuel_order_path(@fuel_order), class: 'btn btn-warning btn-sm' do %>
+        <i class="bi bi-pencil"></i> <%= t('common.edit') %>
+      <% end %>
     <% end %>
-    <%= link_to t('common.back'), admin_fuel_orders_path, class: 'btn btn-secondary' %>
+    <% if policy(@fuel_order).approve? && @fuel_order.pending? %>
+      <%= button_to approve_admin_fuel_order_path(@fuel_order), method: :patch, class: 'btn btn-success btn-sm' do %>
+        <i class="bi bi-check-circle"></i> <%= t('common.approve') %>
+      <% end %>
+    <% end %>
+    <% if policy(@fuel_order).cancel? && (@fuel_order.pending? || @fuel_order.approved?) %>
+      <%= button_to cancel_admin_fuel_order_path(@fuel_order), method: :patch, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
+        <i class="bi bi-x-circle"></i> <%= t('common.cancel') %>
+      <% end %>
+    <% end %>
+    <% if policy(@fuel_order).complete? && @fuel_order.approved? %>
+      <%= button_to complete_admin_fuel_order_path(@fuel_order), method: :patch, class: 'btn btn-primary btn-sm' do %>
+        <i class="bi bi-flag-checkered"></i> <%= t('common.complete') %>
+      <% end %>
+    <% end %>
+    <% if @fuel_order.completed? %>
+      <%= link_to admin_fuel_order_path(@fuel_order, format: :pdf), target: "_blank", class: 'btn btn-info btn-sm' do %>
+        <i class="bi bi-printer"></i> <%= t('common.print') %>
+      <% end %>
+    <% end %>
   </div>
 </div>

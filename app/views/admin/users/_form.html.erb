@@ -27,8 +27,9 @@
   </div>
 
   <div class="mb-3">
-    <%= f.label :sign_image, 'Signature Image', class: "form-label" %>
-    <%= f.file_field :sign_image, class: "form-control", accept: 'image/*' %>
+    <%= f.label :sign_image, t('admin.users.form.sign_image'), class: "form-label" %>
+    <%= f.file_field :sign_image, class: "form-control", accept: 'image/png,image/jpg,image/jpeg' %>
+    <small class="form-text text-muted"><%= t('admin.users.form.sign_image_help') %></small>
     <% if @user.sign_image.attached? %>
       <div class="mt-2">
         <%= image_tag @user.sign_image, style: 'max-width: 200px; max-height: 100px;' %>

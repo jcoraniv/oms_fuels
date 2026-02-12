@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   include SoftDeletable
   
+  IMAGE_FORMATS_ALLOWED = %w[image/jpg image/jpeg image/png].freeze
+  
   has_secure_password
   has_one_attached :sign_image
 
@@ -17,6 +19,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
   validates :role_id, presence: true
   validates :personal_id, presence: true
+  validate :sign_image_format
 
   def self.ransackable_attributes(auth_object = nil)
     ["username", "role_id", "personal_id", "status", "created_at", "updated_at"]
@@ -53,5 +56,15 @@ class User < ApplicationRecord
 
   def operation?
     role.name == 'Operation'
+  end
+
+  private
+
+  def sign_image_format
+    return unless sign_image.attached?
+    
+    unless sign_image.content_type.in?(IMAGE_FORMATS_ALLOWED)
+      errors.add(:sign_image, 'debe ser formato JPG o PNG')
+    end
   end
 end

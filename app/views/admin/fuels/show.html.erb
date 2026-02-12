@@ -1,8 +1,15 @@
+<% content_for :page_title do %>
+  <%= link_to t('admin.menu.fuels'), admin_fuels_path %> /
+  <%= @fuel.description %>
+<% end %>
+
 <div class="card card-info">
-  <div class="card-header">
-    <h3 class="card-title"><%= t('admin.fuels.details') %></h3>
-  </div>
   <div class="card-body">
+    <div class="d-flex justify-content-end mb-3">
+      <%= link_to edit_admin_fuel_path(@fuel), class: 'btn btn-warning btn-sm' do %>
+        <i class="bi bi-pencil"></i>
+      <% end %>
+    </div>
     <dl class="row">
       <dt class="col-sm-3"><%= t('admin.fuels.table.description') %></dt>
       <dd class="col-sm-9"><%= @fuel.description %></dd>
@@ -13,9 +20,5 @@
       <dt class="col-sm-3"><%= t('admin.fuels.table.reference_price') %></dt>
       <dd class="col-sm-9"><%= number_to_currency(@fuel.reference_price) if @fuel.reference_price %></dd>
     </dl>
-  </div>
-  <div class="card-footer">
-    <%= link_to t('common.edit'), edit_admin_fuel_path(@fuel), class: 'btn btn-warning' %>
-    <%= link_to t('common.back'), admin_fuels_path, class: 'btn btn-secondary' %>
   </div>
 </div>

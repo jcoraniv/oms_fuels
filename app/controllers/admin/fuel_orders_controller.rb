@@ -15,6 +15,10 @@ class Admin::FuelOrdersController < Admin::BaseController
     respond_to do |format|
       format.html
       format.pdf do
+        # Preload attachments
+        @fuel_order.requester_sign.attachment if @fuel_order.requester_sign.attached?
+        @fuel_order.approver_sign.attachment if @fuel_order.approver_sign.attached?
+        
         pdf = FuelOrderPdf.new(@fuel_order)
         filename = "#{@fuel_order.formatted_number}_#{@fuel_order.created_at.strftime('%Y%m%d')}.pdf"
         send_data pdf.render, filename: filename, type: "application/pdf", disposition: "inline"
@@ -48,7 +52,11 @@ class Admin::FuelOrdersController < Admin::BaseController
 
         # Copy requester signature
         if current_user.sign_image.attached?
-          @fuel_order.requester_sign.attach(current_user.sign_image.blob)
+          @fuel_order.requester_sign.attach(
+            io: StringIO.new(current_user.sign_image.download),
+            filename: current_user.sign_image.filename.to_s,
+            content_type: current_user.sign_image.content_type
+          )
         end
 
         @fuel_order.save!
@@ -101,18 +109,27 @@ class Admin::FuelOrdersController < Admin::BaseController
 
   def approve
     authorize @fuel_order
-    @fuel_order.update(
+    
+    # Copy approver signature before updating
+    if current_user.sign_image.attached?
+      @fuel_order.approver_sign.attach(
+        io: StringIO.new(current_user.sign_image.download),
+        filename: current_user.sign_image.filename.to_s,
+        content_type: current_user.sign_image.content_type
+      )
+    end
+    
+    @fuel_order.assign_attributes(
       status: :approved,
       approved_at: Time.current,
       approver_assignment_id: current_user.personal.assignments.last&.id
     )
     
-    # Copy approver signature
-    if current_user.sign_image.attached?
-      @fuel_order.approver_sign.attach(current_user.sign_image.blob)
+    if @fuel_order.save
+      redirect_back(fallback_location: admin_fuel_orders_path, notice: t('common.messages.order_approved'))
+    else
+      redirect_back(fallback_location: admin_fuel_orders_path, alert: @fuel_order.errors.full_messages.join(', '))
     end
-    
-    redirect_to admin_fuel_orders_path, notice: t('common.messages.order_approved')
   end
 
   def complete
@@ -121,7 +138,7 @@ class Admin::FuelOrdersController < Admin::BaseController
       status: :completed,
       completed_at: Time.current
     )
-    redirect_to admin_fuel_orders_path, notice: t('common.messages.order_completed')
+    redirect_back(fallback_location: admin_fuel_orders_path, notice: t('common.messages.order_completed'))
   end
 
   def cancel
@@ -131,7 +148,7 @@ class Admin::FuelOrdersController < Admin::BaseController
       canceled_at: Time.current,
       approver_assignment_id: current_user.personal.assignments.last&.id
     )
-    redirect_to admin_fuel_orders_path, notice: t('common.messages.order_canceled')
+    redirect_back(fallback_location: admin_fuel_orders_path, notice: t('common.messages.order_canceled'))
   end
 
   private

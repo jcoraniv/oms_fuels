@@ -10,7 +10,7 @@
       <div class="icon">
         <i class="fas fa-clock"></i>
       </div>
-      <%= link_to admin_fuel_orders_path(status: 'pending'), class: 'small-box-footer' do %>
+      <%= link_to admin_fuel_orders_path(status_eq: 'pending'), class: 'small-box-footer' do %>
         <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
       <% end %>
     </div>
@@ -25,7 +25,7 @@
       <div class="icon">
         <i class="fas fa-check-circle"></i>
       </div>
-      <%= link_to admin_fuel_orders_path(status: 'approved'), class: 'small-box-footer' do %>
+      <%= link_to admin_fuel_orders_path(status_eq: 'approved'), class: 'small-box-footer' do %>
         <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
       <% end %>
     </div>
@@ -40,7 +40,7 @@
       <div class="icon">
         <i class="fas fa-flag-checkered"></i>
       </div>
-      <%= link_to admin_fuel_orders_path(status: 'completed'), class: 'small-box-footer' do %>
+      <%= link_to admin_fuel_orders_path(status_eq: 'completed'), class: 'small-box-footer' do %>
         <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
       <% end %>
     </div>
@@ -55,7 +55,7 @@
       <div class="icon">
         <i class="fas fa-times-circle"></i>
       </div>
-      <%= link_to admin_fuel_orders_path(status: 'canceled'), class: 'small-box-footer' do %>
+      <%= link_to admin_fuel_orders_path(status_eq: 'canceled'), class: 'small-box-footer' do %>
         <%= t('admin.dashboard.more_info') %> <i class="fas fa-arrow-circle-right"></i>
       <% end %>
     </div>

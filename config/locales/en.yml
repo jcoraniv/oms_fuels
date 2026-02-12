@@ -110,6 +110,9 @@ en:
         status: "Status"
         active: "Active"
         inactive: "Inactive"
+      form:
+        sign_image: "Signature Image"
+        sign_image_help: "Only JPG or PNG files are accepted"
     
     personals:
       title: "Personal"
