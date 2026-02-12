@@ -32,6 +32,28 @@ es:
     prohibited_from_saving: "prohibió guardar este %{model}"
     welcome: "Bienvenido, %{name}"
     welcome_back: "Bienvenido de nuevo, %{name}"
+    alert_titles:
+      success: "Éxito!"
+      danger: "Error!"
+      warning: "Advertencia!"
+      info: "Información!"
+    messages:
+      login_required: "Debe iniciar sesión para acceder a esta página"
+      access_denied: "Acceso denegado"
+      select_gestion_first: "Por favor seleccione una gestión primero"
+      order_approved: "Orden aprobada exitosamente"
+      order_completed: "Orden completada exitosamente"
+      order_canceled: "Orden cancelada exitosamente"
+      user_created: "Usuario creado exitosamente"
+      user_updated: "Usuario actualizado exitosamente"
+      personal_created: "Personal creado exitosamente"
+      personal_updated: "Personal actualizado exitosamente"
+      profession_created: "Profesión creada exitosamente"
+      profession_updated: "Profesión actualizada exitosamente"
+      gestion_created: "Gestión creada exitosamente"
+      gestion_updated: "Gestión actualizada exitosamente"
+      vehicle_type_updated: "Tipo de vehículo actualizado exitosamente"
+      vehicle_updated: "Vehículo actualizado exitosamente"
     
   auth:
     login:
@@ -227,6 +249,7 @@ es:
       profession: "Profesión"
       position: "Cargo"
       fuel_order: "Orden de Combustible"
+      fuel_order_item: "Item de combustible"
       vehicle_type: "Tipo de Vehículo"
       vehicle: "Vehículo"
       fuel: "Combustible"
@@ -288,7 +311,12 @@ es:
       fuel_order_item:
         fuel: "Combustible"
         vehicle: "Vehículo"
+        fuel_id: "Combustible"
+        vehicle_id: "Vehículo"
+        quantity_ordered: "Cantidad"
+        unit_price: "Precio unitario"
     errors:
+      format: "%{message}"
       messages:
         taken: "ya está en uso"
         blank: "no puede estar en blanco"
@@ -303,6 +331,21 @@ es:
         greater_than_or_equal_to: "debe ser mayor o igual que %{count}"
         less_than: "debe ser menor que %{count}"
         less_than_or_equal_to: "debe ser menor o igual que %{count}"
+      models:
+        fuel_order_item:
+          attributes:
+            fuel_id:
+              blank: "Combustible es obligatorio"
+              required: "Combustible es obligatorio"
+            fuel:
+              blank: "Combustible es obligatorio"
+              required: "Combustible es obligatorio"
+            quantity_ordered:
+              blank: "Cantidad es obligatoria"
+              greater_than: "Cantidad debe ser mayor que %{count}"
+            unit_price:
+              blank: "Precio unitario es obligatorio"
+              greater_than_or_equal_to: "Precio unitario debe ser mayor o igual a %{count}"
 
   pdf:
     fuel_order:

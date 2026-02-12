@@ -85,7 +85,7 @@
 <template id="item-template">
   <tr class="nested-fields">
     <td>
-      <select class="form-control select2 fuel-select" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][fuel_id]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_fuel_id" data-prices='<%= Fuel.all.map { |f| [f.id, f.reference_price] }.to_h.to_json %>'><option value="">Select a fuel</option>
+      <select class="form-control select2 fuel-select" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][fuel_id]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_fuel_id" data-prices='<%= Fuel.all.map { |f| [f.id, f.reference_price] }.to_h.to_json %>'><option value=""><%= t('admin.fuel_orders.items.select_fuel') %></option>
 <%= options_from_collection_for_select(Fuel.all, :id, :description) %></select>
     </td>
     <td>
@@ -137,7 +137,7 @@
       const row = $(this).closest('tr');
       const fuelId = $(this).val();
       const prices = $(this).data('prices');
-      
+
       if (fuelId && prices && prices[fuelId]) {
         row.find('.item-price').val(prices[fuelId]);
         calculateSubtotal(row);
@@ -152,9 +152,9 @@
       let content = template.html().replace(/NEW_RECORD/g, timestamp);
 
       $('#fuel-order-items tbody').append(content);
-      
+
       // Initialize select2 on new row with width 100%
-      $('#fuel-order-items tbody tr:last .select2').select2({ 
+      $('#fuel-order-items tbody tr:last .select2').select2({
         theme: 'bootstrap-5',
         width: '100%'
       });

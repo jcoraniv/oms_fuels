@@ -5,8 +5,13 @@
 .alert {
   position: relative;
   
-  .icon {
-    margin-right: 10px;
+  h5 {
+    margin-bottom: 0.5rem;
+    
+    .icon {
+      font-size: 1.2rem;
+      margin-right: 0.25rem;
+    }
   }
 
   .close {

@@ -33,6 +33,16 @@ class FuelOrder < ApplicationRecord
     number.to_s.rjust(4, '0')
   end
 
+  def custom_error_messages
+    errors.full_messages.map do |message|
+      message.gsub(/^Fuel order items /, '')
+             .gsub(/^fuel /, '')
+             .gsub(/^vehicle /, '')
+             .gsub(/^quantity ordered /, '')
+             .gsub(/^unit price /, '')
+    end
+  end
+
   private
 
   def generate_number

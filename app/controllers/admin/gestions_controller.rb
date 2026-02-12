@@ -19,7 +19,7 @@ class Admin::GestionsController < Admin::BaseController
   def create
     @gestion = Gestion.new(gestion_params)
     if @gestion.save
-      redirect_to admin_gestions_path, notice: 'Gestion was successfully created.'
+      redirect_to admin_gestions_path, notice: t('common.messages.gestion_created')
     else
       flash.now[:error] = @gestion.errors.full_messages
       render :new, status: :unprocessable_entity
@@ -31,7 +31,7 @@ class Admin::GestionsController < Admin::BaseController
 
   def update
     if @gestion.update(gestion_params)
-      redirect_to admin_gestions_path, notice: 'Gestion was successfully updated.'
+      redirect_to admin_gestions_path, notice: t('common.messages.gestion_updated')
     else
       flash.now[:error] = @gestion.errors.full_messages
       render :edit, status: :unprocessable_entity
@@ -53,6 +53,6 @@ class Admin::GestionsController < Admin::BaseController
   end
 
   def require_admin
-    redirect_to admin_gestions_path, alert: 'Access denied' unless current_user.admin?
+    redirect_to admin_gestions_path, alert: t('common.messages.access_denied') unless current_user.admin?
   end
 end

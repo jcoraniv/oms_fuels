@@ -66,7 +66,7 @@ class Admin::FuelOrdersController < Admin::BaseController
         render :new, status: :unprocessable_entity
       end
     rescue ActiveRecord::RecordInvalid
-      flash.now[:error] = @fuel_order.errors.full_messages
+      flash.now[:error] = @fuel_order.custom_error_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -88,7 +88,7 @@ class Admin::FuelOrdersController < Admin::BaseController
     if @fuel_order.update(fuel_order_params)
       redirect_to admin_fuel_orders_path, notice: t('common.updated')
     else
-      flash.now[:error] = @fuel_order.errors.full_messages
+      flash.now[:error] = @fuel_order.custom_error_messages
       render :edit, status: :unprocessable_entity
     end
   end
@@ -112,7 +112,7 @@ class Admin::FuelOrdersController < Admin::BaseController
       @fuel_order.approver_sign.attach(current_user.sign_image.blob)
     end
     
-    redirect_to admin_fuel_orders_path, notice: 'Order approved successfully'
+    redirect_to admin_fuel_orders_path, notice: t('common.messages.order_approved')
   end
 
   def complete
@@ -121,7 +121,7 @@ class Admin::FuelOrdersController < Admin::BaseController
       status: :completed,
       completed_at: Time.current
     )
-    redirect_to admin_fuel_orders_path, notice: 'Order completed successfully'
+    redirect_to admin_fuel_orders_path, notice: t('common.messages.order_completed')
   end
 
   def cancel
@@ -131,7 +131,7 @@ class Admin::FuelOrdersController < Admin::BaseController
       canceled_at: Time.current,
       approver_assignment_id: current_user.personal.assignments.last&.id
     )
-    redirect_to admin_fuel_orders_path, notice: 'Order canceled successfully'
+    redirect_to admin_fuel_orders_path, notice: t('common.messages.order_canceled')
   end
 
   private

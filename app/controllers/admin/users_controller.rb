@@ -28,7 +28,7 @@ class Admin::UsersController < Admin::BaseController
       if gestion
         @user.user_gestions.create(gestion_id: gestion.id, current: true)
       end
-      redirect_to admin_users_path, notice: "User created successfully"
+      redirect_to admin_users_path, notice: t('common.messages.user_created')
     else
       flash.now[:error] = @user.errors.full_messages
       render :new, status: :unprocessable_entity
@@ -45,7 +45,7 @@ class Admin::UsersController < Admin::BaseController
     @personals = Personal.where.not(id: User.where.not(id: @user.id).select(:personal_id))
     
     if @user.update(user_params)
-      redirect_to admin_users_path, notice: "User updated successfully"
+      redirect_to admin_users_path, notice: t('common.messages.user_updated')
     else
       flash.now[:error] = @user.errors.full_messages
       render :edit, status: :unprocessable_entity

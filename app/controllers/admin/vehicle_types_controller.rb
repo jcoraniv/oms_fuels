@@ -31,7 +31,7 @@ class Admin::VehicleTypesController < Admin::BaseController
 
   def update
     if @vehicle_type.update(vehicle_type_params)
-      redirect_to admin_vehicle_type_path(@vehicle_type), notice: 'Vehicle type was successfully updated.'
+      redirect_to admin_vehicle_type_path(@vehicle_type), notice: t('common.messages.vehicle_type_updated')
     else
       flash.now[:error] = @vehicle_type.errors.full_messages
       render :edit
