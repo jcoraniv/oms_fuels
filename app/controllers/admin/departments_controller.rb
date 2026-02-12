@@ -5,7 +5,7 @@ class Admin::DepartmentsController < Admin::BaseController
   before_action :ensure_gestion
 
   def index
-    @q = current_user.current_gestion.org_structures.with_active_assignments.includes(:department, parent_dept: :department).ransack(params[:q])
+    @q = current_user.current_gestion.org_structures.includes(:department, parent_dept: :department).ransack(params[:q])
     @org_structures = @q.result.page(params[:page])
   end
 
