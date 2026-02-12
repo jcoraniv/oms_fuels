@@ -45,7 +45,7 @@
               <td><%= assignment.start_date %></td>
               <td><%= assignment.end_date || 'Ongoing' %></td>
               <td>
-                <% if assignment.start_date <= Date.current && (assignment.end_date.nil? || assignment.end_date >= Date.current) %>
+                <% if assignment.start_date.present? && assignment.start_date <= Date.current && (assignment.end_date.nil? || assignment.end_date >= Date.current) %>
                   <span class="badge bg-success">Active</span>
                 <% else %>
                   <span class="badge bg-secondary">Inactive</span>

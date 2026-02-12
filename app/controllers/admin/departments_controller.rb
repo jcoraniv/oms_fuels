@@ -1,9 +1,11 @@
 class Admin::DepartmentsController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_org_structure, only: [:show, :edit, :update, :destroy]
   before_action :ensure_gestion
 
   def index
-    @q = current_user.current_gestion.org_structures.includes(:department, parent_dept: :department).ransack(params[:q])
+    @q = current_user.current_gestion.org_structures.with_active_assignments.includes(:department, parent_dept: :department).ransack(params[:q])
     @org_structures = @q.result.page(params[:page])
   end
 
@@ -40,8 +42,20 @@ class Admin::DepartmentsController < Admin::BaseController
   end
 
   def destroy
-    @org_structure.destroy
-    redirect_to admin_departments_path, notice: t('common.destroyed')
+    assignments = Assignment.joins(:org_position).where(org_positions: { org_structure_id: @org_structure.id })
+    has_fuel_orders = assignments.any? do |assignment|
+      FuelOrder.where(requester_assignment_id: assignment.id)
+               .or(FuelOrder.where(approver_assignment_id: assignment.id))
+               .exists?
+    end
+    
+    if has_fuel_orders
+      assignments.each(&:soft_delete)
+      redirect_to admin_departments_path, notice: t('common.soft_deleted', model: 'Department')
+    else
+      @org_structure.destroy
+      redirect_to admin_departments_path, notice: t('common.destroyed')
+    end
   end
 
   private

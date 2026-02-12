@@ -1,4 +1,6 @@
 class Assignment < ApplicationRecord
+  include SoftDeletable
+  
   belongs_to :personal
   belongs_to :org_position
 

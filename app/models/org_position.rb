@@ -8,6 +8,8 @@ class OrgPosition < ApplicationRecord
   accepts_nested_attributes_for :position
   accepts_nested_attributes_for :assignments, allow_destroy: true, reject_if: :all_blank
 
+  scope :with_active_assignments, -> { joins(:assignments).where(assignments: { status: 0 }).distinct }
+
   delegate :gestion, to: :org_structure
   delegate :department, to: :org_structure
 end

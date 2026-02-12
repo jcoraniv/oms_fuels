@@ -8,5 +8,7 @@ class OrgStructure < ApplicationRecord
 
   accepts_nested_attributes_for :department
 
+  scope :with_active_assignments, -> { joins(org_positions: :assignments).where(assignments: { status: 0 }).distinct }
+
   validates :gestion_id, uniqueness: { scope: :department_id, message: "This department is already part of the organizational structure for this gestion." }
 end

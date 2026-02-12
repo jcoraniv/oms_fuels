@@ -172,7 +172,7 @@ es:
       details: "Detalles del Cargo"
       table:
         id: "ID"
-        code: "Código"
+        code: "Nro. Item"
         name: "Nombre"
         status: "Estado"
 
@@ -285,7 +285,7 @@ es:
       profession:
         name: "Nombre"
       position:
-        code: "Código"
+        code: "Nro. Item"
         name: "Nombre"
         status: "Estado"
       fuel_order:

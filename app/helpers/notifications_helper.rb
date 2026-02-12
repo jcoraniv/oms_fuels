@@ -11,6 +11,7 @@ module NotificationsHelper
 
     notifications = []
     assignment_ids = user.personal.assignments
+                         .current
                          .joins(org_position: :org_structure)
                          .where(org_structures: { gestion_id: gestion.id })
                          .pluck(:id)

@@ -1,14 +1,16 @@
 class Admin::PositionsController < Admin::BaseController
+  include SoftDeletableController
+  
   before_action :set_org_position, only: [:show, :edit, :update, :destroy]
   before_action :ensure_gestion
 
   def index
-    @q = current_user.current_gestion.org_positions.includes(:position, :org_structure, assignments: :personal).ransack(params[:q])
+    @q = current_user.current_gestion.org_positions.with_active_assignments.includes(:position, :org_structure, assignments: :personal).ransack(params[:q])
     @org_positions = @q.result.page(params[:page])
   end
 
   def show
-    @assignments = @org_position.assignments.includes(:personal)
+    @assignments = @org_position.assignments.not_deleted.includes(:personal)
   end
 
   def new
@@ -49,8 +51,19 @@ class Admin::PositionsController < Admin::BaseController
   end
 
   def destroy
-    @org_position.destroy
-    redirect_to admin_positions_path, notice: t('common.destroyed')
+    has_fuel_orders = @org_position.assignments.any? do |assignment|
+      FuelOrder.where(requester_assignment_id: assignment.id)
+               .or(FuelOrder.where(approver_assignment_id: assignment.id))
+               .exists?
+    end
+    
+    if has_fuel_orders
+      @org_position.assignments.each(&:soft_delete)
+      redirect_to admin_positions_path, notice: t('common.soft_deleted', model: 'Position')
+    else
+      @org_position.destroy
+      redirect_to admin_positions_path, notice: t('common.destroyed')
+    end
   end
 
   private
