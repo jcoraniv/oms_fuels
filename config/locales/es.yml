@@ -23,6 +23,7 @@ es:
     approve: "Aprobar"
     complete: "Completar"
     print: "Imprimir"
+    search: "Buscar"
     confirm_delete: "¿Está seguro que desea eliminar este elemento?"
     created: "Creado exitosamente"
     updated: "Actualizado exitosamente"
@@ -175,6 +176,15 @@ es:
         code: "Nro. Item"
         name: "Nombre"
         status: "Estado"
+      assignments:
+        title: "Asignaciones"
+        personal: "Personal"
+        start_date: "Fecha de Inicio"
+        end_date: "Fecha de Fin"
+        ongoing: "En curso"
+        active: "Activo"
+        inactive: "Inactivo"
+        no_assignments: "Aún no hay asignaciones."
 
     fuel_orders:
       title: "Órdenes"
@@ -200,6 +210,7 @@ es:
         approver: "Aprobado por"
         select_requester: "Seleccione un solicitante"
         select_approver: "Seleccione un aprobador"
+        select_vehicle: "Seleccione un vehículo"
         rejected_by: "Rechazado Por"
         total: "Monto Total"
         status: "Estado"
@@ -212,6 +223,8 @@ es:
         vehicle: "Vehículo"
         select_fuel: "Seleccione un combustible"
         select_vehicle: "Seleccione un vehículo"
+        subtotal: "Subtotal"
+        total: "Total"
       status:
         pending: "Pendiente"
         approved: "Aprobado"
@@ -238,6 +251,8 @@ es:
       title: "Combustibles"
       new: "Nuevo Combustible"
       edit: "Editar Combustible"
+      search:
+        description: "Buscar por descripción"
       table:
         description: "Descripción"
         unit_of_measure: "Unidad de Medida"
@@ -251,6 +266,8 @@ es:
       table:
         name: "Nombre"
         parent_department: "Departamento Padre"
+      show:
+        no_parent: "Ninguno - Nivel Superior"
 
   activerecord:
     models:

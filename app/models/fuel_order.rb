@@ -2,8 +2,7 @@ class FuelOrder < ApplicationRecord
   belongs_to :gestion
   belongs_to :requester_assignment, class_name: 'Assignment'
   belongs_to :approver_assignment, class_name: 'Assignment', optional: true
-
-  attr_accessor :vehicle_id
+  belongs_to :vehicle
 
   has_one_attached :requester_sign
   has_one_attached :approver_sign
@@ -15,7 +14,6 @@ class FuelOrder < ApplicationRecord
 
   validates :number, presence: true, uniqueness: { scope: :gestion_id }, on: :update
   validates :approver_assignment_id, presence: true, if: -> { approved? || canceled? }
-  validates :vehicle_id, presence: true, on: :create
   validates :total, numericality: { greater_than_or_equal_to: 0 }
 
   before_validation :generate_number, on: :create

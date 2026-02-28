@@ -24,7 +24,7 @@
       <dd class="col-sm-9"><%= @vehicle.vehicle_type.name %></dd>
 
       <dt class="col-sm-3"><%= t('activerecord.attributes.vehicle.status') %></dt>
-      <dd class="col-sm-9"><span class="badge bg-<%= @vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= @vehicle.status.humanize %></span></dd>
+      <dd class="col-sm-9"><span class="badge bg-<%= @vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= t("activerecord.attributes.vehicle.statuses.#{@vehicle.status}") %></span></dd>
     </dl>
   </div>
 </div>

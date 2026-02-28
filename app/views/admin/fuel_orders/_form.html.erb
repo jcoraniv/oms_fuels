@@ -46,7 +46,7 @@
         <%= form.fields_for :fuel_order_items do |item_form| %>
           <tr class="nested-fields">
             <td>
-              <%= item_form.collection_select :fuel_id, Fuel.all, :id, :description, { prompt: t('admin.fuel_orders.items.select_fuel') }, { class: 'form-control select2 fuel-select', data: { prices: Fuel.all.map { |f| [f.id, f.reference_price] }.to_h.to_json } } %>
+              <%= item_form.collection_select :fuel_id, Fuel.not_deleted, :id, :description_with_unit, { prompt: t('admin.fuel_orders.items.select_fuel') }, { class: 'form-control select2 fuel-select', data: { prices: Fuel.not_deleted.map { |f| [f.id, f.reference_price] }.to_h.to_json } } %>
             </td>
             <td>
               <%= item_form.number_field :quantity_ordered, step: 0.01, class: 'form-control item-quantity', required: true %>
@@ -86,7 +86,7 @@
   <tr class="nested-fields">
     <td>
       <select class="form-control select2 fuel-select" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][fuel_id]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_fuel_id" data-prices='<%= Fuel.all.map { |f| [f.id, f.reference_price] }.to_h.to_json %>'><option value=""><%= t('admin.fuel_orders.items.select_fuel') %></option>
-<%= options_from_collection_for_select(Fuel.all, :id, :description) %></select>
+<%= options_from_collection_for_select(Fuel.not_deleted, :id, :description_with_unit) %></select>
     </td>
     <td>
       <input class="form-control item-quantity" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][quantity_ordered]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_quantity_ordered">

@@ -11,18 +11,18 @@
       <% end %>
     </div>
     <dl class="row">
-      <dt class="col-sm-3">Name</dt>
+      <dt class="col-sm-3"><%= t('admin.departments.table.name') %></dt>
       <dd class="col-sm-9"><%= @org_structure.department.name %></dd>
       
-      <dt class="col-sm-3">Gestion</dt>
+      <dt class="col-sm-3"><%= t('admin.menu.gestions') %></dt>
       <dd class="col-sm-9"><%= @org_structure.gestion.name %></dd>
       
-      <dt class="col-sm-3">Parent Department</dt>
+      <dt class="col-sm-3"><%= t('admin.departments.table.parent_department') %></dt>
       <dd class="col-sm-9">
         <% if @org_structure.parent_dept %>
           <%= @org_structure.parent_dept.department.name %>
         <% else %>
-          <span class="text-muted">None - Top Level</span>
+          <span class="text-muted"><%= t('admin.departments.show.no_parent') %></span>
         <% end %>
       </dd>
     </dl>

@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_12_181036) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_28_073910) do
   # These are extensions that must be enabled in order to support this database
-  # enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -89,11 +89,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_181036) do
     t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "vehicle_id", null: false
     t.index ["approver_assignment_id"], name: "index_fuel_orders_on_approver_assignment_id"
     t.index ["gestion_id"], name: "index_fuel_orders_on_gestion_id"
     t.index ["number", "gestion_id"], name: "index_fuel_orders_on_number_and_gestion_id", unique: true
     t.index ["requester_assignment_id"], name: "index_fuel_orders_on_requester_assignment_id"
     t.index ["status"], name: "index_fuel_orders_on_status"
+    t.index ["vehicle_id"], name: "index_fuel_orders_on_vehicle_id"
   end
 
   create_table "fuels", force: :cascade do |t|
@@ -251,6 +253,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_12_181036) do
   add_foreign_key "fuel_orders", "assignments", column: "approver_assignment_id"
   add_foreign_key "fuel_orders", "assignments", column: "requester_assignment_id"
   add_foreign_key "fuel_orders", "gestions"
+  add_foreign_key "fuel_orders", "vehicles"
   add_foreign_key "notification_reads", "gestions"
   add_foreign_key "notification_reads", "users"
   add_foreign_key "org_positions", "org_structures"
