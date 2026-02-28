@@ -8,8 +8,6 @@
             <%= form.collection_select :requester_assignment_id, @assignments || [], :id, ->(a) { "#{a.personal.full_name} - #{a.position.name}" }, { prompt: t('admin.fuel_orders.form.select_requester') }, { class: 'form-control select2' } %>
           </div>
         </div>
-      <% else %>
-        <%= form.hidden_field :requester_assignment_id %>
       <% end %>
       <div class="<%= current_user.employee? ? 'col-md-6' : 'col-md-4' %>">
         <div class="form-group mb-3">
@@ -52,7 +50,7 @@
               <%= item_form.number_field :quantity_ordered, step: 0.01, class: 'form-control item-quantity', required: true %>
             </td>
             <td>
-              <%= item_form.number_field :unit_price, step: 0.01, class: 'form-control item-price', required: true %>
+              <%= item_form.number_field :unit_price, step: 0.01, class: 'form-control item-price', required: true, readonly: current_user.employee? %>
             </td>
             <td>
               <span class="item-subtotal">0.00</span>
@@ -92,7 +90,7 @@
       <input class="form-control item-quantity" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][quantity_ordered]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_quantity_ordered">
     </td>
     <td>
-      <input class="form-control item-price" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][unit_price]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_unit_price">
+      <input class="form-control item-price" step="0.01" required="required" type="number" name="fuel_order[fuel_order_items_attributes][NEW_RECORD][unit_price]" id="fuel_order_fuel_order_items_attributes_NEW_RECORD_unit_price"<%= ' readonly' if current_user.operation? %>>
     </td>
     <td>
       <span class="item-subtotal">0.00</span>

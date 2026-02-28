@@ -86,6 +86,8 @@ class Admin::FuelOrdersController < Admin::BaseController
 
   def update
     authorize @fuel_order
+    @fuel_order.requester_assignment_id = current_user.personal.assignments.last&.id if current_user.employee?
+    
     # Assign vehicle_id to all fuel_order_items before saving
     if fuel_order_params[:vehicle_id].present?
       @fuel_order.fuel_order_items.each do |item|
@@ -164,8 +166,20 @@ class Admin::FuelOrdersController < Admin::BaseController
   end
 
   def fuel_order_params
-    params.require(:fuel_order).permit(:requester_assignment_id, :approver_assignment_id, :status, :vehicle_id,
+    permitted_params = params.require(:fuel_order).permit(:requester_assignment_id, :approver_assignment_id, :status, :vehicle_id,
       fuel_order_items_attributes: [:id, :fuel_id, :quantity_ordered, :unit_price, :_destroy])
+    
+    # Set unit_price from fuel reference_price if user is Employee role
+    if current_user.employee? && permitted_params[:fuel_order_items_attributes]
+      permitted_params[:fuel_order_items_attributes].each do |_, item_attrs|
+        if item_attrs[:fuel_id].present?
+          fuel = Fuel.find_by(id: item_attrs[:fuel_id])
+          item_attrs[:unit_price] = fuel.reference_price if fuel
+        end
+      end
+    end
+    
+    permitted_params
   end
 
   def set_vehicles
