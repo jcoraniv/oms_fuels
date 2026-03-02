@@ -6,13 +6,13 @@
   <%= search_form_for @q, url: admin_vehicles_path, method: :get do |f| %>
     <div class="row">
       <div class="col-md-4">
-        <%= f.text_field :plate_cont, class: 'form-control', placeholder: 'Search by plate' %>
+        <%= f.text_field :plate_cont, class: 'form-control', placeholder: t('admin.vehicles.table.plate') %>
       </div>
       <div class="col-md-4">
-        <%= f.text_field :description_cont, class: 'form-control', placeholder: 'Search by description' %>
+        <%= f.text_field :description_cont, class: 'form-control', placeholder: t('admin.vehicles.table.description') %>
       </div>
       <div class="col-md-4">
-        <%= f.submit 'Search', class: 'btn btn-primary' %>
+        <%= f.submit t('common.search'), class: 'btn btn-primary' %>
       </div>
     </div>
   <% end %>
@@ -38,7 +38,7 @@
             <td><%= vehicle.description %></td>
             <td><%= vehicle.details %></td>
             <td><%= vehicle.vehicle_type.name %></td>
-            <td><span class="badge bg-<%= vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= vehicle.status.humanize %></span></td>
+            <td><span class="badge bg-<%= vehicle.status == 'active' ? 'success' : 'secondary' %>"><%= t("activerecord.attributes.vehicle.statuses.#{vehicle.status}") %></span></td>
             <td>
               <%= action_button(:edit, edit_admin_vehicle_path(vehicle)) %>
               <%= action_button(:delete, admin_vehicle_path(vehicle), turbo_method: :delete, data: { turbo_confirm: t('common.confirm_delete') }) %>

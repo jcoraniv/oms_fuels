@@ -6,13 +6,13 @@
   <%= search_form_for @q, url: admin_users_path, method: :get do |f| %>
     <div class="row">
       <div class="col-md-4">
-        <%= f.text_field :username_cont, class: 'form-control', placeholder: 'Search by username' %>
+        <%= f.text_field :username_cont, class: 'form-control', placeholder: t('activerecord.attributes.user.username') %>
       </div>
       <div class="col-md-4">
-        <%= f.text_field :personal_first_name_or_personal_last_name_cont, class: 'form-control', placeholder: 'Search by name' %>
+        <%= f.text_field :personal_first_name_or_personal_last_name_cont, class: 'form-control', placeholder: t('admin.users.table.full_name') %>
       </div>
       <div class="col-md-4">
-        <%= f.submit 'Search', class: 'btn btn-primary' %>
+        <%= f.submit t('common.search'), class: 'btn btn-primary' %>
       </div>
     </div>
   <% end %>
@@ -35,9 +35,9 @@
           <tr>
             <td><%= link_to user.full_name, admin_user_path(user), class: "text-primary" %></td>
             <td><%= user.username %></td>
-            <td><span class="badge bg-secondary"><%= user.role.name %></span></td>
+            <td><span class="badge bg-secondary"><%= t("activerecord.attributes.user.roles.#{user.role.name.downcase}") %></span></td>
             <td>
-              <span class="badge bg-<%= user.active? ? 'success' : 'danger' %>"><%= user.status.titleize %></span>
+              <span class="badge bg-<%= user.active? ? 'success' : 'danger' %>"><%= t("activerecord.attributes.user.statuses.#{user.active? ? 'active' : 'inactive'}") %></span>
             </td>
             <td>
               <%= action_button(:edit, edit_admin_user_path(user)) %>

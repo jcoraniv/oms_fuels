@@ -288,6 +288,13 @@ es:
         password: "Contraseña"
         role: "Rol"
         active: "Activo"
+        roles:
+          admin: "Administrador"
+          operation: "Operación"
+          employee: "Empleado"
+        statuses:
+          active: "Activo"
+          inactive: "Inactivo"
       personal:
         first_name: "Nombre"
         last_name: "Apellido"

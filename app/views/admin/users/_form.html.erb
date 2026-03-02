@@ -22,7 +22,7 @@
 
   <div class="mb-3">
     <%= f.label :role_id, t('activerecord.attributes.user.role'), class: "form-label" %>
-    <%= f.select :role_id, options_from_collection_for_select(@roles, :id, :name, @user.role_id),
+    <%= f.select :role_id, @roles.map { |role| [t("activerecord.attributes.user.roles.#{role.name.downcase}"), role.id] },
         { prompt: t('admin.users.table.role') }, { class: "form-select select2", required: true } %>
   </div>
 
