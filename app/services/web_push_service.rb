@@ -70,6 +70,6 @@ class WebPushService
   end
 
   def self.default_host
-    Rails.env.production? ? 'omsfuels.com' : 'localhost:3000'
+    ENV.fetch('APP_HOST', Rails.env.production? ? 'omsfuels.com' : 'localhost:3000')
   end
 end
