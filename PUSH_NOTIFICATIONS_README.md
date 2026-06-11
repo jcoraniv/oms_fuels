@@ -96,3 +96,5 @@ To test locally:
 - **Notifications not appearing on macOS**: Check System Preferences → Notifications → Chrome and ensure notifications are enabled
 - **Service Worker not registering**: Check browser console for errors
 - **Permission denied**: User must explicitly allow notifications when prompted
+
+test
